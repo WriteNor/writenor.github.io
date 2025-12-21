@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WriteNor - Official Site</title>
+    <meta name="description" content="WriteNor is a psychological horror game about coding, simulations, and the rogue AI Nori. Break the 4th wall.">
+    
+    <!-- Шрифты как у хакеров -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+
+    <!-- SEO для Гугла (Карточка Игры) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "WriteNor",
+      "url": "https://writenor-game.github.io",
+      "genre": ["Horror", "Simulation", "Indie"],
+      "gamePlatform": "PC",
+      "applicationCategory": "Game",
+      "author": { "@type": "Organization", "name": "Terawww" },
+      "description": "A psychological horror game where code fights back."
+    }
+    </script>
+
+    <style>
+        /* === БАЗА === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #050505;
+            color: #e0e0e0;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, #1a0b2e 0%, #000000 100%);
+        }
+
+        /* Эффект старого монитора (CRT) */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* === ЗАГОЛОВОК === */
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            position: relative;
+            animation: glitch 1s infinite;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #bd00ff, -2px -2px 0px #00ff41;
+        }
+
+        .subtitle {
+            color: #00ff41;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* === КНОПКИ (ГЛАВНЫЕ) === */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            z-index: 10;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #333;
+            transition: 0.3s;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        /* Стили для разных кнопок */
+        .btn.discord { border-color: #5865F2; box-shadow: 0 0 10px rgba(88, 101, 242, 0.2); }
+        .btn.discord:hover { background: #5865F2; color: white; box-shadow: 0 0 20px #5865F2; }
+
+        .btn.itch { border-color: #FA5C5C; box-shadow: 0 0 10px rgba(250, 92, 92, 0.2); }
+        .btn.itch:hover { background: #FA5C5C; color: white; box-shadow: 0 0 20px #FA5C5C; }
+
+        .btn.wiki { border-color: #00ff41; }
+        .btn.wiki:hover { background: #00ff41; color: black; box-shadow: 0 0 20px #00ff41; }
+
+        /* === МЕЛКИЕ ССЫЛКИ === */
+        .small-links {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .small-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .small-link:hover { color: #fff; border-bottom: 1px solid #fff; }
+
+        /* === ГЛИТЧ АНИМАЦИЯ === */
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 0px #bd00ff, -2px -2px 0px #00ff41; }
+            20% { text-shadow: -2px 2px 0px #bd00ff, 2px -2px 0px #00ff41; }
+            40% { text-shadow: 2px -2px 0px #bd00ff, -2px 2px 0px #00ff41; }
+            100% { text-shadow: 2px 2px 0px #bd00ff, -2px -2px 0px #00ff41; }
+        }
+
+        /* Адаптив для мобилок */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1rem; }
+            .btn { width: 90%; margin: 0 auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Заголовок с глитчем -->
+    <h1>WRITENOR</h1>
+    <div class="subtitle">> SYSTEM FAILURE. NORI IS WATCHING. <span style="animation: blink 1s infinite">_</span></div>
+
+    <div class="btn-container">
+        <!-- ГЛАВНАЯ ССЫЛКА - ДИСКОРД -->
+        <a href="https://discord.gg/QD5mUt44n5" class="btn discord">
+            Join Official Discord
+        </a>
+
+        <!-- ССЫЛКА НА ГЕЙМДЖОЛТ (или Итч в будущем) -->
+        <a href="https://gamejolt.com/c/WriteNor-5sn2hp" class="btn itch">
+            View on GameJolt
+        </a>
+
+        <!-- ССЫЛКА НА ВИКИ -->
+        <a href="https://writenor.fandom.com/wiki/WriteNor_Wiki" class="btn wiki">
+            Read the Wiki (Lore)
+        </a>
+    </div>
+
+    <div class="small-links">
+        <a href="https://www.igdb.com/games/writenor" class="small-link">IGDB Database</a>
+        <a href="https://www.youtube.com/@WriteNor" class="small-link">YouTube Channel</a>
+        <a href="https://www.reddit.com/r/WriteNor/" class="small-link">r/WriteNor</a>
+    </div>
+
+    <footer style="margin-top: 50px; color: #444; font-size: 0.8rem; z-index: 10;">
+        &copy; 2026 Terawww. All rights reserved.
+    </footer>
+
+</body>
+</html>
