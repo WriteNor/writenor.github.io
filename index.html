@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WriteNor - Official Site</title>
-    <meta name="description" content="WriteNor is a psychological horror game about coding, simulations, and the rogue AI Nori.">
     
+    <!-- === SEO: ГЛАВНАЯ ИНФА === -->
+    <title>WriteNor - Official Horror Game Site</title>
+    <meta name="description" content="WriteNor (Райтнор) is a psychological horror game about coding, simulations, and the rogue AI Nori. Download the Demo now.">
+    <meta name="keywords" content="WriteNor, Райтнор, Врайтнор, RightNor, Writenor game, Horror coding, Nori AI, IndieDB WriteNor, Unity Horror, GameJolt">
+    
+    <!-- ИКОНКА САЙТА (Загрузи файл favicon.png в репозиторий!) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
 
+    <!-- === SEO: СКРИПТ ДЛЯ ГУГЛА (СЛОВАРЬ СИНОНИМОВ) === -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "VideoGame",
       "name": "WriteNor",
+      "alternateName": ["Райтнор", "Врайтнор", "RightNor", "Write Nor", "Nori Simulator"],
       "url": "https://writenor-game.github.io",
       "genre": ["Horror", "Simulation", "Indie"],
       "gamePlatform": "PC",
@@ -32,59 +41,57 @@
             color: #e0e0e0;
             font-family: 'Share Tech Mono', monospace;
             overflow-x: hidden;
-            height: 100vh;
+            min-height: 100vh;
             width: 100%;
             position: relative;
         }
 
-        /* Холст для Матрицы */
         canvas {
             display: block;
             position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1; /* Фон позади всего */
+            top: 0; left: 0; z-index: -1;
         }
 
-        /* Контейнер контента (чтобы был по центру) */
         .content {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            width: 100%;
+            width: 90%;
             max-width: 600px;
             z-index: 10;
-            /* Полупрозрачная подложка, чтобы текст читался на фоне цифр */
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(5, 5, 5, 0.85);
             padding: 40px;
-            border: 1px solid #330000;
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.1);
-            backdrop-filter: blur(3px);
+            border: 1px solid #ff0041;
+            box-shadow: 0 0 60px rgba(255, 0, 65, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 5px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0px #ff0000;
-            animation: glitch 2s infinite;
+            margin-bottom: 5px;
+            text-shadow: 3px 3px 0px #ff0000;
+            animation: glitch 3s infinite;
         }
 
         .subtitle {
-            color: #ff0041; /* Красный неон */
-            font-size: 1.2rem;
-            margin-bottom: 40px;
+            color: #ff0041;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
+        /* === КНОПКИ === */
         .btn-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-bottom: 30px;
         }
 
         .btn {
@@ -96,8 +103,9 @@
             font-weight: bold;
             text-decoration: none;
             color: #fff;
-            background: rgba(20, 0, 0, 0.8);
-            border: 1px solid #ff0041;
+            background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(30,0,0,1) 100%);
+            border: 1px solid #444;
+            border-left: 5px solid #ff0041;
             transition: 0.3s;
             text-transform: uppercase;
         }
@@ -105,32 +113,66 @@
         .btn:hover {
             background: #ff0041;
             color: black;
-            box-shadow: 0 0 20px #ff0041;
+            box-shadow: 0 0 25px rgba(255, 0, 65, 0.6);
+            transform: scale(1.02);
+            border-color: #fff;
         }
 
+        /* === INDIEDB WIDGET === */
+        .rank-badge {
+            margin: 20px auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            display: inline-block;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+        .rank-badge:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+            transform: translateY(-2px);
+        }
+        .rank-badge img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* === МЕЛКИЕ ССЫЛКИ === */
         .small-links {
-            margin-top: 30px;
+            margin-top: 10px;
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .small-link {
-            color: #888;
+            color: #666;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: 0.3s;
+            text-transform: uppercase;
         }
-        .small-link:hover { color: #fff; text-decoration: underline; }
+        .small-link:hover { color: #fff; text-shadow: 0 0 5px white; }
+
+        /* === SEO ТЕКСТ (Скрытый лог) === */
+        .system-log {
+            margin-top: 40px;
+            font-size: 0.7rem;
+            color: #333;
+            text-align: left;
+            border-top: 1px solid #222;
+            padding-top: 10px;
+            font-family: 'VT323', monospace;
+        }
 
         @keyframes glitch {
             0% { text-shadow: 2px 2px 0px #ff0000; }
-            50% { text-shadow: -2px -2px 0px #ff0000; }
+            5% { text-shadow: -2px -2px 0px #00ff41; transform: translate(2px, 0); }
+            10% { text-shadow: 2px 2px 0px #ff0000; transform: translate(0, 0); }
             100% { text-shadow: 2px 2px 0px #ff0000; }
         }
 
-        /* Скан-линии монитора */
         .scanlines {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -138,85 +180,72 @@
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
             z-index: 100;
+            opacity: 0.6;
         }
     </style>
 </head>
 <body>
 
-    <!-- Эффект монитора -->
     <div class="scanlines"></div>
-    
-    <!-- Холст для дождя -->
     <canvas id="matrix"></canvas>
 
     <div class="content">
         <h1>WRITENOR</h1>
-        <div class="subtitle">> SYSTEM COMPROMISED. <span style="animation: blink 1s infinite">_</span></div>
+        <div class="subtitle">> SYSTEM FAILURE. <span style="animation: blink 1s infinite">_</span></div>
 
         <div class="btn-container">
-            <a href="https://discord.gg/QD5mUt44n5" class="btn">Join Discord</a>
-            <a href="https://gamejolt.com/c/WriteNor-5sn2hp" class="btn">GameJolt Page</a>
-            <a href="https://writenor.fandom.com/wiki/WriteNor_Wiki" class="btn">Official Wiki</a>
+            <a href="https://discord.gg/QD5mUt44n5" class="btn">🟣 Join Discord</a>
+            <a href="https://gamejolt.com/c/WriteNor-5sn2hp" class="btn">⚡ GameJolt</a>
+            <a href="https://writenor.fandom.com/wiki/WriteNor_Wiki" class="btn">📂 Official Wiki</a>
+        </div>
+
+        <!-- ВИДЖЕТ INDIEDB (Твое достижение) -->
+        <div class="rank-badge">
+            <a href="https://www.indiedb.com/games/writenor" title="View WriteNor on IndieDB" target="_blank">
+                <img src="https://button.indiedb.com/popularity/medium/games/89571.png" alt="WriteNor IndieDB Rank" />
+            </a>
         </div>
 
         <div class="small-links">
-            <a href="https://www.igdb.com/games/writenor" class="small-link">IGDB</a>
+            <a href="https://www.igdb.com/games/writenor" class="small-link">IGDB Data</a>
             <a href="https://www.youtube.com/@WriteNor" class="small-link">YouTube</a>
             <a href="https://www.reddit.com/r/WriteNor/" class="small-link">Reddit</a>
         </div>
+
+        <!-- SEO LOG (Для роботов) -->
+        <div class="system-log">
+            > SEARCH_INDEX: WriteNor Game (Райтнор) <br>
+            > GENRE: Psychological Horror / Coding Simulation <br>
+            > ENTITY: Nori AI (Rogue System) <br>
+            > STATUS: In Development. Demo coming 2026. <br>
+            > KEYWORDS: Врайтнор, RightNor, Write Nor, Indie Horror.
+        </div>
     </div>
 
-    <!-- СКРИПТ АНИМАЦИИ ФОНА -->
     <script>
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-
-        // Растягиваем на весь экран
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        // Символы: 0 и 1
         const binary = '10';
-        // Размер шрифта
         const fontSize = 16;
         const columns = canvas.width / fontSize;
-
-        // Массив для капель
         const drops = [];
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
+        for (let x = 0; x < columns; x++) drops[x] = 1;
 
         function draw() {
-            // Полупрозрачный черный фон для эффекта "хвоста"
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Цвет текста (Красный неон)
             ctx.fillStyle = '#ff0041'; 
             ctx.font = fontSize + 'px monospace';
-
             for (let i = 0; i < drops.length; i++) {
-                // Случайный символ (0 или 1)
                 const text = binary.charAt(Math.floor(Math.random() * binary.length));
-                
-                // Рисуем символ
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                // Если капля ушла вниз, сбрасываем её случайно
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-
-                // Двигаем каплю вниз
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
-
-        // Запуск анимации (30 FPS)
         setInterval(draw, 33);
-
-        // Если изменили размер окна
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
