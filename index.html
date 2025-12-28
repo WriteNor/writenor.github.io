@@ -3,234 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WriteNor - Official Horror Game</title>
-    <meta name="description" content="WriteNor is a psychological horror game about coding, simulations, and the rogue AI Nori. Download the Demo now.">
+    <title>WriteNor - Official Hub</title>
     <link rel="icon" type="image/png" href="favicon.png?v=2">
-
-    <!-- Шрифты -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Шрифты (Киберпанк и Консоль) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --neon-green: #00ff41;
-            --neon-red: #ff0041;
-            --bg-color: #050505;
-            --panel-bg: rgba(15, 15, 15, 0.95);
+            --main-bg: #050505;
+            --neon: #00ff41; /* Зеленый хакерский */
+            --alert: #ff0041; /* Красный сбой */
+            --glass: rgba(10, 10, 10, 0.9);
+            --wire: #333;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+
         body {
-            background-color: var(--bg-color);
-            color: #e0e0e0;
+            background-color: var(--main-bg);
+            color: #eee;
             font-family: 'Share Tech Mono', monospace;
             overflow-x: hidden;
-        }
-
-        /* Фон */
-        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none; z-index: 999; opacity: 0.3;
-        }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
-
-        /* HERO */
-        .hero {
-            height: 90vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
+            min-height: 100vh;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* === ПРОВОДА (Фон) === */
+        .wires-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        /* Линии, соединяющие блоки */
+        .wire-line {
+            position: absolute;
+            background: var(--wire);
+            width: 4px;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+
+        /* === БЛОК 1: НАВИГАЦИЯ (Верхний овал) === */
+        .nav-capsule {
+            width: 90%;
+            max-width: 900px;
+            margin-top: 30px;
+            background: var(--glass);
+            border: 3px solid var(--neon);
+            border-radius: 50px;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--neon); text-shadow: 0 0 8px var(--neon); }
+        
+        .lang-switch {
+            font-size: 0.9rem;
+            color: #888;
+            cursor: pointer;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        .lang-switch:hover { color: #fff; border-color: #fff; }
+
+        /* === БЛОК 2: ГЛАВНЫЙ ЭКРАН (Нижний овал) === */
+        .main-terminal {
+            width: 95%;
+            max-width: 1200px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            background: var(--glass);
+            border: 4px solid var(--neon);
+            border-radius: 60px;
+            padding: 50px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Эффект слома 4 стены (Глаз) */
+        .main-terminal::before {
+            content: "👁️";
+            position: absolute;
+            top: 20px; right: 40px;
+            font-size: 2rem;
+            opacity: 0.2;
+            animation: blink 5s infinite;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
             color: #fff;
-            text-shadow: 4px 4px 0px var(--neon-red);
-            animation: glitch 3s infinite;
-            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 var(--alert);
+            margin-bottom: 20px;
+            animation: glitch 2s infinite;
         }
 
-        .tagline { color: var(--neon-green); font-size: 1.5rem; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
-
-        /* Кнопки */
-        .btn {
-            display: inline-block; padding: 15px 40px; margin: 10px;
-            font-size: 1.2rem; font-weight: bold; text-decoration: none; color: #fff;
-            border: 2px solid var(--neon-green); background: rgba(0,0,0,0.7);
-            transition: 0.3s; text-transform: uppercase;
-            clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+        .description {
+            max-width: 800px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #ccc;
         }
-        .btn:hover { background: var(--neon-green); color: black; box-shadow: 0 0 30px var(--neon-green); }
-        .btn.red { border-color: var(--neon-red); }
-        .btn.red:hover { background: var(--neon-red); color: white; box-shadow: 0 0 30px var(--neon-red); }
 
-        /* Секции */
-        .section {
-            margin: 80px 0; padding: 40px;
-            background: var(--panel-bg);
-            border-left: 5px solid var(--neon-green);
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
-        .section h2 { font-size: 2.5rem; color: var(--neon-green); margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .section p { font-size: 1.2rem; line-height: 1.6; margin-bottom: 15px; color: #ccc; }
-
-        /* ГАЛЕРЕЯ */
-        .gallery-grid {
+        /* СЕТКА ССЫЛОК */
+        .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
             margin-top: 20px;
         }
-        .gallery-item {
-            width: 100%; height: 200px;
-            background-color: #222;
-            background-size: cover;
-            background-position: center;
-            border: 1px solid #444;
+
+        .link-card {
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
             transition: 0.3s;
             position: relative;
+            overflow: hidden;
         }
-        .gallery-item:hover { transform: scale(1.02); border-color: var(--neon-green); }
+        .link-card:hover { transform: translateY(-5px); border-color: var(--neon); }
+
+        /* Стили для важных кнопок */
+        .discord-card { border-color: #5865F2; background: rgba(88, 101, 242, 0.1); }
+        .itch-card { border-color: #fa5c5c; background: rgba(250, 92, 92, 0.1); }
         
-        /* Плейсхолдеры для картинок (Замени ссылки!) */
-        .img1 { background-image: url('https://media.indiedb.com/images/games/1/82/81571/WriteNor_Cover.jpg'); } 
-        /* Если картинок нет, будут серые блоки */
-
-        /* КОНТАКТНАЯ ФОРМА */
-        .contact-form { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
-        .input-group { display: flex; flex-direction: column; text-align: left; }
-        label { color: var(--neon-green); margin-bottom: 5px; font-weight: bold; }
-        input, textarea {
-            background: #111; border: 1px solid #444; color: #fff;
-            padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 1rem;
-            outline: none; transition: 0.3s;
+        .steam-card { 
+            border-color: #66c0f4; 
+            opacity: 0.6; 
+            cursor: not-allowed; 
+            filter: grayscale(100%);
         }
-        input:focus, textarea:focus { border-color: var(--neon-red); box-shadow: 0 0 10px rgba(255,0,65,0.2); }
-        textarea { resize: vertical; min-height: 150px; }
+        .steam-card:hover { transform: none; border-color: #66c0f4; }
 
-        /* Футер */
-        footer { text-align: center; padding: 50px 0; color: #666; border-top: 1px solid #222; margin-top: 50px; }
-        .footer-links a { color: #888; margin: 0 15px; text-decoration: none; font-size: 1.1rem; }
-        .footer-links a:hover { color: #fff; }
+        .nori-btn {
+            margin-top: 40px;
+            padding: 15px 50px;
+            background: black;
+            border: 2px solid var(--alert);
+            color: var(--alert);
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 3px;
+            transition: 0.3s;
+            animation: pulse 2s infinite;
+        }
+        .nori-btn:hover { background: var(--alert); color: black; box-shadow: 0 0 30px var(--alert); }
 
+        /* КОНТАКТЫ */
+        .contact-section {
+            margin-top: 60px;
+            width: 100%;
+            max-width: 600px;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--neon);
+            color: var(--neon);
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: 'Share Tech Mono';
+        }
+        button[type="submit"] {
+            width: 100%;
+            background: var(--neon);
+            color: black;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Анимации */
         @keyframes glitch {
-            0% { text-shadow: 2px 2px 0px var(--neon-red); }
-            5% { text-shadow: -2px -2px 0px var(--neon-green); transform: translate(2px, 0); }
-            10% { text-shadow: 2px 2px 0px var(--neon-red); transform: translate(0, 0); }
-            100% { text-shadow: 2px 2px 0px var(--neon-red); }
+            0% { text-shadow: 3px 3px 0 var(--alert); }
+            50% { text-shadow: -3px -3px 0 var(--neon); }
+            100% { text-shadow: 3px 3px 0 var(--alert); }
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .nav-capsule { flex-direction: column; height: auto; padding: 20px; border-radius: 20px; }
+            .nav-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+            h1 { font-size: 3rem; }
+            .main-terminal { padding: 20px; border-radius: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="scanlines"></div>
-    <canvas id="matrix"></canvas>
-
-    <div class="container">
-        <!-- HERO -->
-        <div class="hero">
-            <h1>WRITENOR</h1>
-            <div class="tagline">> THE SIMULATION IS CORRUPTED.</div>
-            
-            <div>
-                <a href="https://terawww.itch.io/writenor" class="btn red">Download Demo</a>
-                <a href="https://discord.gg/QD5mUt44n5" class="btn">Join Discord</a>
-            </div>
-
-            <!-- Виджет IndieDB -->
-            <div style="margin-top: 30px;">
-                <a href="https://www.indiedb.com/games/writenor" title="View WriteNor on IndieDB" target="_blank">
-                    <img src="https://button.indiedb.com/popularity/medium/games/89571.png" alt="WriteNor IndieDB" style="border-radius: 5px; box-shadow: 0 0 15px #00ff41;">
-                </a>
-            </div>
-        </div>
-
-        <!-- ABOUT -->
-        <div class="section">
-            <h2>> SYSTEM_OVERVIEW</h2>
-            <p>WriteNor is a first-person psychological horror game that blurs the line between software and reality.</p>
-            <p>You play as a developer debugging a corrupted simulation. But the code fights back. An AI entity named <b>Nori</b> has seized control, breaking the 4th wall and interacting with your real desktop files.</p>
-        </div>
-
-        <!-- GALLERY (Вставь свои ссылки на картинки!) -->
-        <div class="section">
-            <h2>> VISUAL_LOGS</h2>
-            <p>Screenshots from the current build.</p>
-            <div class="gallery-grid">
-                <!-- Чтобы добавить свою картинку, загрузи её на гитхаб и вставь имя файла -->
-                <div class="gallery-item img1" style="background-image: url('Nori_Cover.jpg');"></div>
-                <div class="gallery-item" style="background-image: url('Office.jpg');"></div>
-                <div class="gallery-item" style="background-image: url('Console.jpg');"></div>
-            </div>
-        </div>
-
-        <!-- CONTACT FORM -->
-        <div class="section" style="border-left-color: var(--neon-red);">
-            <h2 style="color: var(--neon-red);">> CONTACT_DEV</h2>
-            <p>Found a bug? Are you a publisher? Send a secure transmission.</p>
-            
-            <!-- ВСТАВЬ СЮДА ССЫЛКУ С FORMSPREE -->
-            <form action="https://formspree.io/f/ВАШ_ID_СЮДА" method="POST" class="contact-form">
-                <div class="input-group">
-                    <label>YOUR EMAIL</label>
-                    <input type="email" name="email" placeholder="user@example.com" required>
-                </div>
-                <div class="input-group">
-                    <label>MESSAGE</label>
-                    <textarea name="message" placeholder="Type your message..." required></textarea>
-                </div>
-                <button type="submit" class="btn red" style="width: 100%;">SEND DATA</button>
-            </form>
-        </div>
-
-        <!-- FOOTER -->
-        <footer>
-            <div class="footer-links">
-                <a href="https://www.youtube.com/@WriteNor">YouTube</a>
-                <a href="https://www.reddit.com/r/WriteNor/">Reddit</a>
-                <a href="https://www.igdb.com/games/writenor">IGDB</a>
-                <a href="https://writenor.fandom.com">Wiki</a>
-            </div>
-            <br>
-            <p>&copy; 2026 Terawww. All rights reserved.</p>
-        </footer>
+    <!-- ПРОВОДА (ВИЗУАЛ) -->
+    <div class="wires-bg">
+        <div class="wire-line" style="top: 80px; left: 50%; height: 50px; transform: translateX(-50%);"></div>
     </div>
 
-    <!-- SCRIPT (Matrix) -->
-    <script>
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const binary = '10';
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-        for (let x = 0; x < columns; x++) drops[x] = 1;
+    <!-- ВЕРХНИЙ БЛОК: МЕНЮ -->
+    <nav class="nav-capsule">
+        <div style="font-weight:bold; color:var(--neon);">TERAWWW /// STUDIO</div>
+        <div class="nav-links">
+            <a href="#about" data-lang-key="nav_about">Info</a>
+            <a href="#links" data-lang-key="nav_links">Links</a>
+            <a href="#contact" data-lang-key="nav_contact">Contact</a>
+            <a href="nori.html" style="color:var(--alert);" data-lang-key="nav_nori">>> NORI_FILE <<</a>
+        </div>
+        <div class="lang-switch" onclick="switchLang()">EN / RU / ES</div>
+    </nav>
 
-        function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ff0041'; 
-            ctx.font = fontSize + 'px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const text = binary.charAt(Math.floor(Math.random() * binary.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+    <!-- НИЖНИЙ БЛОК: ИНФОРМАЦИЯ -->
+    <main class="main-terminal" id="about">
+        <h1>WRITENOR</h1>
+        <p class="description" id="desc_text">
+            A psychological horror game that blurs the line between software and reality.
+            You play as a developer debugging a corrupted simulation. But the code is alive.
+            <b>Break the 4th wall before it breaks you.</b>
+        </p>
+
+        <!-- ССЫЛКА НА НОРИ -->
+        <a href="nori.html" class="nori-btn" data-lang-key="btn_who_is_nori">WHO IS NORI?</a>
+
+        <!-- БЛОК ССЫЛОК -->
+        <div class="links-grid" id="links">
+            <!-- ДИСКОРД (ГЛАВНОЕ) -->
+            <a href="https://discord.gg/QD5mUt44n5" class="link-card discord-card">
+                <h3 data-lang-key="link_discord">🟣 DISCORD</h3>
+                <small data-lang-key="sub_discord">Join the Resistance. Test Builds.</small>
+            </a>
+
+            <!-- ITCH.IO -->
+            <a href="https://terawww.itch.io/writenor" class="link-card itch-card">
+                <h3 data-lang-key="link_itch">🎮 ITCH.IO</h3>
+                <small data-lang-key="sub_itch">Download Free Demo</small>
+            </a>
+
+            <!-- STEAM (ЗАГЛУШКА) -->
+            <div class="link-card steam-card">
+                <h3>🚂 STEAM</h3>
+                <small data-lang-key="sub_steam">Coming Soon... (Wishlist later)</small>
+            </div>
+
+            <!-- ПРОЧЕЕ -->
+            <a href="https://writenor.fandom.com" class="link-card">
+                <h3>📂 WIKI (LORE)</h3>
+            </a>
+            <a href="https://www.youtube.com/@WriteNor" class="link-card">
+                <h3>📺 YOUTUBE</h3>
+            </a>
+        </div>
+
+        <!-- КОНТАКТЫ -->
+        <div class="contact-section" id="contact">
+            <h3 style="color:var(--neon); margin-bottom:10px;" data-lang-key="header_contact">SEND ENCRYPTED MESSAGE</h3>
+            <form action="https://formspree.io/f/mlgelkpz" method="POST">
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Message to Developer..." required></textarea>
+                <button type="submit" data-lang-key="btn_send">SEND SIGNAL</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- СКРИПТ ЛОКАЛИЗАЦИИ -->
+    <script>
+        const translations = {
+            en: {
+                nav_about: "Info", nav_links: "Links", nav_contact: "Contact", nav_nori: ">> NORI_FILE <<",
+                desc_text: "A psychological horror game that blurs the line between software and reality. You play as a developer debugging a corrupted simulation. But the code is alive.",
+                btn_who_is_nori: "WHO IS NORI?",
+                link_discord: "🟣 DISCORD", sub_discord: "Join the Resistance.",
+                link_itch: "🎮 ITCH.IO", sub_itch: "Download Free Demo",
+                sub_steam: "Coming Soon...",
+                header_contact: "SEND ENCRYPTED MESSAGE", btn_send: "SEND SIGNAL"
+            },
+            ru: {
+                nav_about: "Инфо", nav_links: "Ссылки", nav_contact: "Связь", nav_nori: ">> ФАЙЛ_НОРИ <<",
+                desc_text: "Психологический хоррор, стирающий грань между софтом и реальностью. Вы играете за разработчика, отлаживающего сломанную симуляцию. Но код живой.",
+                btn_who_is_nori: "КТО ТАКАЯ НОРИ?",
+                link_discord: "🟣 ДИСКОРД", sub_discord: "Вступай в сопротивление.",
+                link_itch: "🎮 ITCH.IO", sub_itch: "Скачать Демо",
+                sub_steam: "Скоро...",
+                header_contact: "ОТПРАВИТЬ СООБЩЕНИЕ", btn_send: "ОТПРАВИТЬ СИГНАЛ"
+            },
+            es: {
+                nav_about: "Info", nav_links: "Enlaces", nav_contact: "Contacto", nav_nori: ">> ARCHIVO_NORI <<",
+                desc_text: "Un juego de terror psicológico que desdibuja la línea entre el software y la realidad. Juegas como un desarrollador depurando una simulación corrupta.",
+                btn_who_is_nori: "¿QUIÉN ES NORI?",
+                link_discord: "🟣 DISCORD", sub_discord: "Únete a la Resistencia.",
+                link_itch: "🎮 ITCH.IO", sub_itch: "Descargar Demo",
+                sub_steam: "Próximamente...",
+                header_contact: "ENVIAR MENSAJE", btn_send: "ENVIAR SEÑAL"
             }
+        };
+
+        let currentLang = 'en';
+
+        // Авто-определение языка
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('ru')) currentLang = 'ru';
+        if (userLang.startsWith('es')) currentLang = 'es';
+
+        function applyLang() {
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (translations[currentLang][key]) {
+                    el.innerText = translations[currentLang][key];
+                }
+            });
         }
-        setInterval(draw, 33);
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        function switchLang() {
+            if (currentLang === 'en') currentLang = 'ru';
+            else if (currentLang === 'ru') currentLang = 'es';
+            else currentLang = 'en';
+            applyLang();
+        }
+
+        // Запуск при загрузке
+        applyLang();
     </script>
 
 </body>
