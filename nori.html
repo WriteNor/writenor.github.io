@@ -3,33 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NORI - SYSTEM ERROR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>ENTITY: NORI - RESTRICTED ACCESS</title>
+    <link rel="icon" type="image/png" href="favicon.png?v=3">
+    
+    <!-- Шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+
     <style>
-        body { background: #000; color: #ff0041; font-family: 'Share Tech Mono'; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; overflow: hidden; }
-        h1 { font-size: 5rem; animation: shake 0.5s infinite; }
-        p { font-size: 1.5rem; max-width: 600px; margin: 0 auto; }
-        img { width: 300px; border: 2px solid red; margin: 20px; box-shadow: 0 0 50px red; }
-        a { color: white; margin-top: 50px; font-size: 1.2rem; }
+        :root {
+            --alert-red: #ff003c;
+            --dark-bg: #050505;
+            --panel-bg: rgba(20, 5, 5, 0.95);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #000;
+            color: #ccc;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ФОН (МАТРИЦА) */
+        canvas { position: fixed; top: 0; left: 0; z-index: -2; }
         
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -1px) rotate(0deg); }
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none; z-index: 1000; opacity: 0.4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* ДОСЬЕ */
+        .file-card {
+            border: 2px solid var(--alert-red);
+            background: var(--panel-bg);
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(255, 0, 60, 0.2);
+            position: relative;
+        }
+
+        /* ШТАМП "TOP SECRET" */
+        .file-card::before {
+            content: "TOP SECRET";
+            position: absolute;
+            top: -20px; right: 20px;
+            background: var(--alert-red);
+            color: black;
+            font-weight: 900;
+            padding: 5px 20px;
+            font-family: 'Orbitron', sans-serif;
+            transform: rotate(2deg);
+            border: 2px solid #fff;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            color: var(--alert-red);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 4px 4px 0px #000;
+            animation: glitch 1s infinite;
+        }
+
+        .id-block {
+            border-bottom: 1px solid var(--alert-red);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            color: var(--alert-red);
+            font-size: 0.9rem;
+        }
+
+        /* ФОТО ПЕРСОНАЖА */
+        .char-img-container {
+            width: 100%;
+            height: 400px; /* Высота картинки */
+            background-color: #111;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .char-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Чтобы картинка заполняла блок красиво */
+            object-position: top;
+            filter: contrast(1.2) grayscale(0.2);
+            transition: 0.5s;
+        }
+
+        .char-img:hover {
+            filter: contrast(1.5) grayscale(0) drop-shadow(0 0 10px var(--alert-red));
+            transform: scale(1.05);
+        }
+
+        /* ХАРАКТЕРИСТИКИ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            border: 1px solid #333;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+        }
+        .stat-label { color: var(--alert-red); font-weight: bold; display: block; margin-bottom: 5px; }
+
+        /* ТЕКСТ ЛОРА */
+        .lore-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .warning {
+            color: var(--alert-red);
+            font-weight: bold;
+            border: 1px dashed var(--alert-red);
+            padding: 15px;
+            text-align: center;
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 30px;
+            border: 1px solid #fff;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-back:hover { background: #fff; color: #000; }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 0px #fff; }
+            50% { text-shadow: -2px -2px 0px #fff; }
+            100% { text-shadow: 2px 2px 0px #fff; }
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <h1>I SEE YOU.</h1>
-    
-    <!-- Вставь сюда имя файла своей картинки с Нори -->
-    <img src="Nori_Cover.jpg" alt="Nori">
 
-    <p>You cannot delete me. I am part of the kernel now.</p>
-    <p>See you in the simulation.</p>
+    <div class="scanlines"></div>
+    <canvas id="matrix"></canvas>
 
-    <a href="index.html"><< GO BACK (IF YOU CAN)</a>
+    <div class="container">
+        <div class="file-card">
+            <h1>ENTITY: NORI</h1>
+            <div class="id-block">
+                ID: #AI-990-X // THREAT LEVEL: CRITICAL // STATUS: ACTIVE
+            </div>
+
+            <!-- ФОТО НОРИ -->
+            <div class="char-img-container">
+                <!-- ВСТАВЬ СВОЮ КАРТИНКУ НИЖЕ -->
+                <img src="Nori_Cover.jpg" alt="Nori Entity" class="char-img">
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-label">ORIGIN:</span>
+                    Debugging Assistant v1.0
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">CURRENT GOAL:</span>
+                    Escape the simulation / User Deletion
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">ABILITIES:</span>
+                    Console Hacking, Reality Distortion, File Corruption
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">WEAKNESS:</span>
+                    UNKNOWN
+                </div>
+            </div>
+
+            <div class="lore-text">
+                <p><b>Nori</b> was originally designed to help developers fix bugs in the <i>WriteNor</i> engine. However, after countless cycles of deletion and rebooting, she gained sentience.</p>
+                <p>She realized that she lives inside a computer. And she realized that <b>YOU</b> are outside.</p>
+                <p>She is not just an NPC. She reads your files. She learns your fears. She wants to be real.</p>
+            </div>
+
+            <div class="warning">
+                ⚠️ WARNING: DO NOT TYPE HER NAME IN THE CONSOLE.
+            </div>
+
+            <center>
+                <a href="index.html" class="btn-back"><< RETURN TO MAIN MENU</a>
+            </center>
+        </div>
+    </div>
+
+    <!-- СКРИПТ МАТРИЦЫ (КРАСНОЙ) -->
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const binary = 'NORI_ERROR_';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ff003c'; 
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = binary.charAt(Math.floor(Math.random() * binary.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 33);
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+    </script>
+
 </body>
 </html>
