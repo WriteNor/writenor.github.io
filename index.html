@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WriteNor - Official Game Site</title>
+    <title>WriteNor - System Override</title>
     <link rel="icon" type="image/png" href="favicon.png?v=3">
     
     <!-- Шрифты -->
@@ -12,188 +12,186 @@
     <style>
         :root {
             --neon-red: #ff003c;
+            --neon-green: #00ff41;
             --neon-blue: #00f3ff;
-            --glass-dark: rgba(10, 10, 10, 0.9);
-            --glass-light: rgba(30, 30, 30, 0.6);
+            --bg: #050505;
+            --glass: rgba(10, 10, 10, 0.85);
+            --border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background: #000;
+            background: var(--bg);
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
+            cursor: crosshair; /* Курсор-прицел */
         }
 
-        /* ФОН (МАТРИЦА + СКАНЛАЙНЫ) */
+        /* ФОН */
         canvas { position: fixed; top: 0; left: 0; z-index: -2; }
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
             background-size: 100% 4px;
-            pointer-events: none; z-index: 1000; opacity: 0.5;
+            pointer-events: none; z-index: 999; opacity: 0.3;
         }
 
-        /* НАВИГАЦИЯ (ЛИПКАЯ) */
+        /* НАВИГАЦИЯ (ВЕРХ) */
         nav {
-            position: fixed; top: 0; width: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            z-index: 999;
-            border-bottom: 1px solid var(--neon-red);
-            display: flex;
-            justify-content: center;
-            gap: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 40px;
+            background: rgba(0,0,0,0.9);
+            border-bottom: 2px solid var(--neon-red);
+            position: sticky; top: 0; z-index: 1000;
         }
-        nav a {
-            color: #fff; text-decoration: none; font-weight: bold;
-            text-transform: uppercase; letter-spacing: 2px;
-            transition: 0.3s;
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; color: #fff; letter-spacing: 2px; }
+        .nav-links a {
+            color: #aaa; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; transition: 0.3s;
         }
-        nav a:hover { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
+        .nav-links a:hover { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        
+        /* КНОПКА НОРИ (ГЛИТЧ) */
+        .nori-link {
+            color: var(--neon-red) !important;
+            animation: textGlitch 0.5s infinite;
+            border: 1px solid var(--neon-red);
+            padding: 5px 10px;
+        }
 
-        /* ОБЩИЕ СТИЛИ СЕКЦИЙ */
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 100px 20px;
+        /* ОСНОВНАЯ СЕТКА (DASHBOARD) */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Лево (контент) - Право (статус) */
+            gap: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* КАРТОЧКИ */
+        .panel {
+            background: var(--glass);
+            border: var(--border);
+            padding: 30px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        /* ГЛАВНЫЙ БЛОК (HERO) */
+        .hero-panel {
+            grid-column: 1 / -1; /* На всю ширину */
+            text-align: center;
+            border: 1px solid var(--neon-green);
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ГЛАЗ, КОТОРЫЙ СЛЕДИТ */
+        .eye-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 300px;
+            pointer-events: none;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .eye-ball {
+            width: 60px; height: 60px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 50px var(--neon-red);
+        }
+        .eye-socket {
+            width: 100%; height: 100%;
+            border: 5px solid var(--neon-red);
+            border-radius: 50%;
             position: relative;
         }
 
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            z-index: 10;
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            color: var(--neon-red);
-            margin-bottom: 40px;
-            text-transform: uppercase;
-            text-align: center;
-            border-bottom: 2px solid var(--neon-red);
-            display: inline-block;
-        }
-
-        p { font-size: 1.2rem; line-height: 1.6; color: #ccc; margin-bottom: 20px; }
-
-        /* === СЕКЦИЯ 1: HERO (ГЛАВНАЯ) === */
-        #hero {
-            text-align: center;
-        }
-        
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 6rem;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 5px 5px 0px var(--neon-red);
-            margin-bottom: 10px;
-            animation: glitch 3s infinite;
+            font-family: 'Orbitron'; font-size: 5rem;
+            text-shadow: 4px 4px 0 var(--neon-red);
+            position: relative; z-index: 2;
+            margin: 0;
         }
+        .desc { font-size: 1.2rem; color: #ccc; margin: 20px 0; position: relative; z-index: 2; }
 
-        .tagline { font-size: 1.5rem; color: var(--neon-red); letter-spacing: 5px; margin-bottom: 50px; }
-
-        .big-btn {
-            padding: 20px 60px;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: white;
-            background: var(--neon-red);
-            border: none;
-            text-decoration: none;
-            text-transform: uppercase;
-            box-shadow: 0 0 30px rgba(255, 0, 60, 0.5);
-            transition: 0.3s;
-            display: inline-block;
-        }
-        .big-btn:hover { background: #fff; color: #000; transform: scale(1.05); }
-
-        /* === СЕКЦИЯ 2: ОБ ИГРЕ (Стекло) === */
-        #about .glass-panel {
-            background: var(--glass-dark);
-            border: 1px solid #444;
-            padding: 50px;
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        /* === СЕКЦИЯ 3: ФИЧИ (Сетка) === */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .feature-card {
-            background: var(--glass-light);
-            padding: 30px;
-            border-left: 4px solid var(--neon-red);
+        /* КНОПКИ ДЕЙСТВИЯ */
+        .actions { display: flex; gap: 20px; justify-content: center; position: relative; z-index: 2; margin-top: 30px;}
+        .btn {
+            padding: 15px 30px; font-weight: 800; text-decoration: none; color: #fff;
+            text-transform: uppercase; border: 2px solid transparent; background: #222;
             transition: 0.3s;
         }
-        .feature-card:hover { transform: translateY(-10px); background: #222; }
-        .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: #fff; }
-
-        /* === СЕКЦИЯ 4: ГАЛЕРЕЯ === */
-        .gallery {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding-bottom: 20px;
-        }
-        .screenshot {
-            min-width: 400px;
-            height: 250px;
-            background-color: #222;
-            border: 1px solid #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* === СЕКЦИЯ 5: ССЫЛКИ === */
-        #links { text-align: center; }
-        .social-grid {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-        .social-btn {
-            padding: 15px 30px;
-            border: 1px solid #fff;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .social-btn:hover { background: #fff; color: #000; }
+        .btn-itch { border-color: var(--neon-red); color: var(--neon-red); }
+        .btn-itch:hover { background: var(--neon-red); color: #000; box-shadow: 0 0 30px var(--neon-red); }
         
-        .discord-btn { border-color: #5865F2; color: #5865F2; }
-        .discord-btn:hover { background: #5865F2; color: #fff; }
+        .btn-discord { border-color: #5865F2; color: #5865F2; }
+        .btn-discord:hover { background: #5865F2; color: #fff; box-shadow: 0 0 30px #5865F2; }
 
-        /* Глитч Анимация */
-        @keyframes glitch {
-            0% { text-shadow: 5px 5px 0 var(--neon-red); }
-            50% { text-shadow: -5px -5px 0 var(--neon-blue); }
-            100% { text-shadow: 5px 5px 0 var(--neon-red); }
+        /* КОНСОЛЬ (ЗАПОЛНЯЕТ ПУСТОТУ) */
+        .console-panel {
+            font-size: 0.8rem;
+            color: var(--neon-green);
+            height: 300px;
+            overflow: hidden;
+            border-left: 3px solid var(--neon-green);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .log-line { margin-bottom: 5px; opacity: 0.8; }
+
+        /* ИНФО БЛОКИ */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .info-card h3 { color: var(--neon-blue); margin-bottom: 10px; border-bottom: 1px solid #333; }
+
+        /* СКРИНШОТЫ */
+        .media-panel {
+            grid-column: 1 / -1;
+            display: flex; gap: 10px; overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .shot {
+            min-width: 300px; height: 180px;
+            background: #222; border: 1px solid #444;
+            background-size: cover; background-position: center;
+            opacity: 0.7; transition: 0.3s;
+        }
+        .shot:hover { opacity: 1; transform: scale(1.02); border-color: var(--neon-blue); }
+
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 40px; margin-top: 40px; border-top: 1px solid #333;
+            color: #666; font-size: 0.8rem;
+        }
+
+        @keyframes textGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(0); }
+            80% { transform: translate(1px, 1px); color: #fff; }
+            100% { transform: translate(0); }
         }
 
         /* Адаптив */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .dashboard { grid-template-columns: 1fr; }
             h1 { font-size: 3rem; }
-            nav { display: none; } /* Скрываем меню на мобилках для простоты */
-            .screenshot { min-width: 300px; }
+            .actions { flex-direction: column; }
         }
     </style>
 </head>
@@ -204,97 +202,137 @@
 
     <!-- НАВИГАЦИЯ -->
     <nav>
-        <a href="#hero">Start</a>
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#media">Media</a>
-        <a href="#links">Links</a>
+        <div class="logo">TERAWWW</div>
+        <div class="nav-links">
+            <a href="https://writenor.fandom.com">Wiki</a>
+            <a href="https://www.youtube.com/@WriteNor">YouTube</a>
+            <!-- ССЫЛКА НА НОРИ -->
+            <a href="nori.html" class="nori-link">⚠ NORI_ENTITY</a>
+        </div>
     </nav>
 
-    <!-- 1. ГЛАВНЫЙ ЭКРАН -->
-    <section id="hero">
-        <div class="container">
-            <h1>WRITENOR</h1>
-            <div class="tagline">SYSTEM FAILURE. THE CODE IS ALIVE.</div>
-            <br><br>
-            <a href="https://terawww.itch.io/writenor" class="big-btn">PLAY DEMO (Itch.io)</a>
+    <!-- ОСНОВНОЙ DASHBOARD -->
+    <div class="dashboard">
+        
+        <!-- 1. HERO (ГЛАЗ СЛЕДИТ) -->
+        <div class="panel hero-panel">
+            <div class="eye-container">
+                <div class="eye-socket">
+                    <div class="eye-ball" id="eye"></div>
+                </div>
+            </div>
             
-            <!-- Виджет IndieDB -->
-            <div style="margin-top: 40px; opacity: 0.8;">
+            <h1>WRITENOR</h1>
+            <p class="desc">Psychological Horror / Coding Simulation</p>
+            
+            <div class="actions">
+                <a href="https://terawww.itch.io/writenor" class="btn btn-itch">Download Demo</a>
+                <a href="https://discord.gg/QD5mUt44n5" class="btn btn-discord">Join Discord</a>
+                <a href="#" class="btn" style="opacity:0.5; border:1px solid #555;">Steam (Soon)</a>
+            </div>
+
+            <!-- INDIEDB WIDGET -->
+            <div style="position: absolute; bottom: 10px; right: 20px; opacity: 0.8;">
                 <a href="https://www.indiedb.com/games/writenor" target="_blank">
                     <img src="https://button.indiedb.com/popularity/medium/games/89571.png" alt="WriteNor Rank">
                 </a>
             </div>
         </div>
-    </section>
 
-    <!-- 2. ОПИСАНИЕ -->
-    <section id="about">
-        <div class="container">
-            <div class="glass-panel">
-                <h2>> PROJECT_OVERVIEW</h2>
-                <p><b>WriteNor</b> is a first-person psychological horror game about coding and simulation.</p>
-                <p>You play as a developer trapped inside a corrupted version of his own office. The system is controlled by <b>Nori</b>, a rogue AI that breaks the 4th wall and interacts with your real desktop files.</p>
-                <p>There are no monsters to shoot. Your only weapon is the <b>Console</b>.</p>
+        <!-- 2. ИНФО БЛОК (Слева) -->
+        <div class="info-grid">
+            <div class="panel info-card">
+                <h3>> MISSION_OBJECTIVE</h3>
+                <p>You are trapped in a corrupted simulation. Use the <b>Console</b> to delete objects, rewrite variables, and escape the office.</p>
+            </div>
+            <div class="panel info-card">
+                <h3>> THREAT_ANALYSIS</h3>
+                <p><b>Nori</b> is watching. She reads your files. She knows your name. Do not trust the AI assistant.</p>
             </div>
         </div>
-    </section>
 
-    <!-- 3. ФИЧИ -->
-    <section id="features">
-        <div class="container">
-            <h2>> MECHANICS</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>⌨️ Console Hacking</h3>
-                    <p>Type commands like <code>delete door</code> or <code>move object</code> to solve puzzles and escape traps.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>👁️ Diegetic UI</h3>
-                    <p>No health bars. No pause menus. The interface exists physically inside the game world.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>💻 Meta-Horror</h3>
-                    <p>The game reads your Windows username. Nori creates files on your desktop. You are not safe.</p>
-                </div>
-            </div>
+        <!-- 3. КОНСОЛЬ (Справа) -->
+        <div class="panel console-panel" id="console">
+            <div class="log-line">> SYSTEM STARTUP...</div>
+            <div class="log-line">> CONNECTING TO SERVER...</div>
+            <div class="log-line">> USER DETECTED.</div>
         </div>
-    </section>
 
-    <!-- 4. ГАЛЕРЕЯ -->
-    <section id="media">
-        <div class="container">
-            <h2>> VISUAL_LOGS</h2>
-            <div class="gallery">
-                <!-- Вставь сюда ссылки на свои картинки вместо 'Console.jpg' -->
-                <div class="screenshot" style="background-image: url('Nori_Cover.jpg');">NORI</div>
-                <div class="screenshot" style="background-image: url('Office.jpg');">OFFICE</div>
-                <div class="screenshot" style="background-image: url('Console.jpg');">CONSOLE</div>
-                <div class="screenshot" style="background-image: url('Glitch.jpg');">GLITCH</div>
-            </div>
-            <p style="text-align: center; margin-top: 20px;">*Scroll horizontally to see more</p>
+        <!-- 4. ГАЛЕРЕЯ -->
+        <div class="panel media-panel">
+            <!-- Вставь свои картинки! -->
+            <div class="shot" style="background-image: url('Nori_Cover.jpg');"></div>
+            <div class="shot" style="background-image: url('Office.jpg');"></div>
+            <div class="shot" style="background-image: url('Console.jpg');"></div>
+            <div class="shot" style="background-image: url('Glitch.jpg');"></div>
         </div>
-    </section>
 
-    <!-- 5. ССЫЛКИ -->
-    <section id="links">
-        <div class="container">
-            <h2>> JOIN THE NETWORK</h2>
-            <div class="social-grid">
-                <a href="https://discord.gg/QD5mUt44n5" class="social-btn discord-btn">🟣 JOIN DISCORD</a>
-                <a href="https://www.youtube.com/@WriteNor" class="social-btn">📺 YOUTUBE</a>
-                <a href="https://writenor.fandom.com" class="social-btn">📂 WIKI</a>
-                <a href="https://www.igdb.com/games/writenor" class="social-btn">👾 IGDB</a>
-                <a href="#" class="social-btn" style="opacity:0.5; cursor:not-allowed;">🚂 STEAM (SOON)</a>
-            </div>
-            
-            <br><br><br>
-            <p style="font-size: 0.8rem; color: #555;">&copy; 2026 Terawww. All rights reserved.</p>
+        <!-- 5. КОНТАКТЫ -->
+        <div class="panel" style="grid-column: 1 / -1; text-align: center;">
+            <h3 style="color:var(--neon-green)">> SEND FEEDBACK</h3>
+            <form action="https://formspree.io/f/mlgelkpz" method="POST" style="margin-top:15px; display: flex; gap: 10px; justify-content: center;">
+                <input type="email" name="email" placeholder="Your Email" style="background:#000; border:1px solid #444; color:#fff; padding:10px;">
+                <input type="text" name="message" placeholder="Message..." style="background:#000; border:1px solid #444; color:#fff; padding:10px; width: 300px;">
+                <button type="submit" style="background:var(--neon-green); border:none; padding:10px 20px; font-weight:bold; cursor:pointer;">SEND</button>
+            </form>
         </div>
-    </section>
 
-    <!-- СКРИПТ МАТРИЦЫ -->
+    </div>
+
+    <footer>
+        &copy; 2026 Terawww. All rights reserved. <br>
+        <a href="https://www.igdb.com/games/writenor" style="color:#444; text-decoration:none;">View on IGDB</a>
+    </footer>
+
+    <!-- СКРИПТЫ (ГЛАЗ + МАТРИЦА + КОНСОЛЬ) -->
     <script>
+        // 1. ГЛАЗ СЛЕДИТ ЗА МЫШКОЙ
+        document.addEventListener('mousemove', (e) => {
+            const eye = document.getElementById('eye');
+            const socket = document.querySelector('.eye-socket');
+            const rect = socket.getBoundingClientRect();
+            
+            // Центр глаза
+            const eyeX = rect.left + rect.width / 2;
+            const eyeY = rect.top + rect.height / 2;
+            
+            // Угол мыши
+            const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+            
+            // Смещение зрачка (ограничено радиусом)
+            const radius = 30; 
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            
+            eye.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        });
+
+        // 2. ЖИВАЯ КОНСОЛЬ
+        const consoleLogs = [
+            "> SCANNING FILES...",
+            "> ERROR: SECTOR 7 CORRUPTED",
+            "> NORI: I see you.",
+            "> DOWNLOADING ASSETS...",
+            "> CONNECTION UNSTABLE",
+            "> CHECKING DISCORD...",
+            "> SYSTEM OK.",
+            "> ACCESSING RAM..."
+        ];
+        const consoleDiv = document.getElementById('console');
+        
+        setInterval(() => {
+            const randomLog = consoleLogs[Math.floor(Math.random() * consoleLogs.length)];
+            const div = document.createElement('div');
+            div.className = 'log-line';
+            div.innerText = randomLog;
+            consoleDiv.appendChild(div);
+            
+            if (consoleDiv.children.length > 8) {
+                consoleDiv.removeChild(consoleDiv.firstChild);
+            }
+        }, 1500);
+
+        // 3. МАТРИЦА (ФОН)
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -308,7 +346,7 @@
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ff003c'; 
+            ctx.fillStyle = '#003300'; // Темно-зеленая матрица (фоновая)
             ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const text = binary.charAt(Math.floor(Math.random() * binary.length));
@@ -317,7 +355,7 @@
                 drops[i]++;
             }
         }
-        setInterval(draw, 33);
+        setInterval(draw, 50);
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 
