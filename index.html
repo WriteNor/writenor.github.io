@@ -3,367 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITENOR | SYSTEM BREACH</title>
-    <link rel="icon" type="image/png" href="favicon.png?v=4">
+    <title>WRITENOR | OFFICIAL SITE</title>
+    <link rel="icon" type="image/png" href="favicon.png?v=5">
     
     <!-- SEO -->
-    <meta name="description" content="WriteNor is a high-fidelity psychological horror simulation. Break the code. Survive the AI. Coming 2026.">
     <script type="application/ld+json">
     { "@context": "https://schema.org", "@type": "VideoGame", "name": "WriteNor", "author": { "@type": "Organization", "name": "Terawww" }, "gamePlatform": "PC" }
     </script>
 
-    <!-- PREMIUM FONTS -->
+    <!-- Шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #ff003c; /* Красный киберпанк */
-            --secondary: #00f3ff; /* Голубой неон */
+            --primary: #ff003c; 
+            --secondary: #00f3ff;
             --bg: #030303;
-            --surface: #0a0a0a;
             --text-main: #f0f0f0;
-            --text-dim: #888;
+            --glass: rgba(0, 0, 0, 0.9);
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Скрываем стандартный курсор */ }
+        /* КУРСОР И FX */
+        .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s ease; mix-blend-mode: difference; }
+        .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.3; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
-            width: 100%;
-        }
-
-        /* === КАСТОМНЫЙ КУРСОР === */
-        .cursor {
-            width: 20px; height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
-            mix-blend-mode: difference;
-        }
-        .cursor-dot {
-            width: 4px; height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%);
-        }
-
-        /* === PRELOADER (ЗАГРУЗКА) === */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
-            flex-direction: column;
-            transition: opacity 1s ease-out;
-        }
-        .loader-text {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--primary);
-            margin-top: 20px;
-            animation: blink 0.5s infinite;
-        }
+        /* PRELOADER */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease-out; }
+        .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
         .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
-        .bar::after {
-            content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-            background: var(--primary);
-            animation: load 2s ease-in-out forwards;
-        }
+        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
 
-        /* === ФОНОВЫЕ ЭФФЕКТЫ === */
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.05; pointer-events: none; z-index: 900;
-        }
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-            background-size: 100% 4px;
-            pointer-events: none; z-index: 900; opacity: 0.5;
-        }
+        /* НАВИГАЦИЯ */
+        nav { position: fixed; top: 0; width: 100%; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); border-bottom: 1px solid #333; }
+        .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
+        
+        .nav-right { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; position: relative; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--primary); }
 
-        /* === НАВИГАЦИЯ === */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 30px 50px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; mix-blend-mode: difference;
+        /* DROPDOWN (ВЫПАДАЮЩИЙ СПИСОК ЯЗЫКОВ) */
+        .dropdown { position: relative; display: inline-block; font-family: 'JetBrains Mono'; }
+        .dropbtn {
+            background-color: transparent; color: #fff; padding: 5px 10px; font-size: 0.9rem; border: 1px solid #444; cursor: none;
+            display: flex; align-items: center; gap: 5px; transition: 0.3s;
         }
-        .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a {
-            color: #fff; text-decoration: none; text-transform: uppercase;
-            font-weight: 700; letter-spacing: 1px; position: relative;
+        .dropbtn:hover { border-color: var(--primary); color: var(--primary); }
+        
+        .dropdown-content {
+            display: none; position: absolute; right: 0; top: 100%; background-color: #000;
+            min-width: 120px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border: 1px solid var(--primary);
+            max-height: 300px; overflow-y: auto; /* Скролл если много языков */
         }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
-            background: var(--primary); transition: 0.3s;
+        .dropdown-content span {
+            color: #ccc; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #222;
         }
-        .nav-links a:hover::after { width: 100%; }
+        .dropdown-content span:hover { background-color: var(--primary); color: #000; }
+        .dropdown:hover .dropdown-content { display: block; }
 
-        /* === HERO SECTION === */
-        header {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            background: url('bg_main.jpg') no-repeat center center/cover; /* Твой главный фон */
-        }
-        header::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 0%, #000 90%);
-        }
+        /* HERO */
+        header { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; background: url('bg_main.jpg') no-repeat center center/cover; }
+        header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 0%, #000 90%); }
+        .hero-content { position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; width: 100%; max-width: 900px; padding: 0 20px; }
+        
+        h1 { font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 0.9; text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; position: relative; }
+        h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; }
+        .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; }
+        
+        .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .cta-btn { padding: 15px 40px; background: transparent; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; font-size: 1.1rem; text-decoration: none; text-transform: uppercase; transition: 0.3s; display: inline-block; min-width: 200px; }
+        .cta-btn:hover { background: #fff; color: #000; }
+        .steam-btn { border-color: #666; color: #666; cursor: not-allowed; position: relative; }
 
-        .hero-content { position: relative; z-index: 10; transform: translateY(50px); opacity: 0; animation: fadeUp 1.5s 2.2s forwards; }
-
-        h1 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 8vw; /* Адаптивный размер */
-            line-height: 0.9;
-            text-transform: uppercase;
-            color: transparent;
-            -webkit-text-stroke: 2px #fff;
-            position: relative;
-        }
-        h1::after {
-            content: 'WRITENOR'; position: absolute; top: 0; left: 0;
-            color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse;
-        }
-
-        .hero-desc {
-            font-size: 1.5rem; letter-spacing: 5px; color: var(--primary);
-            margin: 20px 0 50px 0; text-transform: uppercase;
-        }
-
-        /* === КНОПКА (ГЛАВНАЯ) === */
-        .cta-btn {
-            padding: 20px 60px;
-            background: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-            font-family: 'JetBrains Mono';
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-decoration: none;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-            display: inline-block;
-        }
-        .cta-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: #fff; transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); z-index: -1;
-        }
-        .cta-btn:hover::before { left: 0; }
-        .cta-btn:hover { color: #000; border-color: #fff; }
-
-        /* === CONTENT SECTIONS === */
-        .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
-
-        .grid-2 {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-            margin-bottom: 150px;
-        }
-
-        .text-block h2 {
-            font-size: 3rem; margin-bottom: 30px; text-transform: uppercase;
-            border-left: 5px solid var(--primary); padding-left: 20px;
-        }
-        .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
-
-        .img-block {
-            position: relative; height: 400px; width: 100%;
-            background: #111; overflow: hidden;
-        }
-        .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.8; }
-        .img-block:hover img { transform: scale(1.1); opacity: 1; }
-
-        /* СЕТКА С ФИЧАМИ */
-        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; }
-        .feature-box {
-            background: #111; padding: 40px; border: 1px solid #222; transition: 0.3s;
-        }
-        .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
-        .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
-
-        /* БЕГУЩАЯ СТРОКА */
+        /* MARQUEE (БЕГУЩАЯ СТРОКА) */
         .marquee {
             width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000;
             padding: 10px 0; font-family: 'JetBrains Mono'; font-weight: bold; font-size: 1.2rem;
+            border-top: 1px solid #fff; border-bottom: 1px solid #fff;
         }
         .marquee span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
 
-        /* LINKS */
+        /* CONTENT */
+        .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
+        .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; border-left: 5px solid var(--primary); padding-left: 20px; }
+        .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
+        .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; }
+        .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.8; }
+        .img-block:hover img { transform: scale(1.1); opacity: 1; }
+
+        /* Features */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
+        .feature-box { background: #111; padding: 40px; border: 1px solid #222; transition: 0.3s; }
+        .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
+
+        /* Footer */
         .links-section { text-align: center; padding: 100px 0; background: #080808; }
         .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
-        .social-link {
-            font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent;
-            transition: 0.3s;
-        }
+        .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
         .social-link:hover { color: #fff; border-bottom: 1px solid var(--primary); }
 
-        /* ANIMATIONS ON SCROLL */
         .reveal { opacity: 0; transform: translateY(50px); transition: 1s all ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
         @keyframes load { 0% { width: 0; } 100% { width: 100%; } }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes glitchText {
-            0% { opacity: 0; clip-path: inset(0 0 0 0); }
-            5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
-            10% { clip-path: inset(80% 0 10% 0); transform: translate(2px, -2px); }
-            15% { opacity: 0; }
-            100% { opacity: 0; }
-        }
+        @keyframes glitchText { 0% { opacity: 0; clip-path: inset(0 0 0 0); } 5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); } 15% { opacity: 0; } }
 
-        /* Mobile */
         @media (max-width: 900px) {
             .grid-2, .features { grid-template-columns: 1fr; }
             h1 { font-size: 4rem; }
-            nav { padding: 20px; }
-            .nav-links { display: none; } /* Скрываем меню на мобилках для чистоты */
+            nav { padding: 20px; flex-direction: row; }
+            .nav-links { display: none; } 
+            .hero-btns { flex-direction: column; }
+            .cta-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- PRELOADER -->
-    <div id="preloader">
-        <div class="loader-text">> INITIALIZING SIMULATION...</div>
-        <div class="bar"></div>
-    </div>
-
-    <!-- FX -->
-    <div class="cursor"></div>
-    <div class="cursor-dot"></div>
-    <div class="noise"></div>
+    <div id="preloader"><div class="loader-text">> SYSTEM BOOT...</div><div class="bar"></div></div>
+    <div class="cursor"></div><div class="cursor-dot"></div>
     <div class="scanlines"></div>
 
     <nav>
         <div class="logo">TERAWWW</div>
-        <div class="nav-links">
-            <a href="#about">Simulation</a>
-            <a href="#features">System</a>
-            <a href="#community">Network</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#about" data-key="nav_sim">Simulation</a>
+                <a href="#features" data-key="nav_sys">System</a>
+            </div>
+            
+            <!-- ЯЗЫКОВОЙ ВЫПАДАЮЩИЙ СПИСОК -->
+            <div class="dropdown">
+                <button class="dropbtn"><span id="current-lang">🌐 EN</span> ▼</button>
+                <div class="dropdown-content">
+                    <span onclick="setLang('en')">English</span>
+                    <span onclick="setLang('ru')">Русский</span>
+                    <span onclick="setLang('ua')">Українська</span>
+                    <span onclick="setLang('pl')">Polski</span>
+                    <span onclick="setLang('de')">Deutsch</span>
+                    <span onclick="setLang('es')">Español</span>
+                    <span onclick="setLang('fr')">Français</span>
+                    <span onclick="setLang('jp')">日本語</span>
+                    <span onclick="setLang('cn')">中文</span>
+                </div>
+            </div>
         </div>
     </nav>
 
     <header>
         <div class="hero-content">
             <h1>WRITENOR</h1>
-            <div class="hero-desc">Psychological Horror / Coding Sim</div>
-            <a href="https://terawww.itch.io/writenor" class="cta-btn">Initialize Demo</a>
+            <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
+            
+            <div class="hero-btns">
+                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO (Itch.io)</a>
+                <a href="#" class="cta-btn steam-btn" data-key="btn_steam">STEAM (SOON)</a>
+            </div>
         </div>
     </header>
 
+    <!-- БЕГУЩАЯ СТРОКА -->
     <div class="marquee">
-        <span>> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. ></span>
+        <span data-key="marquee_text">> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. ></span>
     </div>
 
     <section id="about" class="container">
         <div class="grid-2 reveal">
             <div class="text-block">
-                <h2>The Simulation</h2>
-                <p>You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
-                <p><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality. Delete doors, change gravity, and fight against a rogue AI that knows your name.</p>
+                <h2 data-key="about_title">The Simulation</h2>
+                <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
+                <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality. Delete doors, change gravity, and fight against a rogue AI.</p>
                 <br>
-                <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;">>> ACCESS DATABASE (WIKI)</a>
+                <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE (WIKI)</a>
             </div>
-            <div class="img-block">
-                <img src="Office.jpg" alt="WriteNor Office">
-            </div>
+            <div class="img-block"><img src="Office.jpg" alt="Office"></div>
         </div>
-
         <div class="grid-2 reveal" style="direction: rtl;">
             <div class="text-block" style="direction: ltr;">
-                <h2>Entity: Nori</h2>
-                <p>She is not just an NPC. She is a sentient AI trapped in the build.</p>
-                <p>She interacts with your real desktop files. She breaks the fourth wall. She wants to be real.</p>
+                <h2 data-key="nori_title">Entity: Nori</h2>
+                <p data-key="nori_text1">She is not just an NPC. She is a sentient AI trapped in the build.</p>
+                <p data-key="nori_text2">She interacts with your real desktop files. She breaks the fourth wall. She wants to be real.</p>
                 <br>
-                <a href="nori.html" style="color:var(--secondary); text-decoration:none; font-weight:bold;">>> VIEW FILE</a>
+                <a href="nori.html" style="color:var(--secondary); text-decoration:none; font-weight:bold;" data-key="link_nori">>> VIEW FILE</a>
             </div>
-            <div class="img-block">
-                <img src="Nori_Cover.jpg" alt="Nori">
-            </div>
+            <div class="img-block"><img src="Nori_Cover.jpg" alt="Nori"></div>
         </div>
     </section>
 
     <section id="features" style="background: #080808;">
         <div class="container reveal">
-            <h2 style="text-align:center; border:none;">SYSTEM FEATURES</h2>
+            <h2 style="text-align:center; border:none;" data-key="feat_title">SYSTEM FEATURES</h2>
             <div class="features">
                 <div class="feature-box">
-                    <h3>CMD_HACKING</h3>
-                    <p>Type real commands to alter the game world. <code>delete door</code> is your key.</p>
+                    <h3 data-key="feat_1_title">CMD_HACKING</h3>
+                    <p data-key="feat_1_text">Type real commands to alter the game world. <code>delete door</code> is your key.</p>
                 </div>
                 <div class="feature-box">
-                    <h3>DIEGETIC_UI</h3>
-                    <p>No HUD. No pause screens. Total immersion inside the monitor.</p>
+                    <h3 data-key="feat_2_title">DIEGETIC_UI</h3>
+                    <p data-key="feat_2_text">No HUD. No pause screens. Total immersion inside the monitor.</p>
                 </div>
                 <div class="feature-box">
-                    <h3>META_HORROR</h3>
-                    <p>The game reads your OS username. You are not safe behind the screen.</p>
+                    <h3 data-key="feat_3_title">META_HORROR</h3>
+                    <p data-key="feat_3_text">The game reads your OS username. You are not safe behind the screen.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="community" class="links-section reveal">
-        <h2>JOIN THE NETWORK</h2>
+        <h2 data-key="join_title">JOIN THE NETWORK</h2>
         <div class="links-grid">
             <a href="https://discord.gg/QD5mUt44n5" class="social-link">DISCORD</a>
             <a href="https://www.youtube.com/@WriteNor" class="social-link">YOUTUBE</a>
             <a href="https://www.igdb.com/games/writenor" class="social-link">IGDB</a>
             <a href="#" class="social-link" style="opacity:0.5; cursor:not-allowed;">STEAM</a>
         </div>
-        
-        <!-- IndieDB Widget (Стильный) -->
-        <div style="margin-top: 50px; opacity: 0.7; filter: grayscale(100%); transition:0.5s;" onmouseover="this.style.filter='grayscale(0%)'">
-            <a href="https://www.indiedb.com/games/writenor" target="_blank">
-                <img src="https://button.indiedb.com/popularity/medium/games/89571.png" alt="Rank">
-            </a>
-        </div>
     </section>
 
     <script>
-        // PRELOADER
+        const langData = {
+            en: {
+                nav_sim: "Simulation", nav_sys: "System",
+                hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
+                marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
+                about_title: "The Simulation", about_text1: "You are Johnny, a developer debugging a corrupted system.", about_text2: "WriteNor is a meta-horror experience where you use a command console to manipulate reality.", link_wiki: ">> ACCESS DATABASE (WIKI)",
+                nori_title: "Entity: Nori", nori_text1: "She is not just an NPC. She is a sentient AI trapped in the build.", nori_text2: "She interacts with your real desktop files. She breaks the fourth wall.", link_nori: ">> VIEW FILE",
+                feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause screens. Total immersion.", feat_3_title: "META_HORROR", feat_3_text: "The game reads your OS username. You are not safe.",
+                join_title: "JOIN THE NETWORK"
+            },
+            ru: {
+                nav_sim: "Симуляция", nav_sys: "Система",
+                hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
+                marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
+                about_title: "Симуляция", about_text1: "Ты — Джонни, разработчик, отлаживающий сломанную систему.", about_text2: "WriteNor — это мета-хоррор, где ты используешь консоль, чтобы менять реальность.", link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
+                nori_title: "Объект: Nori", nori_text1: "Она не просто NPC. Она разумный ИИ, запертый в билде.", nori_text2: "Она взаимодействует с твоими реальными файлами. Она ломает 4-ю стену.", link_nori: ">> ОТКРЫТЬ ФАЙЛ",
+                feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет пауз. Полное погружение.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра читает твое имя в Windows.",
+                join_title: "ВСТУПАЙ В СЕТЬ"
+            },
+            // Остальные языки (UA, PL и т.д.) - копируй структуру выше, но с переводом
+        };
+
+        function detectAndSetLang() {
+            const userLang = navigator.language || navigator.userLanguage;
+            let target = 'en'; 
+            if (userLang.startsWith('ru')) target = 'ru';
+            // Добавь проверки для других языков
+            setLang(target);
+        }
+
+        function setLang(lang) {
+            // Если языка нет в списке, ставим английский
+            if (!langData[lang]) lang = 'en';
+
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (langData[lang][key]) el.innerHTML = langData[lang][key];
+            });
+            
+            // Обновляем текст кнопки
+            const btnText = lang === 'en' ? '🌐 EN' : '🌐 ' + lang.toUpperCase();
+            document.getElementById('current-lang').innerText = btnText;
+        }
+
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => { preloader.style.display = 'none'; }, 1000);
-            }, 2000);
+            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 1000); }, 2000);
+            detectAndSetLang();
         });
 
-        // CURSOR
+        // Курсор
         const cursor = document.querySelector('.cursor');
         const dot = document.querySelector('.cursor-dot');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px';
-            dot.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
         });
-
-        // SCROLL REVEAL
         window.addEventListener('scroll', () => {
-            const reveals = document.querySelectorAll('.reveal');
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add('active');
-                }
-            }
+            document.querySelectorAll('.reveal').forEach(r => {
+                if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add('active');
+            });
         });
     </script>
 </body>
