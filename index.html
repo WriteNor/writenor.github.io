@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITENOR | OFFICIAL SITE</title>
+    <title>WRITENOR | SYSTEM ACCESS</title>
     <link rel="icon" type="image/png" href="favicon.png?v=5">
     
-    <!-- SEO -->
     <script type="application/ld+json">
     { "@context": "https://schema.org", "@type": "VideoGame", "name": "WriteNor", "author": { "@type": "Organization", "name": "Terawww" }, "gamePlatform": "PC" }
     </script>
 
-    <!-- Шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
     <style>
@@ -20,15 +18,13 @@
             --secondary: #00f3ff;
             --bg: #030303;
             --text-main: #f0f0f0;
-            --glass: rgba(0, 0, 0, 0.9);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background-color: var(--bg); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
 
-        /* КУРСОР И FX */
-        .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s ease; mix-blend-mode: difference; }
+        /* КУРСОР */
+        .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference; }
         .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
-        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.3; }
 
         /* PRELOADER */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease-out; }
@@ -36,71 +32,98 @@
         .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
         .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
 
-        /* НАВИГАЦИЯ */
-        nav { position: fixed; top: 0; width: 100%; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); border-bottom: 1px solid #333; }
+        /* ФОН */
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.3; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -2; }
+
+        /* НАВИГАЦИЯ (ИСПРАВЛЕНАЯ) */
+        nav { 
+            position: fixed; top: 0; width: 100%; padding: 15px 40px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            z-index: 2000; /* Самый высокий слой */
+            background: rgba(5,5,5,0.9); border-bottom: 1px solid #333; 
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-left { display: flex; align-items: center; gap: 40px; }
         .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
         
-        .nav-right { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; position: relative; font-size: 0.9rem; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 5px #fff; }
+        
+        /* Ссылка на Нори */
+        .nori-link { color: var(--primary) !important; border: 1px solid var(--primary); padding: 5px 10px; animation: textGlitch 2s infinite; }
 
-        /* DROPDOWN (ВЫПАДАЮЩИЙ СПИСОК ЯЗЫКОВ) */
+        /* ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ (ЧЕРНО-БЕЛЫЙ) */
         .dropdown { position: relative; display: inline-block; font-family: 'JetBrains Mono'; }
         .dropbtn {
-            background-color: transparent; color: #fff; padding: 5px 10px; font-size: 0.9rem; border: 1px solid #444; cursor: none;
-            display: flex; align-items: center; gap: 5px; transition: 0.3s;
+            background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; 
+            border: 1px solid #fff; cursor: none; transition: 0.3s;
+            font-weight: bold; text-transform: uppercase;
         }
-        .dropbtn:hover { border-color: var(--primary); color: var(--primary); }
+        .dropbtn:hover { background: #fff; color: #000; }
         
         .dropdown-content {
             display: none; position: absolute; right: 0; top: 100%; background-color: #000;
-            min-width: 120px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border: 1px solid var(--primary);
-            max-height: 300px; overflow-y: auto; /* Скролл если много языков */
+            min-width: 100px; border: 1px solid #fff; z-index: 1;
         }
         .dropdown-content span {
-            color: #ccc; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #222;
+            color: #fff; padding: 10px 15px; text-decoration: none; display: block; 
+            font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #333;
         }
-        .dropdown-content span:hover { background-color: var(--primary); color: #000; }
+        .dropdown-content span:hover { background-color: #fff; color: #000; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* HERO */
-        header { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; background: url('bg_main.jpg') no-repeat center center/cover; }
-        header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 0%, #000 90%); }
-        .hero-content { position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; width: 100%; max-width: 900px; padding: 0 20px; }
-        
-        h1 { font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 0.9; text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; position: relative; }
-        h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; }
-        .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; }
-        
-        .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .cta-btn { padding: 15px 40px; background: transparent; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; font-size: 1.1rem; text-decoration: none; text-transform: uppercase; transition: 0.3s; display: inline-block; min-width: 200px; }
-        .cta-btn:hover { background: #fff; color: #000; }
-        .steam-btn { border-color: #666; color: #666; cursor: not-allowed; position: relative; }
-
-        /* MARQUEE (БЕГУЩАЯ СТРОКА) */
-        .marquee {
-            width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000;
-            padding: 10px 0; font-family: 'JetBrains Mono'; font-weight: bold; font-size: 1.2rem;
-            border-top: 1px solid #fff; border-bottom: 1px solid #fff;
+        /* HERO (ЦЕНТРОВКА) */
+        header { 
+            height: 100vh; display: flex; align-items: center; justify-content: center; 
+            text-align: center; position: relative; 
+            background: url('bg_main.jpg') no-repeat center center/cover; 
         }
-        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+        header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 0%, #000 90%); }
+        
+        .hero-content { 
+            position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; 
+            display: flex; flex-direction: column; align-items: center; /* Центруем всё внутри */
+            width: 100%; 
+        }
 
-        /* CONTENT */
+        h1 { 
+            font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 1; 
+            text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; 
+            margin: 0; padding: 0; text-align: center;
+        }
+        h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; text-align: center; }
+        
+        .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; text-align: center; }
+
+        /* КНОПКИ */
+        .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
+        .cta-btn { padding: 15px 40px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; }
+        .cta-btn:hover { background: #fff; color: #000; }
+        .steam-btn { border-color: #555; color: #555; cursor: not-allowed; }
+
+        /* БЕГУЩАЯ СТРОКА */
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 8px 0; font-family: 'JetBrains Mono'; font-weight: bold; border-top: 1px solid #fff; border-bottom: 1px solid #fff; }
+        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; }
+
+        /* КОНТЕНТ */
         .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
         .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; border-left: 5px solid var(--primary); padding-left: 20px; }
         .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
-        .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; }
-        .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.8; }
+        .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; border: 1px solid #333; }
+        .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.7; }
         .img-block:hover img { transform: scale(1.1); opacity: 1; }
 
-        /* Features */
+        /* ФИЧИ */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
-        .feature-box { background: #111; padding: 40px; border: 1px solid #222; transition: 0.3s; }
+        .feature-box { background: #0a0a0a; padding: 40px; border: 1px solid #222; transition: 0.3s; }
         .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
         .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
 
-        /* Footer */
+        /* ФУТЕР */
         .links-section { text-align: center; padding: 100px 0; background: #080808; }
         .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
         .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
@@ -110,17 +133,16 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-        @keyframes load { 0% { width: 0; } 100% { width: 100%; } }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes glitchText { 0% { opacity: 0; clip-path: inset(0 0 0 0); } 5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); } 15% { opacity: 0; } }
+        @keyframes textGlitch { 0% { opacity: 1; } 50% { opacity: 0.7; transform: translate(1px, 0); } 100% { opacity: 1; } }
 
         @media (max-width: 900px) {
             .grid-2, .features { grid-template-columns: 1fr; }
             h1 { font-size: 4rem; }
-            nav { padding: 20px; flex-direction: row; }
-            .nav-links { display: none; } 
-            .hero-btns { flex-direction: column; }
-            .cta-btn { width: 100%; }
+            nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .nav-left { flex-direction: column; gap: 10px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
@@ -131,27 +153,27 @@
     <div class="scanlines"></div>
 
     <nav>
-        <div class="logo">TERAWWW</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#about" data-key="nav_sim">Simulation</a>
-                <a href="#features" data-key="nav_sys">System</a>
-            </div>
-            
-            <!-- ЯЗЫКОВОЙ ВЫПАДАЮЩИЙ СПИСОК -->
-            <div class="dropdown">
-                <button class="dropbtn"><span id="current-lang">🌐 EN</span> ▼</button>
-                <div class="dropdown-content">
-                    <span onclick="setLang('en')">English</span>
-                    <span onclick="setLang('ru')">Русский</span>
-                    <span onclick="setLang('ua')">Українська</span>
-                    <span onclick="setLang('pl')">Polski</span>
-                    <span onclick="setLang('de')">Deutsch</span>
-                    <span onclick="setLang('es')">Español</span>
-                    <span onclick="setLang('fr')">Français</span>
-                    <span onclick="setLang('jp')">日本語</span>
-                    <span onclick="setLang('cn')">中文</span>
-                </div>
+        <div class="nav-left">
+            <div class="logo">TERAWWW</div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="#about" data-key="nav_sim">Simulation</a>
+            <a href="#features" data-key="nav_sys">System</a>
+            <a href="#community" data-key="nav_net">Network</a>
+            <a href="nori.html" class="nori-link" data-key="nav_nori">⚠ NORI_V.1.0</a>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn"><span id="current-lang">[ EN ]</span> ▼</button>
+            <div class="dropdown-content">
+                <span onclick="setLang('en')">EN - English</span>
+                <span onclick="setLang('ru')">RU - Русский</span>
+                <span onclick="setLang('ua')">UA - Українська</span>
+                <span onclick="setLang('pl')">PL - Polski</span>
+                <span onclick="setLang('es')">ES - Español</span>
+                <span onclick="setLang('jp')">JP - 日本語</span>
+                <span onclick="setLang('cn')">CN - 中文</span>
             </div>
         </div>
     </nav>
@@ -162,13 +184,12 @@
             <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
             
             <div class="hero-btns">
-                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO (Itch.io)</a>
+                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO</a>
                 <a href="#" class="cta-btn steam-btn" data-key="btn_steam">STEAM (SOON)</a>
             </div>
         </div>
     </header>
 
-    <!-- БЕГУЩАЯ СТРОКА -->
     <div class="marquee">
         <span data-key="marquee_text">> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. ></span>
     </div>
@@ -227,18 +248,19 @@
     </section>
 
     <script>
+        // TRANSLATIONS
         const langData = {
             en: {
-                nav_sim: "Simulation", nav_sys: "System",
+                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0",
                 hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
                 marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
                 about_title: "The Simulation", about_text1: "You are Johnny, a developer debugging a corrupted system.", about_text2: "WriteNor is a meta-horror experience where you use a command console to manipulate reality.", link_wiki: ">> ACCESS DATABASE (WIKI)",
                 nori_title: "Entity: Nori", nori_text1: "She is not just an NPC. She is a sentient AI trapped in the build.", nori_text2: "She interacts with your real desktop files. She breaks the fourth wall.", link_nori: ">> VIEW FILE",
-                feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause screens. Total immersion.", feat_3_title: "META_HORROR", feat_3_text: "The game reads your OS username. You are not safe.",
+                feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause screens.", feat_3_title: "META_HORROR", feat_3_text: "The game reads your OS username.",
                 join_title: "JOIN THE NETWORK"
             },
             ru: {
-                nav_sim: "Симуляция", nav_sys: "Система",
+                nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ",
                 hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
                 marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
                 about_title: "Симуляция", about_text1: "Ты — Джонни, разработчик, отлаживающий сломанную систему.", about_text2: "WriteNor — это мета-хоррор, где ты используешь консоль, чтобы менять реальность.", link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
@@ -246,28 +268,33 @@
                 feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет пауз. Полное погружение.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра читает твое имя в Windows.",
                 join_title: "ВСТУПАЙ В СЕТЬ"
             },
-            // Остальные языки (UA, PL и т.д.) - копируй структуру выше, но с переводом
+            // Остальные языки (UA, PL, ES, JP, CN) оставлены как есть
+            ua: {
+                nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ",
+                hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити Демо", btn_steam: "STEAM (СКОРО)",
+                marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
+                about_title: "Симуляція", about_text1: "Ти — Джонні, розробник, що налагоджує зламану систему.", about_text2: "WriteNor — це мета-горор, де ти використовуєш консоль, щоб змінювати реальність.", link_wiki: ">> БАЗА ДАНИХ (ВІКІ)",
+                nori_title: "Об'єкт: Норі", nori_text1: "Вона не просто NPC. Вона розумний ШІ, замкнений у білді.", nori_text2: "Вона взаємодіє з твоїми реальними файлами. Вона ламає 4-ту стіну.", link_nori: ">> ВІДКРИТИ ФАЙЛ",
+                feat_title: "ОСОБЛИВОСТІ", feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь реальний код, щоб змінювати світ.", feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає пауз.", feat_3_title: "МЕТА-ГОРОР", feat_3_text: "Гра читає твоє ім'я у Windows.",
+                join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ"
+            }
         };
 
         function detectAndSetLang() {
             const userLang = navigator.language || navigator.userLanguage;
             let target = 'en'; 
             if (userLang.startsWith('ru')) target = 'ru';
-            // Добавь проверки для других языков
+            else if (userLang.startsWith('uk')) target = 'ua';
             setLang(target);
         }
 
         function setLang(lang) {
-            // Если языка нет в списке, ставим английский
             if (!langData[lang]) lang = 'en';
-
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (langData[lang][key]) el.innerHTML = langData[lang][key];
             });
-            
-            // Обновляем текст кнопки
-            const btnText = lang === 'en' ? '🌐 EN' : '🌐 ' + lang.toUpperCase();
+            const btnText = '[ ' + lang.toUpperCase() + ' ]';
             document.getElementById('current-lang').innerText = btnText;
         }
 
