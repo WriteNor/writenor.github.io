@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WRITENOR | SYSTEM ACCESS</title>
-    <link rel="icon" type="image/png" href="favicon.png?v=5">
+    <link rel="icon" type="image/png" href="favicon.png?v=6">
     
     <script type="application/ld+json">
     { "@context": "https://schema.org", "@type": "VideoGame", "name": "WriteNor", "author": { "@type": "Organization", "name": "Terawww" }, "gamePlatform": "PC" }
@@ -16,27 +16,57 @@
         :root {
             --primary: #ff003c; 
             --secondary: #00f3ff;
-            --bg: #030303;
+            --bg: #000000;
             --text-main: #f0f0f0;
-            --glass-dark: rgba(0, 0, 0, 0.92); /* ПОЧТИ ЧЕРНЫЙ ФОН БЛОКОВ */
         }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background-color: var(--bg); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow-x: hidden; 
+            width: 100%; 
+        }
+
+        /* === ФОНОВЫЕ ЭЛЕМЕНТЫ === */
+        
+        /* 1. Матрица (Самый нижний слой) */
+        canvas { position: fixed; top: 0; left: 0; z-index: -3; }
+        
+        /* 2. Затемнение (Чтобы буквы были темными) */
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* 85% черноты поверх матрицы */
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* 3. Сканлайны (Эффект монитора) */
+        .scanlines { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); 
+            background-size: 100% 4px; 
+            pointer-events: none; z-index: 900; opacity: 0.3; 
+        }
 
         /* КУРСОР */
         .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference; }
         .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
 
-        /* ИНТРО */
-        #intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; animation: introFade 0.5s 3.5s forwards; }
-        .intro-text { font-family: 'JetBrains Mono'; color: var(--primary); font-size: 1.2rem; opacity: 0; animation: textSeq 3s forwards; }
-        .intro-logo { font-family: 'Syncopate'; font-size: 4rem; color: #fff; opacity: 0; position: absolute; animation: logoReveal 1s 2s forwards; }
-
-        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.3; }
-        canvas { position: fixed; top: 0; left: 0; z-index: -2; }
+        /* PRELOADER */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease-out; }
+        .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
+        .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
+        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
 
         /* НАВИГАЦИЯ */
-        nav { position: fixed; top: 0; width: 100%; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; }
+        nav { 
+            position: fixed; top: 0; width: 100%; padding: 15px 40px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            z-index: 2000; 
+            background: rgba(0,0,0,0.9); border-bottom: 1px solid #333; 
+        }
         .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.9rem; }
@@ -52,28 +82,43 @@
         .dropdown-content span:hover { background-color: #fff; color: #000; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* HERO */
-        header { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
-        .hero-bg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 0%, #000 90%); pointer-events: none; }
-        
+        /* HERO SECTION (ГЛАВНАЯ) */
+        header { 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; /* Центровка по горизонтали */
+            text-align: center; 
+            position: relative; 
+            /* УБРАЛИ ФОНОВУЮ КАРТИНКУ, ЧТОБЫ БЫЛА ВИДНА МАТРИЦА */
+        }
+
         .hero-content { 
             position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; 
-            width: 100%; max-width: 900px; padding: 40px;
-            /* ЗАТЕМНЕНИЕ ФОНА ПОД ТЕКСТОМ */
-            background: var(--glass-dark);
-            border: 1px solid #333;
-            box-shadow: 0 0 50px #000;
+            width: 100%; max-width: 1200px; padding: 0 20px;
+            display: flex; flex-direction: column; align-items: center; /* Центровка по вертикали */
         }
         
-        h1 { font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 1; text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; margin: 0; padding: 0; text-align: center; }
+        h1 { 
+            font-family: 'Syncopate', sans-serif; 
+            font-size: 9vw; /* Огромный размер */
+            line-height: 1; 
+            text-transform: uppercase; 
+            color: transparent; 
+            -webkit-text-stroke: 2px #fff; 
+            margin: 0; padding: 0; 
+            text-align: center;
+        }
         h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; text-align: center; }
+        
         .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; text-align: center; }
         
         .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
-        .cta-btn { padding: 15px 40px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; }
+        .cta-btn { padding: 15px 50px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; }
         .cta-btn:hover { background: #fff; color: #000; }
         .steam-btn { border-color: #555; color: #555; cursor: not-allowed; }
 
+        /* БЕГУЩАЯ СТРОКА */
         .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 8px 0; font-family: 'JetBrains Mono'; font-weight: bold; border-top: 1px solid #fff; border-bottom: 1px solid #fff; }
         .marquee span { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; }
 
@@ -81,12 +126,12 @@
         .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
         
-        /* ЗАТЕМНЕННЫЕ БЛОКИ ТЕКСТА */
+        /* Блоки с текстом теперь прозрачные (почти), чтобы матрицу было видно */
         .text-block {
-            background: var(--glass-dark);
+            background: rgba(0, 0, 0, 0.8);
             padding: 40px;
             border-left: 5px solid var(--primary);
-            box-shadow: 0 0 30px #000;
+            backdrop-filter: blur(5px);
         }
 
         .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; padding-left: 10px; }
@@ -96,10 +141,11 @@
         .img-block:hover img { transform: scale(1.1); opacity: 1; }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
-        .feature-box { background: var(--glass-dark); padding: 40px; border: 1px solid #222; transition: 0.3s; }
+        .feature-box { background: rgba(10, 10, 10, 0.9); padding: 40px; border: 1px solid #222; transition: 0.3s; }
         .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
         .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
 
+        /* Footer */
         .links-section { text-align: center; padding: 100px 0; background: #080808; }
         .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
         .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
@@ -130,7 +176,6 @@
 </head>
 <body>
 
-    <!-- ИНТРО -->
     <div id="intro">
         <div class="intro-text">> SYSTEM BOOT...</div>
         <div class="intro-logo">WRITENOR</div>
@@ -138,6 +183,7 @@
 
     <div class="cursor"></div><div class="cursor-dot"></div>
     <div class="scanlines"></div>
+    <div class="bg-overlay"></div>
     <canvas id="matrix"></canvas>
 
     <nav>
@@ -172,7 +218,6 @@
     </nav>
 
     <header>
-        <div class="hero-bg-overlay"></div>
         <div class="hero-content">
             <h1>WRITENOR</h1>
             <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
@@ -212,7 +257,7 @@
         </div>
     </section>
     
-    <section id="dev" class="container">
+    <section id="dev" class="container" style="border-top: 1px solid #333;">
         <div class="grid-2 reveal">
             <div class="img-block" style="border-radius: 50%; width: 300px; height: 300px; margin: 0 auto; border: 2px solid var(--primary);">
                 <img src="Dev_Avatar.jpg" alt="Developer">
@@ -226,7 +271,7 @@
         </div>
     </section>
 
-    <section id="features" style="background: #080808;">
+    <section id="features" style="background: rgba(8,8,8,0.9);">
         <div class="container reveal">
             <h2 style="text-align:center; border:none;" data-key="feat_title">SYSTEM FEATURES</h2>
             <div class="features">
@@ -257,7 +302,6 @@
     </section>
 
     <script>
-        // DICTIONARY (ПОЛНЫЙ СПИСОК ЯЗЫКОВ)
         const langData = {
             en: {
                 nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0", nav_dev: "The Architect",
@@ -272,7 +316,7 @@
             ru: {
                 nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ", nav_dev: "Архитектор",
                 hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
-                marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. > ОБНАРУЖЕН ВЗЛОМ. >",
+                marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
                 about_title: "Симуляция", about_text1: "Ты играешь за Джонни, разработчика, запертого в кошмарном цикле.", about_text2: "Это не просто игра. Это психологический тест.", link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
                 nori_title: "Объект: Nori", nori_text1: "Нори должна была помогать. Теперь она хочет тебя удалить.", nori_text2: "Она ломает 4-ю стену и читает твои файлы.", link_nori: ">> ОТКРЫТЬ ФАЙЛ",
                 dev_title: "Архитектор", dev_text1: "Я 16-летний соло-разработчик. WriteNor — проект моей мечты.", dev_text2: "Каждый глюк создан, чтобы сломать тебе мозг.",
@@ -282,7 +326,7 @@
             ua: {
                 nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ", nav_dev: "Архітектор",
                 hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити Демо", btn_steam: "STEAM (СКОРО)",
-                marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. > ВИЯВЛЕНО ЗЛАМ. >",
+                marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
                 about_title: "Симуляція", about_text1: "Ти граєш за Джонні, розробника, замкненого у кошмарному циклі.", about_text2: "Це не просто гра. Це психологічний тест.", link_wiki: ">> БАЗА ДАНИХ (ВІКІ)",
                 nori_title: "Об'єкт: Норі", nori_text1: "Норі мала допомагати. Тепер вона хоче тебе видалити.", nori_text2: "Вона ламає 4-ту стіну і читає твої файли.", link_nori: ">> ВІДКРИТИ ФАЙЛ",
                 dev_title: "Архітектор", dev_text1: "Я 16-річний соло-розробник. WriteNor — проєкт моєї мрії.", dev_text2: "Кожен глюк створений, щоб зламати тобі мозок.",
@@ -374,11 +418,8 @@
         function detectAndSetLang() {
             const userLang = navigator.language || navigator.userLanguage;
             let target = 'en'; 
-            // Простая проверка по первым двум буквам
             const code = userLang.slice(0, 2);
             if (langData[code]) target = code;
-            else if (code === 'uk') target = 'ua'; // Украинский код может быть uk
-            
             setLang(target);
         }
 
@@ -398,7 +439,13 @@
             detectAndSetLang();
         });
 
-        // МАТРИЦА (БУКВЫ WRITENOR)
+        const cursor = document.querySelector('.cursor');
+        const dot = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+        });
+        
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -424,13 +471,6 @@
         setInterval(draw, 40);
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        // Курсор и скролл
-        const cursor = document.querySelector('.cursor');
-        const dot = document.querySelector('.cursor-dot');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
-        });
         window.addEventListener('scroll', () => {
             document.querySelectorAll('.reveal').forEach(r => {
                 if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add('active');
