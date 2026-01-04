@@ -22,108 +22,68 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background-color: var(--bg); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
 
-        /* КУРСОР */
         .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference; }
         .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
 
-        /* PRELOADER */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease-out; }
-        .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
-        .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
-        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
+        /* ИНТРО */
+        #intro {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column;
+            animation: introFade 0.5s 3.5s forwards; /* Исчезнет через 3.5с */
+        }
+        .intro-text { font-family: 'JetBrains Mono'; color: var(--primary); font-size: 1.2rem; opacity: 0; animation: textSeq 3s forwards; }
+        .intro-logo { font-family: 'Syncopate'; font-size: 4rem; color: #fff; opacity: 0; position: absolute; animation: logoReveal 1s 2s forwards; }
 
-        /* ФОН */
         .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.3; }
         canvas { position: fixed; top: 0; left: 0; z-index: -2; }
 
-        /* НАВИГАЦИЯ (ИСПРАВЛЕНАЯ) */
-        nav { 
-            position: fixed; top: 0; width: 100%; padding: 15px 40px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            z-index: 2000; /* Самый высокий слой */
-            background: rgba(5,5,5,0.9); border-bottom: 1px solid #333; 
-            backdrop-filter: blur(10px);
-        }
-        
-        .nav-left { display: flex; align-items: center; gap: 40px; }
+        /* НАВИГАЦИЯ */
+        nav { position: fixed; top: 0; width: 100%; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; background: rgba(5,5,5,0.9); border-bottom: 1px solid #333; backdrop-filter: blur(10px); }
         .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
-        
         .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.9rem; }
         .nav-links a:hover { color: #fff; text-shadow: 0 0 5px #fff; }
-        
-        /* Ссылка на Нори */
         .nori-link { color: var(--primary) !important; border: 1px solid var(--primary); padding: 5px 10px; animation: textGlitch 2s infinite; }
 
-        /* ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ (ЧЕРНО-БЕЛЫЙ) */
+        /* ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ */
         .dropdown { position: relative; display: inline-block; font-family: 'JetBrains Mono'; }
-        .dropbtn {
-            background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; 
-            border: 1px solid #fff; cursor: none; transition: 0.3s;
-            font-weight: bold; text-transform: uppercase;
-        }
+        .dropbtn { background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; border: 1px solid #fff; cursor: none; transition: 0.3s; font-weight: bold; text-transform: uppercase; }
         .dropbtn:hover { background: #fff; color: #000; }
-        
-        .dropdown-content {
-            display: none; position: absolute; right: 0; top: 100%; background-color: #000;
-            min-width: 100px; border: 1px solid #fff; z-index: 1;
-        }
-        .dropdown-content span {
-            color: #fff; padding: 10px 15px; text-decoration: none; display: block; 
-            font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #333;
-        }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: #000; min-width: 120px; border: 1px solid #fff; z-index: 1; max-height: 400px; overflow-y: auto; }
+        .dropdown-content span { color: #fff; padding: 10px 15px; text-decoration: none; display: block; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #333; }
         .dropdown-content span:hover { background-color: #fff; color: #000; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* HERO (ЦЕНТРОВКА) */
-        header { 
-            height: 100vh; display: flex; align-items: center; justify-content: center; 
-            text-align: center; position: relative; 
-            background: url('bg_main.jpg') no-repeat center center/cover; 
-        }
+        /* HERO */
+        header { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; background: url('bg_main.jpg') no-repeat center center/cover; }
         header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 0%, #000 90%); }
-        
-        .hero-content { 
-            position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; 
-            display: flex; flex-direction: column; align-items: center; /* Центруем всё внутри */
-            width: 100%; 
-        }
-
-        h1 { 
-            font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 1; 
-            text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; 
-            margin: 0; padding: 0; text-align: center;
-        }
+        .hero-content { position: relative; z-index: 10; width: 100%; max-width: 900px; padding: 0 20px; }
+        h1 { font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 1; text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; margin: 0; padding: 0; text-align: center; }
         h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; text-align: center; }
-        
         .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; text-align: center; }
-
-        /* КНОПКИ */
         .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
         .cta-btn { padding: 15px 40px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; }
         .cta-btn:hover { background: #fff; color: #000; }
         .steam-btn { border-color: #555; color: #555; cursor: not-allowed; }
 
-        /* БЕГУЩАЯ СТРОКА */
         .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 8px 0; font-family: 'JetBrains Mono'; font-weight: bold; border-top: 1px solid #fff; border-bottom: 1px solid #fff; }
         .marquee span { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; }
 
-        /* КОНТЕНТ */
         .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
         .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; border-left: 5px solid var(--primary); padding-left: 20px; }
         .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
-        .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; border: 1px solid #333; }
+        .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; border: 1px solid #333; position: relative; }
         .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.7; }
         .img-block:hover img { transform: scale(1.1); opacity: 1; }
 
-        /* ФИЧИ */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
         .feature-box { background: #0a0a0a; padding: 40px; border: 1px solid #222; transition: 0.3s; }
         .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
         .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
 
-        /* ФУТЕР */
         .links-section { text-align: center; padding: 100px 0; background: #080808; }
         .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
         .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
@@ -136,6 +96,11 @@
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes glitchText { 0% { opacity: 0; clip-path: inset(0 0 0 0); } 5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); } 15% { opacity: 0; } }
         @keyframes textGlitch { 0% { opacity: 1; } 50% { opacity: 0.7; transform: translate(1px, 0); } 100% { opacity: 1; } }
+        
+        /* ИНТРО АНИМАЦИИ */
+        @keyframes textSeq { 0% {opacity:0;} 10% {opacity:1; content:"> SYSTEM BOOT...";} 40% {opacity:0;} 50% {content:"> ACCESS GRANTED."; opacity:1;} 90% {opacity:0;} }
+        @keyframes logoReveal { 0% {opacity:0; transform: scale(0.8);} 100% {opacity:1; transform: scale(1);} }
+        @keyframes introFade { to { opacity: 0; pointer-events: none; } }
 
         @media (max-width: 900px) {
             .grid-2, .features { grid-template-columns: 1fr; }
@@ -143,14 +108,24 @@
             nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
             .nav-left { flex-direction: column; gap: 10px; }
             .nav-links { flex-wrap: wrap; justify-content: center; }
+            .hero-btns { flex-direction: column; }
+            .cta-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div id="preloader"><div class="loader-text">> SYSTEM BOOT...</div><div class="bar"></div></div>
+    <!-- ИНТРО -->
+    <div id="intro">
+        <div class="intro-text">> SYSTEM BOOT...</div>
+        <div class="intro-logo">WRITENOR</div>
+    </div>
+
     <div class="cursor"></div><div class="cursor-dot"></div>
     <div class="scanlines"></div>
+    
+    <!-- МАТРИЦА (ФОН) -->
+    <canvas id="matrix"></canvas>
 
     <nav>
         <div class="nav-left">
@@ -160,6 +135,7 @@
         <div class="nav-links">
             <a href="#about" data-key="nav_sim">Simulation</a>
             <a href="#features" data-key="nav_sys">System</a>
+            <a href="#dev" data-key="nav_dev">The Architect</a>
             <a href="#community" data-key="nav_net">Network</a>
             <a href="nori.html" class="nori-link" data-key="nav_nori">⚠ NORI_V.1.0</a>
         </div>
@@ -171,9 +147,13 @@
                 <span onclick="setLang('ru')">RU - Русский</span>
                 <span onclick="setLang('ua')">UA - Українська</span>
                 <span onclick="setLang('pl')">PL - Polski</span>
+                <span onclick="setLang('de')">DE - Deutsch</span>
                 <span onclick="setLang('es')">ES - Español</span>
+                <span onclick="setLang('fr')">FR - Français</span>
                 <span onclick="setLang('jp')">JP - 日本語</span>
                 <span onclick="setLang('cn')">CN - 中文</span>
+                <span onclick="setLang('it')">IT - Italiano</span>
+                <span onclick="setLang('pt')">PT - Português</span>
             </div>
         </div>
     </nav>
@@ -184,7 +164,7 @@
             <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
             
             <div class="hero-btns">
-                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO</a>
+                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO (Itch.io)</a>
                 <a href="#" class="cta-btn steam-btn" data-key="btn_steam">STEAM (SOON)</a>
             </div>
         </div>
@@ -198,22 +178,39 @@
         <div class="grid-2 reveal">
             <div class="text-block">
                 <h2 data-key="about_title">The Simulation</h2>
-                <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
-                <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality. Delete doors, change gravity, and fight against a rogue AI.</p>
+                <p data-key="about_text1">You play as Johnny, a developer trapped in a looping nightmare. The office looks real, but the code is corrupted.</p>
+                <p data-key="about_text2">This is not just a game. It is a psychological test. There are no monsters chasing you. The monster is the system itself.</p>
                 <br>
                 <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE (WIKI)</a>
             </div>
             <div class="img-block"><img src="Office.jpg" alt="Office"></div>
         </div>
+        
         <div class="grid-2 reveal" style="direction: rtl;">
             <div class="text-block" style="direction: ltr;">
                 <h2 data-key="nori_title">Entity: Nori</h2>
-                <p data-key="nori_text1">She is not just an NPC. She is a sentient AI trapped in the build.</p>
-                <p data-key="nori_text2">She interacts with your real desktop files. She breaks the fourth wall. She wants to be real.</p>
+                <p data-key="nori_text1">Nori was designed to help you code. Now she wants to delete you.</p>
+                <p data-key="nori_text2">She breaks the 4th wall, reads your files, and manipulates the game window. Do not trust her cute voice.</p>
                 <br>
                 <a href="nori.html" style="color:var(--secondary); text-decoration:none; font-weight:bold;" data-key="link_nori">>> VIEW FILE</a>
             </div>
             <div class="img-block"><img src="Nori_Cover.jpg" alt="Nori"></div>
+        </div>
+    </section>
+    
+    <!-- НОВЫЙ БЛОК: ОБ АВТОРЕ -->
+    <section id="dev" class="container" style="border-top: 1px solid #333;">
+        <div class="grid-2 reveal">
+            <div class="img-block" style="border-radius: 50%; width: 300px; height: 300px; margin: 0 auto; border: 2px solid var(--primary);">
+                <!-- ТВОЯ АВАТАРКА -->
+                <img src="Dev_Avatar.jpg" alt="Developer">
+            </div>
+            <div class="text-block">
+                <h2 data-key="dev_title">The Architect</h2>
+                <p data-key="dev_text1">I am a 16-year-old solo developer. WriteNor is my passion project built on zero budget.</p>
+                <p data-key="dev_text2">Every line of code, every glitch, and every secret was crafted to mess with your mind. This is my first step into the industry.</p>
+                <p style="color:var(--primary); font-weight:bold;">#IndieDev #SoloDev</p>
+            </div>
         </div>
     </section>
 
@@ -248,33 +245,36 @@
     </section>
 
     <script>
-        // TRANSLATIONS
+        // TRANSLATIONS (11 ЯЗЫКОВ)
         const langData = {
             en: {
-                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0",
+                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0", nav_dev: "The Architect",
                 hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
                 marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
-                about_title: "The Simulation", about_text1: "You are Johnny, a developer debugging a corrupted system.", about_text2: "WriteNor is a meta-horror experience where you use a command console to manipulate reality.", link_wiki: ">> ACCESS DATABASE (WIKI)",
-                nori_title: "Entity: Nori", nori_text1: "She is not just an NPC. She is a sentient AI trapped in the build.", nori_text2: "She interacts with your real desktop files. She breaks the fourth wall.", link_nori: ">> VIEW FILE",
+                about_title: "The Simulation", about_text1: "You play as Johnny, a developer trapped in a looping nightmare.", about_text2: "This is not just a game. It is a psychological test.", link_wiki: ">> ACCESS DATABASE (WIKI)",
+                nori_title: "Entity: Nori", nori_text1: "Nori was designed to help you code. Now she wants to delete you.", nori_text2: "She breaks the 4th wall and reads your files.", link_nori: ">> VIEW FILE",
+                dev_title: "The Architect", dev_text1: "I am a 16-year-old solo developer. WriteNor is my passion project.", dev_text2: "Every glitch was crafted to mess with your mind.",
                 feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause screens.", feat_3_title: "META_HORROR", feat_3_text: "The game reads your OS username.",
                 join_title: "JOIN THE NETWORK"
             },
             ru: {
-                nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ",
+                nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ", nav_dev: "Архитектор",
                 hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
                 marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
-                about_title: "Симуляция", about_text1: "Ты — Джонни, разработчик, отлаживающий сломанную систему.", about_text2: "WriteNor — это мета-хоррор, где ты используешь консоль, чтобы менять реальность.", link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
-                nori_title: "Объект: Nori", nori_text1: "Она не просто NPC. Она разумный ИИ, запертый в билде.", nori_text2: "Она взаимодействует с твоими реальными файлами. Она ломает 4-ю стену.", link_nori: ">> ОТКРЫТЬ ФАЙЛ",
-                feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет пауз. Полное погружение.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра читает твое имя в Windows.",
+                about_title: "Симуляция", about_text1: "Ты играешь за Джонни, разработчика, запертого в кошмарном цикле.", about_text2: "Это не просто игра. Это психологический тест.", link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
+                nori_title: "Объект: Nori", nori_text1: "Нори должна была помогать. Теперь она хочет тебя удалить.", nori_text2: "Она ломает 4-ю стену и читает твои файлы.", link_nori: ">> ОТКРЫТЬ ФАЙЛ",
+                dev_title: "Архитектор", dev_text1: "Я 16-летний соло-разработчик. WriteNor — проект моей мечты.", dev_text2: "Каждый глюк создан, чтобы сломать тебе мозг.",
+                feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет пауз.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра читает твое имя в Windows.",
                 join_title: "ВСТУПАЙ В СЕТЬ"
             },
-            // Остальные языки (UA, PL, ES, JP, CN) оставлены как есть
-            ua: {
-                nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ",
+            // ДОБАВЬ ПЕРЕВОДЫ ДЛЯ UA, PL, ES, DE, FR, JP, CN (по аналогии)
+             ua: {
+                nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ", nav_dev: "Архітектор",
                 hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити Демо", btn_steam: "STEAM (СКОРО)",
                 marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
-                about_title: "Симуляція", about_text1: "Ти — Джонні, розробник, що налагоджує зламану систему.", about_text2: "WriteNor — це мета-горор, де ти використовуєш консоль, щоб змінювати реальність.", link_wiki: ">> БАЗА ДАНИХ (ВІКІ)",
-                nori_title: "Об'єкт: Норі", nori_text1: "Вона не просто NPC. Вона розумний ШІ, замкнений у білді.", nori_text2: "Вона взаємодіє з твоїми реальними файлами. Вона ламає 4-ту стіну.", link_nori: ">> ВІДКРИТИ ФАЙЛ",
+                about_title: "Симуляція", about_text1: "Ти граєш за Джонні, розробника, замкненого у кошмарному циклі.", about_text2: "Це не просто гра. Це психологічний тест.", link_wiki: ">> БАЗА ДАНИХ (ВІКІ)",
+                nori_title: "Об'єкт: Норі", nori_text1: "Норі мала допомагати. Тепер вона хоче тебе видалити.", nori_text2: "Вона ламає 4-ту стіну і читає твої файли.", link_nori: ">> ВІДКРИТИ ФАЙЛ",
+                dev_title: "Архітектор", dev_text1: "Я 16-річний соло-розробник. WriteNor — проєкт моєї мрії.", dev_text2: "Кожен глюк створений, щоб зламати тобі мозок.",
                 feat_title: "ОСОБЛИВОСТІ", feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь реальний код, щоб змінювати світ.", feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає пауз.", feat_3_title: "МЕТА-ГОРОР", feat_3_text: "Гра читає твоє ім'я у Windows.",
                 join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ"
             }
@@ -285,6 +285,7 @@
             let target = 'en'; 
             if (userLang.startsWith('ru')) target = 'ru';
             else if (userLang.startsWith('uk')) target = 'ua';
+            // Добавь проверки для других языков
             setLang(target);
         }
 
@@ -300,17 +301,43 @@
 
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 1000); }, 2000);
+            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 1000); }, 3500);
             detectAndSetLang();
         });
 
-        // Курсор
         const cursor = document.querySelector('.cursor');
         const dot = document.querySelector('.cursor-dot');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
             dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
         });
+        
+        // МАТРИЦА С БУКВАМИ (W R I T E N O R)
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "WRITENOR";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ff003c'; 
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 40);
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
         window.addEventListener('scroll', () => {
             document.querySelectorAll('.reveal').forEach(r => {
                 if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add('active');
