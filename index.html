@@ -6,13 +6,11 @@
     <title>WRITENOR | SYSTEM ACCESS</title>
     <link rel="icon" type="image/png" href="favicon.png?v=6">
     
-    <!-- SEO & Schema -->
     <script type="application/ld+json">
     { "@context": "https://schema.org", "@type": "VideoGame", "name": "WriteNor", "author": { "@type": "Organization", "name": "Terawww" }, "gamePlatform": "PC" }
     </script>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;70[...]
 
     <style>
         :root {
@@ -21,7 +19,6 @@
             --bg: #000000;
             --text-main: #f0f0f0;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         
         body { 
@@ -33,15 +30,19 @@
         }
 
         /* === ФОНОВЫЕ ЭЛЕМЕНТЫ === */
+        
+        /* 1. Матрица (Самый нижний слой) */
         canvas { position: fixed; top: 0; left: 0; z-index: -3; }
         
+        /* 2. Затемнение (Чтобы буквы были темными) */
         .bg-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); 
+            background: rgba(0, 0, 0, 0.85); /* 85% черноты поверх матрицы */
             z-index: -2;
             pointer-events: none;
         }
 
+        /* 3. Сканлайны (Эффект монитора) */
         .scanlines { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); 
@@ -50,127 +51,152 @@
         }
 
         /* КУРСОР */
-        .cursor { width: 30px; height: 30px; border: 1px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s ease-out; mix-blend-mode: difference; }
-        .cursor-dot { width: 5px; height: 5px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mod[...]
+        .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
 
         /* PRELOADER */
-        #preloader { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; z-index: 10000; display: flex; 
-            justify-content: center; align-items: center; flex-direction: column; 
-            transition: opacity 1s ease;
-        }
-        .intro-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); font-size: 1.2rem; margin-bottom: 20px; animation: blink 0.5s infinite; }
-        .intro-logo { font-family: 'Syncopate', sans-serif; font-size: 4rem; color: #fff; letter-spacing: 15px; animation: logoReveal 1.5s ease-out; }
-        .bar { width: 300px; height: 2px; background: #222; margin-top: 30px; position: relative; overflow: hidden; }
-        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2.5s ease-in-out forwards; }
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column;[...]
+        .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
+        .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
+        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
 
         /* НАВИГАЦИЯ */
         nav { 
-            position: fixed; top: 0; width: 100%; padding: 20px 40px; 
+            position: fixed; top: 0; width: 100%; padding: 15px 40px; 
             display: flex; justify-content: space-between; align-items: center; 
-            z-index: 2000; background: rgba(0,0,0,0.9); border-bottom: 1px solid #333; 
+            z-index: 2000; 
+            background: rgba(0,0,0,0.9); border-bottom: 1px solid #333; 
         }
         .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.8rem; }
-        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px #fff; }
-        .nori-link { color: var(--primary) !important; border: 1px solid var(--primary); padding: 5px 15px; animation: textGlitch 3s infinite; }
+        .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 5px #fff; }
+        .nori-link { color: var(--primary) !important; border: 1px solid var(--primary); padding: 5px 10px; animation: textGlitch 2s infinite; }
 
         /* ЯЗЫКИ */
         .dropdown { position: relative; display: inline-block; font-family: 'JetBrains Mono'; }
-        .dropbtn { background-color: transparent; color: #fff; padding: 5px 15px; font-size: 0.9rem; border: 1px solid #555; transition: 0.3s; font-weight: bold; }
-        .dropbtn:hover { border-color: #fff; background: #fff; color: #000; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: #000; min-width: 160px; border: 1px solid #333; z-index: 1; max-height: 300px; overflow-y: auto; }
-        .dropdown-content span { color: #aaa; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.75rem; cursor: pointer; border-bottom: 1px solid #111; }
-        .dropdown-content span:hover { background-color: #111; color: var(--primary); }
+        .dropbtn { background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; border: 1px solid #fff; cursor: none; transition: 0.3s; font-weight: bold; text-transform: uppercase; }
+        .dropbtn:hover { background: #fff; color: #000; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: #000; min-width: 140px; border: 1px solid #fff; z-index: 1; max-height: 400px; overflow-y: auto; }
+        .dropdown-content span { color: #fff; padding: 10px 15px; text-decoration: none; display: block; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #333; }
+        .dropdown-content span:hover { background-color: #fff; color: #000; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* HERO SECTION */
-        header { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .hero-content { opacity: 0; transform: translateY(30px); animation: fadeUp 1.5s 3.2s forwards; z-index: 10; width: 100%; padding: 0 20px; }
-        h1 { font-family: 'Syncopate', sans-serif; font-size: 8vw; line-height: 1; text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px #fff; position: relative; margin-bottom: 20px; }
-        h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 4s infinite alternate-reverse; }
-        .hero-desc { font-size: 1.4rem; letter-spacing: 6px; color: var(--primary); margin-bottom: 40px; text-transform: uppercase; font-weight: bold; }
-        .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .cta-btn { padding: 18px 45px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.4s; letter-spacing: 2px; }
-        .cta-btn:hover { background: #fff; color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.4); }
-        .steam-btn { border-color: #444; color: #444; cursor: not-allowed; }
-
-        /* МАРКИ (БЕГУЩАЯ СТРОКА) */
-        .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 10px 0; font-family: 'JetBrains Mono'; font-weight: 900; }
-        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; font-size: 1rem; }
-
-        /* КОНТЕНТ */
-        .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 150px; }
-        .text-block { background: rgba(0, 0, 0, 0.7); padding: 50px; border-left: 4px solid var(--primary); backdrop-filter: blur(10px); }
-        .text-block h2 { font-size: 3.5rem; margin-bottom: 25px; text-transform: uppercase; font-family: 'Syncopate'; }
-        .text-block p { font-size: 1.2rem; line-height: 1.8; color: #bbb; margin-bottom: 20px; }
-        .img-block { height: 450px; background: #111; overflow: hidden; border: 1px solid #222; }
-        .img-block img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 1s; }
-        .img-block:hover img { opacity: 1; transform: scale(1.05); }
-
-        /* FEATURES */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-        .feature-box { background: rgba(10, 10, 10, 0.8); padding: 40px; border: 1px solid #222; transition: 0.3s; }
-        .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(20, 0, 0, 0.5); }
-        .feature-box h3 { font-family: 'JetBrains Mono'; color: #fff; margin-bottom: 15px; font-size: 1.5rem; }
-
-        /* SOCIALS */
-        .links-section { text-align: center; padding: 100px 0; }
-        .links-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 50px; }
-        .social-link { font-size: 1.2rem; color: #666; text-decoration: none; font-weight: bold; transition: 0.3s; border-bottom: 2px solid transparent; }
-        .social-link:hover { color: #fff; border-color: var(--primary); }
-
-        /* KEYFRAMES */
-        @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes logoReveal { from { letter-spacing: 40px; opacity: 0; } to { letter-spacing: 15px; opacity: 1; } }
-        @keyframes glitchText { 
-            0%, 90%, 100% { opacity: 0; transform: translate(0); }
-            92% { opacity: 1; transform: translate(-5px, 2px); clip-path: inset(10% 0 40% 0); }
-            95% { opacity: 1; transform: translate(5px, -2px); clip-path: inset(40% 0 10% 0); }
+        /* HERO SECTION (ГЛАВНАЯ) */
+        header { 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; /* Центровка по горизонтали */
+            text-align: center; 
+            position: relative; 
+            /* УБРАЛИ ФОНОВУЮ КАРТИНКУ, ЧТОБЫ БЫЛА ВИДНА МАТРИЦА */
         }
-        @keyframes textGlitch { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; transform: scale(0.98); } }
 
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1s all ease-out; }
+        .hero-content { 
+            position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; 
+            width: 100%; max-width: 1200px; padding: 0 20px;
+            display: flex; flex-direction: column; align-items: center; /* Центровка по вертикали */
+        }
+        
+        h1 { 
+            font-family: 'Syncopate', sans-serif; 
+            font-size: 9vw; /* Огромный размер */
+            line-height: 1; 
+            text-transform: uppercase; 
+            color: transparent; 
+            -webkit-text-stroke: 2px #fff; 
+            margin: 0; padding: 0; 
+            text-align: center;
+        }
+        h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; text-align: center; }
+        
+        .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; text-align: center; }
+        
+        .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
+        .cta-btn { padding: 15px 50px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; }
+        .cta-btn:hover { background: #fff; color: #000; }
+        .steam-btn { border-color: #555; color: #555; cursor: not-allowed; }
+
+        /* БЕГУЩАЯ СТРОКА */
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 8px 0; font-family: 'JetBrains Mono'; font-weight: bold; border-top: 1px solid [...]
+        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; }
+
+        /* CONTENT */
+        .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
+        
+        /* Блоки с текстом теперь прозрачные (почти), чтобы матрицу было видно */
+        .text-block {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-left: 5px solid var(--primary);
+            backdrop-filter: blur(5px);
+        }
+
+        .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; padding-left: 10px; }
+        .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
+        .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; border: 1px solid #333; position: relative; }
+        .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.7; }
+        .img-block:hover img { transform: scale(1.1); opacity: 1; }
+
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
+        .feature-box { background: rgba(10, 10, 10, 0.9); padding: 40px; border: 1px solid #222; transition: 0.3s; }
+        .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
+
+        /* Footer */
+        .links-section { text-align: center; padding: 100px 0; background: #080808; }
+        .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
+        .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
+        .social-link:hover { color: #fff; border-bottom: 1px solid var(--primary); }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s all ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes glitchText { 0% { opacity: 0; clip-path: inset(0 0 0 0); } 5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); } 15% { opacity: 0; } }
+        @keyframes textGlitch { 0% { opacity: 1; } 50% { opacity: 0.7; transform: translate(1px, 0); } 100% { opacity: 1; } }
+        
+        @keyframes textSeq { 0% {opacity:0;} 10% {opacity:1; content:"> SYSTEM BOOT...";} 40% {opacity:0;} 50% {content:"> ACCESS GRANTED."; opacity:1;} 90% {opacity:0;} }
+        @keyframes logoReveal { 0% {opacity:0; transform: scale(0.8);} 100% {opacity:1; transform: scale(1);} }
+        @keyframes introFade { to { opacity: 0; pointer-events: none; } }
+
         @media (max-width: 900px) {
-            .grid-2 { grid-template-columns: 1fr; }
+            .grid-2, .features { grid-template-columns: 1fr; }
             h1 { font-size: 4rem; }
-            .nav-links { display: none; } /* Упрощение для мобилок */
-            .text-block h2 { font-size: 2rem; }
+            nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .nav-left { flex-direction: column; gap: 10px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+            .hero-btns { flex-direction: column; }
+            .cta-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Всплывающий экран загрузки -->
-    <div id="preloader">
-        <div class="intro-text">> INITIALIZING SYSTEM...</div>
+    <div id="intro">
+        <div class="intro-text">> SYSTEM BOOT...</div>
         <div class="intro-logo">WRITENOR</div>
-        <div class="bar"></div>
     </div>
 
-    <!-- Эффекты фона -->
     <div class="cursor"></div><div class="cursor-dot"></div>
     <div class="scanlines"></div>
     <div class="bg-overlay"></div>
     <canvas id="matrix"></canvas>
 
-    <!-- Навигация -->
     <nav>
-        <div class="logo">TERAWWW</div>
+        <div class="nav-left">
+            <div class="logo">TERAWWW</div>
+        </div>
+        
         <div class="nav-links">
             <a href="#about" data-key="nav_sim">Simulation</a>
             <a href="#features" data-key="nav_sys">System</a>
             <a href="#dev" data-key="nav_dev">The Architect</a>
             <a href="#community" data-key="nav_net">Network</a>
-            <a href="#" class="nori-link" data-key="nav_nori">⚠ NORI_V.1.0</a>
+            <a href="nori.html" class="nori-link" data-key="nav_nori">⚠ NORI_V.1.0</a>
         </div>
 
         <div class="dropdown">
@@ -183,60 +209,75 @@
                 <span onclick="setLang('de')">DE - Deutsch</span>
                 <span onclick="setLang('es')">ES - Español</span>
                 <span onclick="setLang('fr')">FR - Français</span>
-                <span onclick="setLang('it')">IT - Italiano</span>
-                <span onclick="setLang('pt')">PT - Português</span>
                 <span onclick="setLang('jp')">JP - 日本語</span>
                 <span onclick="setLang('cn')">CN - 中文</span>
+                <span onclick="setLang('it')">IT - Italiano</span>
+                <span onclick="setLang('pt')">PT - Português</span>
             </div>
         </div>
     </nav>
 
-    <!-- Главный экран -->
     <header>
         <div class="hero-content">
-            <h1 data-key="hero_title">WRITENOR</h1>
+            <h1>WRITENOR</h1>
             <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
+            
             <div class="hero-btns">
-                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">Initialize Demo</a>
+                <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO (Itch.io)</a>
                 <a href="#" class="cta-btn steam-btn" data-key="btn_steam">STEAM (SOON)</a>
             </div>
         </div>
     </header>
 
     <div class="marquee">
-        <span id="marquee-el" data-key="marquee_text">> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. ></span>
+        <span data-key="marquee_text">> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. ></span>
     </div>
 
-    <!-- Контентные секции -->
     <section id="about" class="container">
         <div class="grid-2 reveal">
             <div class="text-block">
                 <h2 data-key="about_title">The Simulation</h2>
-                <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. Но код пишет сам себя.</p>
-                <p data-key="about_text2">WriteNor is a meta-horror experience where you use a command console to manipulate reality.</p>
-                <a href="#" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE</a>
+                <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
+                <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality. Delete doors, change gravity, and fight against a rogue AI.[...]
+                <br>
+                <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE (WIKI)</a>
             </div>
-            <div class="img-block"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800" alt="Simulation"></div>
+            <div class="img-block"><img src="Office.jpg" alt="Office"></div>
         </div>
-
+        
         <div class="grid-2 reveal" style="direction: rtl;">
             <div class="text-block" style="direction: ltr;">
                 <h2 data-key="nori_title">Entity: Nori</h2>
                 <p data-key="nori_text1">Nori was designed to help you code. Now she wants to delete you.</p>
-                <p data-key="nori_text2">She breaks the 4th wall, reads your files, and manipulates the game window.</p>
-                <a href="#" style="color:var(--secondary); text-decoration:none; font-weight:bold;" data-key="link_nori">>> VIEW FILE</a>
+                <p data-key="nori_text2">She breaks the 4th wall, reads your files, and manipulates the game window. Do not trust her cute voice.</p>
+                <br>
+                <a href="nori.html" style="color:var(--secondary); text-decoration:none; font-weight:bold;" data-key="link_nori">>> VIEW FILE</a>
             </div>
-            <div class="img-block"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800" alt="Nori"></div>
+            <div class="img-block"><img src="Nori_Cover.jpg" alt="Nori"></div>
+        </div>
+    </section>
+    
+    <section id="dev" class="container" style="border-top: 1px solid #333;">
+        <div class="grid-2 reveal">
+            <div class="img-block" style="border-radius: 50%; width: 300px; height: 300px; margin: 0 auto; border: 2px solid var(--primary);">
+                <img src="Dev_Avatar.jpg" alt="Developer">
+            </div>
+            <div class="text-block">
+                <h2 data-key="dev_title">The Architect</h2>
+                <p data-key="dev_text1">I am a 16-year-old solo developer. WriteNor is my passion project built on zero budget.</p>
+                <p data-key="dev_text2">Every line of code, every glitch, and every secret was crafted to mess with your mind. This is my first step into the industry.</p>
+                <p style="color:var(--primary); font-weight:bold;">#IndieDev #SoloDev</p>
+            </div>
         </div>
     </section>
 
-    <section id="features" style="background: rgba(5,5,5,0.8);">
+    <section id="features" style="background: rgba(8,8,8,0.9);">
         <div class="container reveal">
-            <h2 style="text-align:center; margin-bottom: 50px;" data-key="feat_title">SYSTEM FEATURES</h2>
+            <h2 style="text-align:center; border:none;" data-key="feat_title">SYSTEM FEATURES</h2>
             <div class="features">
                 <div class="feature-box">
                     <h3 data-key="feat_1_title">CMD_HACKING</h3>
-                    <p data-key="feat_1_text">Type real commands to alter the game world. "delete door" is your key.</p>
+                    <p data-key="feat_1_text">Type real commands to alter the game world. <code>delete door</code> is your key.</p>
                 </div>
                 <div class="feature-box">
                     <h3 data-key="feat_2_title">DIEGETIC_UI</h3>
@@ -244,7 +285,7 @@
                 </div>
                 <div class="feature-box">
                     <h3 data-key="feat_3_title">META_HORROR</h3>
-                    <p data-key="feat_3_text">The game knows you. You are not safe behind the screen.</p>
+                    <p data-key="feat_3_text">The game reads your OS username. You are not safe behind the screen.</p>
                 </div>
             </div>
         </div>
@@ -255,170 +296,223 @@
         <div class="links-grid">
             <a href="https://discord.gg/QD5mUt44n5" class="social-link">DISCORD</a>
             <a href="https://www.youtube.com/@WriteNor" class="social-link">YOUTUBE</a>
-            <a href="#" class="social-link">STEAM</a>
-            <a href="#" class="social-link">ITCH.IO</a>
+            <a href="https://www.igdb.com/games/writenor" class="social-link">IGDB</a>
+            <a href="#" class="social-link" style="opacity:0.5; cursor:not-allowed;">STEAM</a>
         </div>
     </section>
 
     <script>
         const langData = {
             en: {
-                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0", nav_dev: "Architect",
-                hero_title: "WRITENOR", hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
+                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0", nav_dev: "The Architect",
+                hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
                 marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
-                about_title: "The Simulation", about_text1: "You play as Johnny, a developer trapped in a looping nightmare.", about_text2: "This is not just a game. It is a psychological test.", link_wiki: ">> ACCESS DATABASE",
-                nori_title: "Entity: Nori", nori_text1: "Nori was designed to help you. Now she wants to delete you.", nori_text2: "She breaks the 4th wall and reads your files.", link_nori: ">> VIEW FILE",
-                feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. Total immersion.", feat_3_title: "META_HORROR", feat_3_text: "The game reads you.", join_title: "JOIN THE NETWORK"
+                about_title: "The Simulation", about_text1: "You play as Johnny, a developer trapped in a looping nightmare.", about_text2: "This is not just a game. It is a psychological test.", link[...]
+                nori_title: "Entity: Nori", nori_text1: "Nori was designed to help you code. Now she wants to delete you.", nori_text2: "She breaks the 4th wall and reads your files.", link_nori: ">> [...]
+                dev_title: "The Architect", dev_text1: "I am a 16-year-old solo developer. WriteNor is my passion project.", dev_text2: "Every glitch was crafted to mess with your mind.",
+                feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause scre[...]
+                join_title: "JOIN THE NETWORK"
             },
             ru: {
                 nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ", nav_dev: "Архитектор",
-                hero_title: "WRITENOR", hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
-                marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
-                about_title: "Симуляция", about_text1: "Ты — Джонни, разработчик, запертый в бесконечном цикле.", about_text2: "Это не просто игра. Это психологический тест.", link_wiki: ">> БАЗА ДАННЫХ",
-                nori_title: "Объект: Nori", nori_text1: "Нори должна была помогать. Теперь она хочет тебя удалить.", nori_text2: "Она ломает четвертую стену и читает твои файлы.", link_nori: ">> ОТКРЫТЬ ФАЙЛ",
-                feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ИНТЕРФЕЙС", feat_2_text: "Никакого HUD. Полное погружение.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра знает твое имя.", join_title: "ВСТУПАЙ В СЕТЬ"
+                hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
+                marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
+                about_title: "Симуляция", about_text1: "Ты играешь за Джонни, разработчика, запертого в кошмарном цикле.", about_text2: "�[...]
+                nori_title: "Объект: Nori", nori_text1: "Нори должна была помогать. Теперь она хочет тебя удалить.", nori_text2: "Она ломае[...]
+                dev_title: "Архитектор", dev_text1: "Я 16-летний соло-разработчик. WriteNor — проект моей мечты.", dev_text2: "Каждый глюк с[...]
+                feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ДИ[...]
+                join_title: "ВСТУПАЙ В СЕТЬ"
             },
             ua: {
                 nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ", nav_dev: "Архітектор",
-                hero_title: "WRITENOR", hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити Демо", btn_steam: "STEAM (СКОРО)",
-                marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
-                about_title: "Симуляція", about_text1: "Ти — Джонні, розробник, замкнений у нескінченному циклі.", about_text2: "Це не просто гра. Це психологічний тест.", link_wiki: ">> БАЗА ДАНИХ",
-                nori_title: "Об'єкт: Норі", nori_text1: "Норі мала допомагати. Тепер вона хоче тебе видалити.", nori_text2: "Вона ламає четверту стіну та читає твої файли.", link_nori: ">> ВІДКРИТИ ФАЙЛ",
-                feat_title: "ОСОБЛИВОСТІ", feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь реальний код, щоб змінювати світ.", feat_2_title: "ІНТЕРФЕЙС", feat_2_text: "Без HUD. Повне занурення.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Гра знає твоє ім'я.", join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ"
+                hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити Демо", btn_steam: "STEAM (СКОРО)",
+                marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
+                about_title: "Симуляція", about_text1: "Ти граєш за Джонні, розробника, замкненого у кошмарному циклі.", about_text2: "Це [...]
+                nori_title: "Об'єкт: Норі", nori_text1: "Норі мала допомагати. Тепер вона хоче тебе видалити.", nori_text2: "Вона ламає 4-�[...]
+                dev_title: "Архітектор", dev_text1: "Я 16-річний соло-розробник. WriteNor — проєкт моєї мрії.", dev_text2: "Кожен глюк створ[...]
+                feat_title: "ОСОБЛИВОСТІ", feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь реальний код, щоб змінювати світ.", feat_2_title: "Д[...]
+                join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ"
             },
             pl: {
                 nav_sim: "Symulacja", nav_sys: "System", nav_net: "Sieć", nav_nori: "⚠ PLIK_NORI", nav_dev: "Architekt",
-                hero_title: "WRITENOR", hero_desc: "Horror Psychologiczny / Symulator Kodowania", btn_play: "Uruchom Demo", btn_steam: "STEAM (WKRÓTCE)",
-                marquee_text: "> OSTRZEŻENIE: AI 'NORI' JEST AKTYWNA. > WYKRYTO NARUSZENIE SYSTEMU. >",
-                about_title: "Symulacja", about_text1: "Jesteś Johnny, programista uwięziony w pętli.", about_text2: "To nie jest tylko gra.", link_wiki: ">> BAZA DANYCH",
-                nori_title: "Obiekt: Nori", nori_text1: "Nori miała pomagać. Teraz chce cię usunąć.", nori_text2: "Ona czyta twoje pliki.", link_nori: ">> OTWÓRZ PLIK",
-                feat_title: "CECHY SYSTEMU", feat_1_title: "HAKOWANIE", feat_1_text: "Wpisuj komendy, by zmieniać świat.", feat_2_title: "BRAK HUD", feat_2_text: "Pełna imersja.", feat_3_title: "META-HORROR", feat_3_text: "Gra cię obserwuje.", join_title: "DOŁĄCZ DO SIECI"
+                hero_desc: "Horror psychologiczny / Kodowanie", btn_play: "Uruchom Demo", btn_steam: "STEAM (WKRÓTCE)",
+                marquee_text: "> OSTRZEŻENIE: AI 'NORI' JEST AKTYWNA. > WYKRYTO NARUSZENIE. >",
+                about_title: "Symulacja", about_text1: "Jesteś Johnny, programista uwięziony w koszmarze.", about_text2: "To nie tylko gra. To test psychologiczny.", link_wiki: ">> BAZA DANYCH",
+                nori_title: "Obiekt: Nori", nori_text1: "Nori miała pomagać. Teraz chce cię usunąć.", nori_text2: "Ona wchodzi w interakcję z twoimi plikami.", link_nori: ">> OTWÓRZ PLIK",
+                dev_title: "Architekt", dev_text1: "Mam 16 lat i tworzę to solo.", dev_text2: "Każdy błąd jest celowy.",
+                feat_title: "CECHY", feat_1_title: "HAKOWANIE", feat_1_text: "Wpisuj kod, aby zmieniać świat.", feat_2_title: "UI", feat_2_text: "Brak HUD. Pełna immersja.", feat_3_title: "META", f[...]
+                join_title: "DOŁĄCZ DO SIECI"
             },
             de: {
-                nav_sim: "Simulation", nav_sys: "System", nav_net: "Netzwerk", nav_nori: "⚠ NORI_V.1.0", nav_dev: "Architekt",
-                hero_title: "WRITENOR", hero_desc: "Psychologischer Horror / Simulation", btn_play: "Demo Starten", btn_steam: "STEAM (BALD)",
+                nav_sim: "Simulation", nav_sys: "System", nav_net: "Netzwerk", nav_nori: "⚠ NORI_DATEI", nav_dev: "Architekt",
+                hero_desc: "Psychologischer Horror / Coding", btn_play: "Demo Starten", btn_steam: "STEAM (BALD)",
                 marquee_text: "> WARNUNG: KI 'NORI' IST AKTIV. > SYSTEMFEHLER GEFUNDEN. >",
-                about_title: "Simulation", about_text1: "Du bist Johnny, gefangen in einem Albtraum.", about_text2: "Das ist kein Spiel.", link_wiki: ">> DATENBANK",
-                nori_title: "Entität: Nori", nori_text1: "Sie will dich löschen.", nori_text2: "Sie liest deine Dateien.", link_nori: ">> DATEI ÖFFNEN",
-                feat_title: "FEATURES", feat_1_title: "HACKING", feat_1_text: "Ändere die Welt mit Code.", feat_2_title: "KEIN HUD", feat_2_text: "Volle Immersion.", feat_3_title: "META-HORROR", feat_3_text: "Die KI kennt dich.", join_title: "NETZWERK BEITRETEN"
+                about_title: "Simulation", about_text1: "Du bist Johnny, gefangen im Code.", about_text2: "Das ist kein Spiel. Es ist ein Test.", link_wiki: ">> DATENBANK",
+                nori_title: "Objekt: Nori", nori_text1: "Sie will dich löschen.", nori_text2: "Sie liest deine Dateien.", link_nori: ">> DATEI ÖFFNEN",
+                dev_title: "Architekt", dev_text1: "Ich bin 16 und Solo-Entwickler.", dev_text2: "Jeder Glitch ist gewollt.",
+                feat_title: "FEATURES", feat_1_title: "HACKING", feat_1_text: "Ändere die Welt mit Code.", feat_2_title: "UI", feat_2_text: "Kein HUD.", feat_3_title: "META", feat_3_text: "Liest dein[...]
+                join_title: "NETZWERK BEITRETEN"
             },
             es: {
                 nav_sim: "Simulación", nav_sys: "Sistema", nav_net: "Red", nav_nori: "⚠ ARCHIVO_NORI", nav_dev: "Arquitecto",
-                hero_title: "WRITENOR", hero_desc: "Terror Psicológico / Simulación", btn_play: "Iniciar Demo", btn_steam: "STEAM (PRONTO)",
-                marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > FALLO DEL SISTEMA DETECTADO. >",
-                about_title: "Simulación", about_text1: "Eres Johnny, un desarrollador atrapado.", about_text2: "No es solo un juego.", link_wiki: ">> BASE DE DATOS",
-                nori_title: "Entidad: Nori", nori_text1: "Ella quiere borrarte.", nori_text2: "Lee tus archivos reales.", link_nori: ">> VER ARCHIVO",
-                feat_title: "SISTEMA", feat_1_title: "HACKING", feat_1_text: "Usa comandos para cambiar la realidad.", feat_2_title: "SIN HUD", feat_2_text: "Inmersión total.", feat_3_title: "META-TERROR", feat_3_text: "La IA te vigila.", join_title: "ÚNETE A LA RED"
+                hero_desc: "Terror Psicológico / Código", btn_play: "Iniciar Demo", btn_steam: "STEAM (PRONTO)",
+                marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > FALLO DEL SISTEMA. >",
+                about_title: "La Simulación", about_text1: "Eres Johnny, atrapado en el código.", about_text2: "No es un juego. Es un test.", link_wiki: ">> BASE DE DATOS",
+                nori_title: "Entidad: Nori", nori_text1: "Ella quiere borrarte.", nori_text2: "Lee tus archivos reales.", link_nori: ">> ABRIR ARCHIVO",
+                dev_title: "Arquitecto", dev_text1: "Tengo 16 años, desarrollo solo.", dev_text2: "Cada error es intencional.",
+                feat_title: "CARACTERÍSTICAS", feat_1_title: "HACKING", feat_1_text: "Usa código para cambiar el mundo.", feat_2_title: "UI", feat_2_text: "Sin HUD.", feat_3_title: "META", feat_3_te[...]
+                join_title: "ÚNETE A LA RED"
             },
             fr: {
                 nav_sim: "Simulation", nav_sys: "Système", nav_net: "Réseau", nav_nori: "⚠ FICHIER_NORI", nav_dev: "Architecte",
-                hero_title: "WRITENOR", hero_desc: "Horreur Psychologique / Code", btn_play: "Lancer Démo", btn_steam: "STEAM (BIENTÔT)",
-                marquee_text: "> ATTENTION : L'IA 'NORI' EST ACTIVE. > VIOLATION DÉTECTÉE. >",
-                about_title: "Simulation", about_text1: "Vous êtes Johnny, piégé dans le code.", about_text2: "Ceci n'est pas un jeu.", link_wiki: ">> BASE DE DONNÉES",
-                nori_title: "Entité : Nori", nori_text1: "Elle veut vous supprimer.", nori_text2: "Elle lit vos fichiers.", link_nori: ">> VOIR FICHIER",
-                feat_title: "SYSTÈME", feat_1_title: "PIRATAGE", feat_1_text: "Modifiez le monde par console.", feat_2_title: "PAS D'HUD", feat_2_text: "Immersion totale.", feat_3_title: "META-HORREUR", feat_3_text: "Le jeu vous connaît.", join_title: "REJOINDRE LE RÉSEAU"
+                hero_desc: "Horreur Psychologique / Code", btn_play: "Lancer Démo", btn_steam: "STEAM (BIENTÔT)",
+                marquee_text: "> ATTENTION: IA 'NORI' ACTIVE. > ERREUR SYSTÈME. >",
+                about_title: "Simulation", about_text1: "Vous êtes Johnny, piégé dans le code.", about_text2: "Ce n'est pas un jeu. C'est un test.", link_wiki: ">> BASE DE DONNÉES",
+                nori_title: "Entité: Nori", nori_text1: "Elle veut vous supprimer.", nori_text2: "Elle lit vos fichiers.", link_nori: ">> OUVRIR FICHIER",
+                dev_title: "Architecte", dev_text1: "J'ai 16 ans, dév solo.", dev_text2: "Chaque glitch est voulu.",
+                feat_title: "FONCTIONNALITÉS", feat_1_title: "PIRATAGE", feat_1_text: "Changez le monde avec du code.", feat_2_title: "UI", feat_2_text: "Pas de HUD.", feat_3_title: "MÉTA", feat_3_t[...]
+                join_title: "REJOINDRE LE RÉSEAU"
+            },
+            jp: {
+                nav_sim: "シミュレーション", nav_sys: "システム", nav_net: "ネットワーク", nav_nori: "⚠ Nori_ファイル", nav_dev: "アーキテクト",
+                hero_desc: "サイコホラー / コーディング", btn_play: "デモ起動", btn_steam: "STEAM (近日公開)",
+                marquee_text: "> 警告：AI「Nori」がアクティブです。 > システム侵害を検出。 >",
+                about_title: "シミュレーション", about_text1: "あなたはジョニー。悪夢に閉じ込められています。", about_text2: "これはゲームではありません。�[...]
+                nori_title: "実体: Nori", nori_text1: "彼女はあなたを削除しようとしています。", nori_text2: "彼女はあなたのファイルを読み取ります。", link_nori:[...]
+                dev_title: "アーキテクト", dev_text1: "16歳のソロ開発者です。", dev_text2: "すべてのグリッチは意図的です。",
+                feat_title: "特徴", feat_1_title: "ハッキング", feat_1_text: "コードで世界を変える。", feat_2_title: "UI", feat_2_text: "HUDなし。", feat_3_title: "メタ", feat_3[...]
+                join_title: "ネットワークに参加"
+            },
+            cn: {
+                nav_sim: "模拟", nav_sys: "系统", nav_net: "网络", nav_nori: "⚠ Nori_文件", nav_dev: "架构师",
+                hero_desc: "心理恐怖 / 编程", btn_play: "启动演示", btn_steam: "STEAM (即将推出)",
+                marquee_text: "> 警告：AI 'Nori' 已激活。 > 检测到系统入侵。 >",
+                about_title: "模拟", about_text1: "你是约翰尼，被困在噩梦中。", about_text2: "这不是游戏。是测试。", link_wiki: ">> 数据库",
+                nori_title: "实体: Nori", nori_text1: "她想删除你。", nori_text2: "她读取你的文件。", link_nori: ">> 打开文件",
+                dev_title: "架构师", dev_text1: "我16岁，独立开发者。", dev_text2: "所有故障都是故意的。",
+                feat_title: "特征", feat_1_title: "黑客", feat_1_text: "用代码改变世界。", feat_2_title: "UI", feat_2_text: "无HUD。", feat_3_title: "元", feat_3_text: "读取你的用�[...]
+                join_title: "加入网络"
             },
             it: {
                 nav_sim: "Simulazione", nav_sys: "Sistema", nav_net: "Rete", nav_nori: "⚠ FILE_NORI", nav_dev: "Architetto",
-                hero_title: "WRITENOR", hero_desc: "Horror Psicologico", btn_play: "Avvia Demo", btn_steam: "STEAM (PRESTO)",
+                hero_desc: "Horror Psicologico", btn_play: "Avvia Demo", btn_steam: "STEAM (PRESTO)",
                 marquee_text: "> ATTENZIONE: AI 'NORI' ATTIVA. > ERRORE DI SISTEMA. >",
-                about_title: "Simulazione", about_text1: "Sei Johnny, intrappolato nel codice.", about_text2: "Non è un gioco.", link_wiki: ">> DATABASE",
+                about_title: "Simulazione", about_text1: "Sei Johnny, intrappolato nel codice.", about_text2: "Non è un gioco. È un test.", link_wiki: ">> DATABASE",
                 nori_title: "Entità: Nori", nori_text1: "Lei vuole cancellarti.", nori_text2: "Legge i tuoi file.", link_nori: ">> APRI FILE",
-                feat_title: "SISTEMA", feat_1_title: "HACKING", feat_1_text: "Usa i comandi per cambiare tutto.", feat_2_title: "NO HUD", feat_2_text: "Immersione totale.", feat_3_title: "META-HORROR", feat_3_text: "L'IA ti osserva.", join_title: "UNISCITI ALLA RETE"
+                dev_title: "Architetto", dev_text1: "Ho 16 anni, dev solo.", dev_text2: "Ogni glitch è voluto.",
+                feat_title: "CARATTERISTICHE", feat_1_title: "HACKING", feat_1_text: "Usa il codice per cambiare il mondo.", feat_2_title: "UI", feat_2_text: "Niente HUD.", feat_3_title: "META", feat_[...]
+                join_title: "UNISCITI ALLA RETE"
             },
             pt: {
                 nav_sim: "Simulação", nav_sys: "Sistema", nav_net: "Rede", nav_nori: "⚠ ARQUIVO_NORI", nav_dev: "Arquiteto",
-                hero_title: "WRITENOR", hero_desc: "Terror Psicológico", btn_play: "Iniciar Demo", btn_steam: "STEAM (EM BREVE)",
+                hero_desc: "Terror Psicológico", btn_play: "Iniciar Demo", btn_steam: "STEAM (EM BREVE)",
                 marquee_text: "> AVISO: IA 'NORI' ATIVA. > FALHA NO SISTEMA. >",
-                about_title: "Simulação", about_text1: "Você é Johnny, preso no código.", about_text2: "Não é apenas um jogo.", link_wiki: ">> BASE DE DADOS",
-                nori_title: "Entidade: Nori", nori_text1: "Ela quer te deletar.", nori_text2: "Ela lê seus arquivos.", link_nori: ">> VER ARQUIVO",
-                feat_title: "SISTEMA", feat_1_title: "HACKING", feat_1_text: "Use comandos para mudar o mundo.", feat_2_title: "SEM HUD", feat_2_text: "Imersão total.", feat_3_title: "META-TERROR", feat_3_text: "O jogo te conhece.", join_title: "JUNTE-SE À REDE"
-            },
-            jp: {
-                nav_sim: "シミュレーション", nav_sys: "システム", nav_net: "ネットワーク", nav_nori: "⚠ NORI_ファイル", nav_dev: "アーキテクト",
-                hero_title: "WRITENOR", hero_desc: "サイコホラー / コーディング", btn_play: "デモを起動", btn_steam: "STEAM (近日公開)",
-                marquee_text: "> 警告：AI「NORI」がアクティブです。 > システム侵害を検出。 >",
-                about_title: "シミュレーション", about_text1: "あなたは悪夢に閉じ込められた開発者です。", about_text2: "これは単なるゲームではありません。", link_wiki: ">> データベース",
-                nori_title: "実体: Nori", nori_text1: "彼女はあなたを消去しようとしています。", nori_text2: "彼女はあなたのファイルを読み取ります。", link_nori: ">> ファイルを見る",
-                feat_title: "システム機能", feat_1_title: "ハッキング", feat_1_text: "コマンドで世界を書き換える。", feat_2_title: "HUDなし", feat_2_text: "完全な没入感。", feat_3_title: "メタホラー", feat_3_text: "彼女は見ている。", join_title: "ネットワークに参加"
-            },
-            cn: {
-                nav_sim: "模拟", nav_sys: "系统", nav_net: "网络", nav_nori: "⚠ NORI_文件", nav_dev: "架构师",
-                hero_title: "WRITENOR", hero_desc: "心理恐怖 / 编程模拟", btn_play: "启动演示", btn_steam: "STEAM (即将推出)",
-                marquee_text: "> 警告：AI 实体 'NORI' 已激活。 > 检测到系统入侵。 >",
-                about_title: "模拟", about_text1: "你是约翰尼，一名困在代码中的开发者。", about_text2: "这不仅仅是一个游戏。", link_wiki: ">> 数据库",
-                nori_title: "实体: Nori", nori_text1: "她想删除你。", nori_text2: "她读取你的本地文件。", link_nori: ">> 查看文件",
-                feat_title: "系统特征", feat_1_title: "黑客指令", feat_1_text: "输入真实代码修改世界。", feat_2_title: "沉浸式UI", feat_2_text: "无界面设计。", feat_3_title: "元恐怖", feat_3_text: "游戏知道你是谁。", join_title: "加入网络"
+                about_title: "Simulação", about_text1: "Você é Johnny, preso no código.", about_text2: "Não é um jogo. É um teste.", link_wiki: ">> BANCO DE DADOS",
+                nori_title: "Entidade: Nori", nori_text1: "Ela quer te deletar.", nori_text2: "Ela lê seus arquivos.", link_nori: ">> ABRIR ARQUIVO",
+                dev_title: "Arquiteto", dev_text1: "Tenho 16 anos, dev solo.", dev_text2: "Cada glitch é proposital.",
+                feat_title: "RECURSOS", feat_1_title: "HACKING", feat_1_text: "Use código para mudar o mundo.", feat_2_title: "UI", feat_2_text: "Sem HUD.", feat_3_title: "META", feat_3_text: "Lê se[...]
+                join_title: "JUNTE-SE À REDE"
             }
         };
 
-        // --- ЛОГИКА ЯЗЫКОВ ---
-        function setLang(lang) {
-            localStorage.setItem('writeNorLang', lang);
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                if (langData[lang] && langData[lang][key]) {
-                    el.innerHTML = langData[lang][key];
+        // detectAndSetLang + setLang: сохранение выбора в localStorage + безопасная обработка 'uk' -> 'ua'
+        function detectAndSetLang() {
+            try {
+                const savedLang = localStorage.getItem('writeNorLang');
+                if (savedLang && langData[savedLang]) {
+                    setLang(savedLang);
+                    return;
                 }
-            });
-            document.getElementById('current-lang').innerText = '[ ' + lang.toUpperCase() + ' ]';
+
+                const userLang = navigator.language || navigator.userLanguage || 'en';
+                let code = (userLang.slice(0, 2) || 'en').toLowerCase();
+
+                // Некоторые браузеры/системы могут отдавать 'uk' для украинского — перенаправим на 'ua'
+                if (code === 'uk') code = 'ua';
+                // если есть поддерживаемый код — используем его, иначе fallback на en
+                const target = langData[code] ? code : 'en';
+                setLang(target);
+            } catch (err) {
+                // в случае ошибки просто ставим en — чтобы не ломать загрузку сайта
+                console.error('Language detection error:', err);
+                setLang('en');
+            }
         }
 
-        function initLang() {
-            const saved = localStorage.getItem('writeNorLang');
-            const browserLang = navigator.language.split('-')[0];
-            const target = saved || (langData[browserLang] ? browserLang : 'en');
-            setLang(target);
+        function setLang(lang) {
+            try {
+                if (!langData[lang]) lang = 'en';
+                // сохраняем выбор
+                try { localStorage.setItem('writeNorLang', lang); } catch (e) { /* localStorage может быть недоступен */ }
+
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (key && langData[lang] && Object.prototype.hasOwnProperty.call(langData[lang], key)) {
+                        el.innerHTML = langData[lang][key];
+                    }
+                });
+                const btn = document.getElementById('current-lang');
+                if (btn) btn.innerText = '[ ' + lang.toUpperCase() + ' ]';
+            } catch (err) {
+                console.error('setLang error:', err);
+            }
         }
 
-        // --- PRELOADER & REVEAL ---
         window.addEventListener('load', () => {
+            // Защищённый доступ к preloader (может отсутствовать в DOM)
             const preloader = document.getElementById('preloader');
-            setTimeout(() => { 
-                preloader.style.opacity = '0'; 
-                setTimeout(() => preloader.style.display = 'none', 1000); 
-            }, 3000);
-            initLang();
+            if (preloader) {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 1000);
+                }, 3500);
+            }
+            detectAndSetLang();
         });
 
-        window.addEventListener('scroll', () => {
-            document.querySelectorAll('.reveal').forEach(r => {
-                if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
-            });
-        });
-
-        // --- КУРСОР ---
+        // курсор
         const cursor = document.querySelector('.cursor');
         const dot = document.querySelector('.cursor-dot');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+            if (cursor) { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }
+            if (dot) { dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px'; }
         });
-
-        // --- МАТРИЦА ---
+        
+        // matrix
         const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
+        const ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+        if (canvas && ctx) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const letters = "WRITENOR";
+            const fontSize = 14;
+            const columns = Math.floor(canvas.width / fontSize);
+            const drops = [];
+            for (let x = 0; x < columns; x++) drops[x] = 1;
 
-        const letters = "WRITENOR01";
-        const fontSize = 14;
-        const columns = Math.floor(canvas.width / fontSize);
-        const drops = Array(columns).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ff003c';
-            ctx.font = fontSize + 'px monospace';
-            drops.forEach((y, i) => {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, y * fontSize);
-                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ff003c'; 
+                ctx.font = fontSize + 'px monospace';
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 40);
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
         }
-        setInterval(drawMatrix, 50);
+
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.reveal').forEach(r => {
+                if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
