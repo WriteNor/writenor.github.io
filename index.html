@@ -30,19 +30,13 @@
         }
 
         /* === ФОНОВЫЕ ЭЛЕМЕНТЫ === */
-        
-        /* 1. Матрица (Самый нижний слой) */
         canvas { position: fixed; top: 0; left: 0; z-index: -3; }
-        
-        /* 2. Затемнение (Чтобы буквы были темными) */
         .bg-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); /* 85% черноты поверх матрицы */
+            background: rgba(0, 0, 0, 0.85); 
             z-index: -2;
             pointer-events: none;
         }
-
-        /* 3. Сканлайны (Эффект монитора) */
         .scanlines { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); 
@@ -59,6 +53,8 @@
         .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
         .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
         .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
+        @keyframes load { to { width: 100%; } }
+        @keyframes blink { 50% { opacity: 0; } }
 
         /* НАВИГАЦИЯ */
         nav { 
@@ -82,39 +78,35 @@
         .dropdown-content span:hover { background-color: #fff; color: #000; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* HERO SECTION (ГЛАВНАЯ) */
+        /* HERO SECTION */
         header { 
             height: 100vh; 
             display: flex; 
             align-items: center; 
-            justify-content: center; /* Центровка по горизонтали */
+            justify-content: center; 
             text-align: center; 
             position: relative; 
-            /* УБРАЛИ ФОНОВУЮ КАРТИНКУ, ЧТОБЫ БЫЛА ВИДНА МАТРИЦА */
         }
-
         .hero-content { 
             position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; 
             width: 100%; max-width: 1200px; padding: 0 20px;
-            display: flex; flex-direction: column; align-items: center; /* Центровка по вертикали */
+            display: flex; flex-direction: column; align-items: center; 
         }
-        
         h1 { 
             font-family: 'Syncopate', sans-serif; 
-            font-size: 9vw; /* Огромный размер */
+            font-size: 9vw; 
             line-height: 1; 
             text-transform: uppercase; 
             color: transparent; 
             -webkit-text-stroke: 2px #fff; 
             margin: 0; padding: 0; 
             text-align: center;
+            position: relative;
         }
         h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; text-align: center; }
-        
         .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; text-align: center; }
-        
         .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
-        .cta-btn { padding: 15px 50px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; }
+        .cta-btn { padding: 15px 50px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; background: transparent; }
         .cta-btn:hover { background: #fff; color: #000; }
         .steam-btn { border-color: #555; color: #555; cursor: not-allowed; }
 
@@ -125,20 +117,46 @@
         /* CONTENT */
         .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
-        
-        /* Блоки с текстом теперь прозрачные (почти), чтобы матрицу было видно */
         .text-block {
             background: rgba(0, 0, 0, 0.8);
             padding: 40px;
             border-left: 5px solid var(--primary);
             backdrop-filter: blur(5px);
         }
-
         .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; padding-left: 10px; }
         .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
         .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; border: 1px solid #333; position: relative; }
         .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.7; }
         .img-block:hover img { transform: scale(1.1); opacity: 1; }
+
+        /* === СТИЛЬ ФОРМЫ (НОВОЕ) === */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .contact-form input, .contact-form textarea {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            padding: 15px;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: 0.3s;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
+        }
+        .contact-form textarea {
+            height: 120px;
+            resize: none;
+        }
+        .form-btn {
+            width: 100%;
+            cursor: none;
+        }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
         .feature-box { background: rgba(10, 10, 10, 0.9); padding: 40px; border: 1px solid #222; transition: 0.3s; }
@@ -158,27 +176,20 @@
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes glitchText { 0% { opacity: 0; clip-path: inset(0 0 0 0); } 5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); } 15% { opacity: 0; } }
         @keyframes textGlitch { 0% { opacity: 1; } 50% { opacity: 0.7; transform: translate(1px, 0); } 100% { opacity: 1; } }
-        
-        @keyframes textSeq { 0% {opacity:0;} 10% {opacity:1; content:"> SYSTEM BOOT...";} 40% {opacity:0;} 50% {content:"> ACCESS GRANTED."; opacity:1;} 90% {opacity:0;} }
-        @keyframes logoReveal { 0% {opacity:0; transform: scale(0.8);} 100% {opacity:1; transform: scale(1);} }
-        @keyframes introFade { to { opacity: 0; pointer-events: none; } }
 
         @media (max-width: 900px) {
             .grid-2, .features { grid-template-columns: 1fr; }
             h1 { font-size: 4rem; }
             nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
-            .nav-left { flex-direction: column; gap: 10px; }
             .nav-links { flex-wrap: wrap; justify-content: center; }
-            .hero-btns { flex-direction: column; }
-            .cta-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div id="intro">
-        <div class="intro-text">> SYSTEM BOOT...</div>
-        <div class="intro-logo">WRITENOR</div>
+    <div id="preloader">
+        <div class="loader-text">> BOOTING SYSTEM...</div>
+        <div class="bar"></div>
     </div>
 
     <div class="cursor"></div><div class="cursor-dot"></div>
@@ -195,7 +206,7 @@
             <a href="#about" data-key="nav_sim">Simulation</a>
             <a href="#features" data-key="nav_sys">System</a>
             <a href="#dev" data-key="nav_dev">The Architect</a>
-            <a href="#community" data-key="nav_net">Network</a>
+            <a href="#contact" data-key="nav_contact">Contact</a>
             <a href="nori.html" class="nori-link" data-key="nav_nori">⚠ NORI_V.1.0</a>
         </div>
 
@@ -238,22 +249,11 @@
             <div class="text-block">
                 <h2 data-key="about_title">The Simulation</h2>
                 <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
-                <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality. Delete doors, change gravity, and fight against a rogue AI.</p>
+                <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality.</p>
                 <br>
                 <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE (WIKI)</a>
             </div>
             <div class="img-block"><img src="Office.jpg" alt="Office"></div>
-        </div>
-        
-        <div class="grid-2 reveal" style="direction: rtl;">
-            <div class="text-block" style="direction: ltr;">
-                <h2 data-key="nori_title">Entity: Nori</h2>
-                <p data-key="nori_text1">Nori was designed to help you code. Now she wants to delete you.</p>
-                <p data-key="nori_text2">She breaks the 4th wall, reads your files, and manipulates the game window. Do not trust her cute voice.</p>
-                <br>
-                <a href="nori.html" style="color:var(--secondary); text-decoration:none; font-weight:bold;" data-key="link_nori">>> VIEW FILE</a>
-            </div>
-            <div class="img-block"><img src="Nori_Cover.jpg" alt="Nori"></div>
         </div>
     </section>
     
@@ -265,9 +265,23 @@
             <div class="text-block">
                 <h2 data-key="dev_title">The Architect</h2>
                 <p data-key="dev_text1">I am a 16-year-old solo developer. WriteNor is my passion project built on zero budget.</p>
-                <p data-key="dev_text2">Every line of code, every glitch, and every secret was crafted to mess with your mind. This is my first step into the industry.</p>
-                <p style="color:var(--primary); font-weight:bold;">#IndieDev #SoloDev</p>
+                <p data-key="dev_text2">Every line of code, every glitch, and every secret was crafted to mess with your mind.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ КОНТАКТОВ ДЛЯ РАЗРАБОТЧИКОВ -->
+    <section id="contact" class="container reveal">
+        <div class="text-block" style="max-width: 800px; margin: 0 auto;">
+            <h2 data-key="contact_title">CONNECT_DEVELOPERS</h2>
+            <p data-key="contact_text">Want to collaborate or report a system bug? Send a packet to my terminal.</p>
+            
+            <form action="https://formspree.io/f/mlgelkpz" method="POST" class="contact-form">
+                <input type="text" name="name" required data-placeholder="form_name_ph" placeholder="Name / Developer ID">
+                <input type="email" name="_replyto" required data-placeholder="form_email_ph" placeholder="Email / Return Path">
+                <textarea name="message" required data-placeholder="form_msg_ph" placeholder="Your Message / Data Packet..."></textarea>
+                <button type="submit" class="cta-btn form-btn" data-key="form_send">SEND_DATA</button>
+            </form>
         </div>
     </section>
 
@@ -277,15 +291,15 @@
             <div class="features">
                 <div class="feature-box">
                     <h3 data-key="feat_1_title">CMD_HACKING</h3>
-                    <p data-key="feat_1_text">Type real commands to alter the game world. <code>delete door</code> is your key.</p>
+                    <p data-key="feat_1_text">Type real commands to alter the game world.</p>
                 </div>
                 <div class="feature-box">
                     <h3 data-key="feat_2_title">DIEGETIC_UI</h3>
-                    <p data-key="feat_2_text">No HUD. No pause screens. Total immersion inside the monitor.</p>
+                    <p data-key="feat_2_text">No HUD. No pause screens. Total immersion.</p>
                 </div>
                 <div class="feature-box">
                     <h3 data-key="feat_3_title">META_HORROR</h3>
-                    <p data-key="feat_3_text">The game reads your OS username. You are not safe behind the screen.</p>
+                    <p data-key="feat_3_text">The game reads your OS username.</p>
                 </div>
             </div>
         </div>
@@ -296,132 +310,133 @@
         <div class="links-grid">
             <a href="https://discord.gg/QD5mUt44n5" class="social-link">DISCORD</a>
             <a href="https://www.youtube.com/@WriteNor" class="social-link">YOUTUBE</a>
-            <a href="https://www.igdb.com/games/writenor" class="social-link">IGDB</a>
-            <a href="#" class="social-link" style="opacity:0.5; cursor:not-allowed;">STEAM</a>
         </div>
     </section>
 
     <script>
         const langData = {
             en: {
-                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0", nav_dev: "The Architect",
+                nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0", nav_dev: "The Architect", nav_contact: "Contact",
                 hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
                 marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
                 about_title: "The Simulation", about_text1: "You play as Johnny, a developer trapped in a looping nightmare.", about_text2: "This is not just a game. It is a psychological test.", link_wiki: ">> ACCESS DATABASE (WIKI)",
-                nori_title: "Entity: Nori", nori_text1: "Nori was designed to help you code. Now she wants to delete you.", nori_text2: "She breaks the 4th wall and reads your files.", link_nori: ">> VIEW FILE",
                 dev_title: "The Architect", dev_text1: "I am a 16-year-old solo developer. WriteNor is my passion project.", dev_text2: "Every glitch was crafted to mess with your mind.",
                 feat_title: "SYSTEM FEATURES", feat_1_title: "CMD_HACKING", feat_1_text: "Type real commands to alter the game world.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause screens.", feat_3_title: "META_HORROR", feat_3_text: "The game reads your OS username.",
-                join_title: "JOIN THE NETWORK"
+                join_title: "JOIN THE NETWORK",
+                contact_title: "CONNECT_DEVELOPERS", contact_text: "Want to collaborate or report a system bug? Send a packet to my terminal.",
+                form_name_ph: "Name / Developer ID", form_email_ph: "Email / Return Path", form_msg_ph: "Your Message...", form_send: "SEND_DATA"
             },
             ru: {
-                nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ", nav_dev: "Архитектор",
+                nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ", nav_dev: "Архитектор", nav_contact: "Связь",
                 hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
                 marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
                 about_title: "Симуляция", about_text1: "Ты играешь за Джонни, разработчика, запертого в кошмарном цикле.", about_text2: "Это не просто игра. Это психологический тест.", link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
-                nori_title: "Объект: Nori", nori_text1: "Нори должна была помогать. Теперь она хочет тебя удалить.", nori_text2: "Она ломает 4-ю стену и читает твои файлы.", link_nori: ">> ОТКРЫТЬ ФАЙЛ",
                 dev_title: "Архитектор", dev_text1: "Я 16-летний соло-разработчик. WriteNor — проект моей мечты.", dev_text2: "Каждый глюк создан, чтобы сломать тебе мозг.",
                 feat_title: "ОСОБЕННОСТИ", feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи реальный код, чтобы менять мир.", feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет пауз.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра читает твое имя в Windows.",
-                join_title: "ВСТУПАЙ В СЕТЬ"
+                join_title: "ВСТУПАЙ В СЕТЬ",
+                contact_title: "СВЯЗЬ_С_РАЗРАБОТЧИКОМ", contact_text: "Хотите сотрудничать или нашли баг? Отправьте пакет данных на мой терминал.",
+                form_name_ph: "Имя / ID Разработчика", form_email_ph: "Email / Обратный путь", form_msg_ph: "Ваше сообщение...", form_send: "ОТПРАВИТЬ_ДАННЫЕ"
             },
             ua: {
-                nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ", nav_dev: "Архітектор",
+                nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ", nav_dev: "Архітектор", nav_contact: "Зв'язок",
                 hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити Демо", btn_steam: "STEAM (СКОРО)",
                 marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
                 about_title: "Симуляція", about_text1: "Ти граєш за Джонні, розробника, замкненого у кошмарному циклі.", about_text2: "Це не просто гра. Це психологічний тест.", link_wiki: ">> БАЗА ДАНИХ (ВІКІ)",
-                nori_title: "Об'єкт: Норі", nori_text1: "Норі мала допомагати. Тепер вона хоче тебе видалити.", nori_text2: "Вона ламає 4-ту стіну і читає твої файли.", link_nori: ">> ВІДКРИТИ ФАЙЛ",
                 dev_title: "Архітектор", dev_text1: "Я 16-річний соло-розробник. WriteNor — проєкт моєї мрії.", dev_text2: "Кожен глюк створений, щоб зламати тобі мозок.",
                 feat_title: "ОСОБЛИВОСТІ", feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь реальний код, щоб змінювати світ.", feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає пауз.", feat_3_title: "МЕТА-ГОРОР", feat_3_text: "Гра читає твоє ім'я у Windows.",
-                join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ"
+                join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ",
+                contact_title: "ЗВ'ЯЗОК_З_РОЗРОБНИКОМ", contact_text: "Хочете співпрацювати чи знайшли баг? Відправте пакет даних.",
+                form_name_ph: "Ім'я / ID", form_email_ph: "Email", form_msg_ph: "Повідомлення...", form_send: "ВІДПРАВИТИ"
             },
             pl: {
-                nav_sim: "Symulacja", nav_sys: "System", nav_net: "Sieć", nav_nori: "⚠ PLIK_NORI", nav_dev: "Architekt",
+                nav_sim: "Symulacja", nav_sys: "System", nav_net: "Sieć", nav_nori: "⚠ PLIK_NORI", nav_dev: "Architekt", nav_contact: "Kontakt",
                 hero_desc: "Horror psychologiczny / Kodowanie", btn_play: "Uruchom Demo", btn_steam: "STEAM (WKRÓTCE)",
                 marquee_text: "> OSTRZEŻENIE: AI 'NORI' JEST AKTYWNA. > WYKRYTO NARUSZENIE. >",
                 about_title: "Symulacja", about_text1: "Jesteś Johnny, programista uwięziony w koszmarze.", about_text2: "To nie tylko gra. To test psychologiczny.", link_wiki: ">> BAZA DANYCH",
-                nori_title: "Obiekt: Nori", nori_text1: "Nori miała pomagać. Teraz chce cię usunąć.", nori_text2: "Ona wchodzi w interakcję z twoimi plikami.", link_nori: ">> OTWÓRZ PLIK",
                 dev_title: "Architekt", dev_text1: "Mam 16 lat i tworzę to solo.", dev_text2: "Każdy błąd jest celowy.",
-                feat_title: "CECHY", feat_1_title: "HAKOWANIE", feat_1_text: "Wpisuj kod, aby zmieniać świat.", feat_2_title: "UI", feat_2_text: "Brak HUD. Pełna immersja.", feat_3_title: "META", feat_3_text: "Gra czyta nazwę użytkownika.",
-                join_title: "DOŁĄCZ DO SIECI"
+                feat_title: "CECHY", feat_1_title: "HAKOWANIE", feat_1_text: "Wpisuj kod, aby zmieniać świat.", feat_2_title: "UI", feat_2_text: "Brak HUD.", feat_3_title: "META", feat_3_text: "Gra czyta nazwę użytkownika.",
+                join_title: "DOŁĄCZ DO SIECI",
+                contact_title: "KONTAKT", contact_text: "Napisz do mnie wiadomość.",
+                form_name_ph: "Imię", form_email_ph: "Email", form_msg_ph: "Wiadomość...", form_send: "WYŚLIJ"
             },
             de: {
-                nav_sim: "Simulation", nav_sys: "System", nav_net: "Netzwerk", nav_nori: "⚠ NORI_DATEI", nav_dev: "Architekt",
+                nav_sim: "Simulation", nav_sys: "System", nav_net: "Netzwerk", nav_nori: "⚠ NORI_DATEI", nav_dev: "Architekt", nav_contact: "Kontakt",
                 hero_desc: "Psychologischer Horror / Coding", btn_play: "Demo Starten", btn_steam: "STEAM (BALD)",
                 marquee_text: "> WARNUNG: KI 'NORI' IST AKTIV. > SYSTEMFEHLER GEFUNDEN. >",
                 about_title: "Simulation", about_text1: "Du bist Johnny, gefangen im Code.", about_text2: "Das ist kein Spiel. Es ist ein Test.", link_wiki: ">> DATENBANK",
-                nori_title: "Objekt: Nori", nori_text1: "Sie will dich löschen.", nori_text2: "Sie liest deine Dateien.", link_nori: ">> DATEI ÖFFNEN",
                 dev_title: "Architekt", dev_text1: "Ich bin 16 und Solo-Entwickler.", dev_text2: "Jeder Glitch ist gewollt.",
                 feat_title: "FEATURES", feat_1_title: "HACKING", feat_1_text: "Ändere die Welt mit Code.", feat_2_title: "UI", feat_2_text: "Kein HUD.", feat_3_title: "META", feat_3_text: "Liest deinen Namen.",
-                join_title: "NETZWERK BEITRETEN"
+                join_title: "NETZWERK BEITRETEN",
+                contact_title: "KONTAKT", contact_text: "Schick mir eine Nachricht.",
+                form_name_ph: "Name", form_email_ph: "Email", form_msg_ph: "Nachricht...", form_send: "SENDEN"
             },
             es: {
-                nav_sim: "Simulación", nav_sys: "Sistema", nav_net: "Red", nav_nori: "⚠ ARCHIVO_NORI", nav_dev: "Arquitecto",
+                nav_sim: "Simulación", nav_sys: "Sistema", nav_net: "Red", nav_nori: "⚠ ARCHIVO_NORI", nav_dev: "Arquitecto", nav_contact: "Contacto",
                 hero_desc: "Terror Psicológico / Código", btn_play: "Iniciar Demo", btn_steam: "STEAM (PRONTO)",
                 marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > FALLO DEL SISTEMA. >",
                 about_title: "La Simulación", about_text1: "Eres Johnny, atrapado en el código.", about_text2: "No es un juego. Es un test.", link_wiki: ">> BASE DE DATOS",
-                nori_title: "Entidad: Nori", nori_text1: "Ella quiere borrarte.", nori_text2: "Lee tus archivos reales.", link_nori: ">> ABRIR ARCHIVO",
                 dev_title: "Arquitecto", dev_text1: "Tengo 16 años, desarrollo solo.", dev_text2: "Cada error es intencional.",
                 feat_title: "CARACTERÍSTICAS", feat_1_title: "HACKING", feat_1_text: "Usa código para cambiar el mundo.", feat_2_title: "UI", feat_2_text: "Sin HUD.", feat_3_title: "META", feat_3_text: "Lee tu nombre de usuario.",
-                join_title: "ÚNETE A LA RED"
+                join_title: "ÚNETE A LA RED",
+                contact_title: "CONTACTO", contact_text: "Envíame un mensaje.",
+                form_name_ph: "Nombre", form_email_ph: "Email", form_msg_ph: "Mensaje...", form_send: "ENVIAR"
             },
             fr: {
-                nav_sim: "Simulation", nav_sys: "Système", nav_net: "Réseau", nav_nori: "⚠ FICHIER_NORI", nav_dev: "Architecte",
+                nav_sim: "Simulation", nav_sys: "Système", nav_net: "Réseau", nav_nori: "⚠ FICHIER_NORI", nav_dev: "Architecte", nav_contact: "Contact",
                 hero_desc: "Horreur Psychologique / Code", btn_play: "Lancer Démo", btn_steam: "STEAM (BIENTÔT)",
                 marquee_text: "> ATTENTION: IA 'NORI' ACTIVE. > ERREUR SYSTÈME. >",
                 about_title: "Simulation", about_text1: "Vous êtes Johnny, piégé dans le code.", about_text2: "Ce n'est pas un jeu. C'est un test.", link_wiki: ">> BASE DE DONNÉES",
-                nori_title: "Entité: Nori", nori_text1: "Elle veut vous supprimer.", nori_text2: "Elle lit vos fichiers.", link_nori: ">> OUVRIR FICHIER",
                 dev_title: "Architecte", dev_text1: "J'ai 16 ans, dév solo.", dev_text2: "Chaque glitch est voulu.",
                 feat_title: "FONCTIONNALITÉS", feat_1_title: "PIRATAGE", feat_1_text: "Changez le monde avec du code.", feat_2_title: "UI", feat_2_text: "Pas de HUD.", feat_3_title: "MÉTA", feat_3_text: "Lit votre nom d'utilisateur.",
-                join_title: "REJOINDRE LE RÉSEAU"
+                join_title: "REJOINDRE LE RÉSEAU",
+                contact_title: "CONTACT", contact_text: "Envoyez-moi un message.",
+                form_name_ph: "Nom", form_email_ph: "Email", form_msg_ph: "Message...", form_send: "ENVOYER"
             },
             jp: {
-                nav_sim: "シミュレーション", nav_sys: "システム", nav_net: "ネットワーク", nav_nori: "⚠ Nori_ファイル", nav_dev: "アーキテクト",
+                nav_sim: "シミュレーション", nav_sys: "システム", nav_net: "ネットワーク", nav_nori: "⚠ Nori_ファイル", nav_dev: "アーキテクト", nav_contact: "お問い合わせ",
                 hero_desc: "サイコホラー / コーディング", btn_play: "デモ起動", btn_steam: "STEAM (近日公開)",
                 marquee_text: "> 警告：AI「Nori」がアクティブです。 > システム侵害を検出。 >",
                 about_title: "シミュレーション", about_text1: "あなたはジョニー。悪夢に閉じ込められています。", about_text2: "これはゲームではありません。テストです。", link_wiki: ">> データベース",
-                nori_title: "実体: Nori", nori_text1: "彼女はあなたを削除しようとしています。", nori_text2: "彼女はあなたのファイルを読み取ります。", link_nori: ">> ファイルを開く",
                 dev_title: "アーキテクト", dev_text1: "16歳のソロ開発者です。", dev_text2: "すべてのグリッチは意図的です。",
                 feat_title: "特徴", feat_1_title: "ハッキング", feat_1_text: "コードで世界を変える。", feat_2_title: "UI", feat_2_text: "HUDなし。", feat_3_title: "メタ", feat_3_text: "PCの名前を読み取ります。",
-                join_title: "ネットワークに参加"
+                join_title: "ネットワークに参加",
+                contact_title: "お問い合わせ", contact_text: "メッセージを送ってください。",
+                form_name_ph: "名前", form_email_ph: "メール", form_msg_ph: "メッセージ...", form_send: "送信"
             },
             cn: {
-                nav_sim: "模拟", nav_sys: "系统", nav_net: "网络", nav_nori: "⚠ Nori_文件", nav_dev: "架构师",
+                nav_sim: "模拟", nav_sys: "系统", nav_net: "网络", nav_nori: "⚠ Nori_文件", nav_dev: "架构师", nav_contact: "联系我们",
                 hero_desc: "心理恐怖 / 编程", btn_play: "启动演示", btn_steam: "STEAM (即将推出)",
                 marquee_text: "> 警告：AI 'Nori' 已激活。 > 检测到系统入侵。 >",
                 about_title: "模拟", about_text1: "你是约翰尼，被困在噩梦中。", about_text2: "这不是游戏。是测试。", link_wiki: ">> 数据库",
-                nori_title: "实体: Nori", nori_text1: "她想删除你。", nori_text2: "她读取你的文件。", link_nori: ">> 打开文件",
                 dev_title: "架构师", dev_text1: "我16岁，独立开发者。", dev_text2: "所有故障都是故意的。",
                 feat_title: "特征", feat_1_title: "黑客", feat_1_text: "用代码改变世界。", feat_2_title: "UI", feat_2_text: "无HUD。", feat_3_title: "元", feat_3_text: "读取你的用户名。",
-                join_title: "加入网络"
+                join_title: "加入网络",
+                contact_title: "联系", contact_text: "给我发消息。",
+                form_name_ph: "名字", form_email_ph: "邮箱", form_msg_ph: "信息...", form_send: "发送"
             },
             it: {
-                nav_sim: "Simulazione", nav_sys: "Sistema", nav_net: "Rete", nav_nori: "⚠ FILE_NORI", nav_dev: "Architetto",
+                nav_sim: "Simulazione", nav_sys: "Sistema", nav_net: "Rete", nav_nori: "⚠ FILE_NORI", nav_dev: "Architetto", nav_contact: "Contatto",
                 hero_desc: "Horror Psicologico", btn_play: "Avvia Demo", btn_steam: "STEAM (PRESTO)",
                 marquee_text: "> ATTENZIONE: AI 'NORI' ATTIVA. > ERRORE DI SISTEMA. >",
                 about_title: "Simulazione", about_text1: "Sei Johnny, intrappolato nel codice.", about_text2: "Non è un gioco. È un test.", link_wiki: ">> DATABASE",
-                nori_title: "Entità: Nori", nori_text1: "Lei vuole cancellarti.", nori_text2: "Legge i tuoi file.", link_nori: ">> APRI FILE",
                 dev_title: "Architetto", dev_text1: "Ho 16 anni, dev solo.", dev_text2: "Ogni glitch è voluto.",
                 feat_title: "CARATTERISTICHE", feat_1_title: "HACKING", feat_1_text: "Usa il codice per cambiare il mondo.", feat_2_title: "UI", feat_2_text: "Niente HUD.", feat_3_title: "META", feat_3_text: "Legge il tuo nome utente.",
-                join_title: "UNISCITI ALLA RETE"
+                join_title: "UNISCITI ALLA RETE",
+                contact_title: "CONTATTO", contact_text: "Inviami un messaggio.",
+                form_name_ph: "Nome", form_email_ph: "Email", form_msg_ph: "Messaggio...", form_send: "INVIA"
             },
             pt: {
-                nav_sim: "Simulação", nav_sys: "Sistema", nav_net: "Rede", nav_nori: "⚠ ARQUIVO_NORI", nav_dev: "Arquiteto",
+                nav_sim: "Simulação", nav_sys: "Sistema", nav_net: "Rede", nav_nori: "⚠ ARQUIVO_NORI", nav_dev: "Arquiteto", nav_contact: "Contato",
                 hero_desc: "Terror Psicológico", btn_play: "Iniciar Demo", btn_steam: "STEAM (EM BREVE)",
                 marquee_text: "> AVISO: IA 'NORI' ATIVA. > FALHA NO SISTEMA. >",
-                about_title: "Simulação", about_text1: "Você é Johnny, preso no código.", about_text2: "Não é um jogo. É um teste.", link_wiki: ">> BANCO DE DADOS",
-                nori_title: "Entidade: Nori", nori_text1: "Ela quer te deletar.", nori_text2: "Ela lê seus arquivos.", link_nori: ">> ABRIR ARQUIVO",
+                about_title: "Simulação", about_text1: "Você é Johnny, preso no código.", about_text2: "Não é un jogo. É um teste.", link_wiki: ">> BANCO DE DADOS",
                 dev_title: "Arquiteto", dev_text1: "Tenho 16 anos, dev solo.", dev_text2: "Cada glitch é proposital.",
                 feat_title: "RECURSOS", feat_1_title: "HACKING", feat_1_text: "Use código para mudar o mundo.", feat_2_title: "UI", feat_2_text: "Sem HUD.", feat_3_title: "META", feat_3_text: "Lê seu nome de usuário.",
-                join_title: "JUNTE-SE À REDE"
+                join_title: "JUNTE-SE À REDE",
+                contact_title: "CONTATO", contact_text: "Envie-me uma mensagem.",
+                form_name_ph: "Nome", form_email_ph: "Email", form_msg_ph: "Mensagem...", form_send: "ENVIAR"
             }
         };
-
-        function detectAndSetLang() {
-            const userLang = navigator.language || navigator.userLanguage;
-            let target = 'en'; 
-            const code = userLang.slice(0, 2);
-            if (langData[code]) target = code;
-            setLang(target);
-        }
 
         function setLang(lang) {
             if (!langData[lang]) lang = 'en';
@@ -429,14 +444,19 @@
                 const key = el.getAttribute('data-key');
                 if (langData[lang][key]) el.innerHTML = langData[lang][key];
             });
+            // Обновление плейсхолдеров формы
+            document.querySelectorAll('[data-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-placeholder');
+                if (langData[lang][key]) el.placeholder = langData[lang][key];
+            });
             const btnText = '[ ' + lang.toUpperCase() + ' ]';
             document.getElementById('current-lang').innerText = btnText;
         }
 
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 1000); }, 3500);
-            detectAndSetLang();
+            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 1000); }, 3000);
+            setLang('en');
         });
 
         const cursor = document.querySelector('.cursor');
