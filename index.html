@@ -21,6 +21,9 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         
+        /* Блокировка скролла при загрузке */
+        body.lock-scroll { overflow: hidden; }
+
         body { 
             background-color: var(--bg); 
             color: var(--text-main); 
@@ -52,7 +55,7 @@
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease-out; }
         .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
         .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
-        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
+        .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 3s ease-in-out forwards; }
         @keyframes load { to { width: 100%; } }
         @keyframes blink { 50% { opacity: 0; } }
 
@@ -88,7 +91,7 @@
             position: relative; 
         }
         .hero-content { 
-            position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 2.2s forwards; 
+            position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 3.2s forwards; 
             width: 100%; max-width: 1200px; padding: 0 20px;
             display: flex; flex-direction: column; align-items: center; 
         }
@@ -108,7 +111,7 @@
         .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
         .cta-btn { padding: 15px 50px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; background: transparent; }
         .cta-btn:hover { background: #fff; color: #000; }
-        .steam-btn { border-color: #555; color: #555; cursor: not-allowed; }
+        .steam-btn { border-color: #555 !important; color: #555 !important; cursor: not-allowed !important; pointer-events: none; opacity: 0.6; }
 
         /* БЕГУЩАЯ СТРОКА */
         .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 8px 0; font-family: 'JetBrains Mono'; font-weight: bold; border-top: 1px solid #fff; border-bottom: 1px solid #fff; }
@@ -129,7 +132,7 @@
         .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.7; }
         .img-block:hover img { transform: scale(1.1); opacity: 1; }
 
-        /* === СТИЛЬ ФОРМЫ (НОВОЕ) === */
+        /* КОНТАКТНАЯ ФОРМА */
         .contact-form {
             display: flex;
             flex-direction: column;
@@ -168,6 +171,7 @@
         .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
         .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
         .social-link:hover { color: #fff; border-bottom: 1px solid var(--primary); }
+        .social-link.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: 1s all ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -185,7 +189,7 @@
         }
     </style>
 </head>
-<body>
+<body class="lock-scroll">
 
     <div id="preloader">
         <div class="loader-text">> BOOTING SYSTEM...</div>
@@ -270,7 +274,6 @@
         </div>
     </section>
 
-    <!-- СЕКЦИЯ КОНТАКТОВ ДЛЯ РАЗРАБОТЧИКОВ -->
     <section id="contact" class="container reveal">
         <div class="text-block" style="max-width: 800px; margin: 0 auto;">
             <h2 data-key="contact_title">CONNECT_DEVELOPERS</h2>
@@ -285,31 +288,13 @@
         </div>
     </section>
 
-    <section id="features" style="background: rgba(8,8,8,0.9);">
-        <div class="container reveal">
-            <h2 style="text-align:center; border:none;" data-key="feat_title">SYSTEM FEATURES</h2>
-            <div class="features">
-                <div class="feature-box">
-                    <h3 data-key="feat_1_title">CMD_HACKING</h3>
-                    <p data-key="feat_1_text">Type real commands to alter the game world.</p>
-                </div>
-                <div class="feature-box">
-                    <h3 data-key="feat_2_title">DIEGETIC_UI</h3>
-                    <p data-key="feat_2_text">No HUD. No pause screens. Total immersion.</p>
-                </div>
-                <div class="feature-box">
-                    <h3 data-key="feat_3_title">META_HORROR</h3>
-                    <p data-key="feat_3_text">The game reads your OS username.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="community" class="links-section reveal">
         <h2 data-key="join_title">JOIN THE NETWORK</h2>
         <div class="links-grid">
             <a href="https://discord.gg/QD5mUt44n5" class="social-link">DISCORD</a>
             <a href="https://www.youtube.com/@WriteNor" class="social-link">YOUTUBE</a>
+            <a href="https://www.igdb.com/games/writenor" class="social-link">IGDB</a>
+            <a href="#" class="social-link disabled">STEAM</a>
         </div>
     </section>
 
@@ -417,7 +402,7 @@
             it: {
                 nav_sim: "Simulazione", nav_sys: "Sistema", nav_net: "Rete", nav_nori: "⚠ FILE_NORI", nav_dev: "Architetto", nav_contact: "Contatto",
                 hero_desc: "Horror Psicologico", btn_play: "Avvia Demo", btn_steam: "STEAM (PRESTO)",
-                marquee_text: "> ATTENZIONE: AI 'NORI' ATTIVA. > ERRORE DI SISTEMA. >",
+                marquee_text: "> ATTENZIONE: AI 'NORI' ATTIVA. > ERREUR DI SISTEMA. >",
                 about_title: "Simulazione", about_text1: "Sei Johnny, intrappolato nel codice.", about_text2: "Non è un gioco. È un test.", link_wiki: ">> DATABASE",
                 dev_title: "Architetto", dev_text1: "Ho 16 anni, dev solo.", dev_text2: "Ogni glitch è voluto.",
                 feat_title: "CARATTERISTICHE", feat_1_title: "HACKING", feat_1_text: "Usa il codice per cambiare il mondo.", feat_2_title: "UI", feat_2_text: "Niente HUD.", feat_3_title: "META", feat_3_text: "Legge il tuo nome utente.",
@@ -438,13 +423,25 @@
             }
         };
 
+        // ФУНКЦИЯ ОПРЕДЕЛЕНИЯ ЯЗЫКА ПО БРАУЗЕРУ / СТРАНЕ
+        function autoDetectLang() {
+            const userLang = navigator.language || navigator.userLanguage;
+            let code = userLang.slice(0, 2).toLowerCase();
+            
+            // Если язык поддерживается, ставим его, иначе English
+            if (langData[code]) {
+                setLang(code);
+            } else {
+                setLang('en');
+            }
+        }
+
         function setLang(lang) {
             if (!langData[lang]) lang = 'en';
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (langData[lang][key]) el.innerHTML = langData[lang][key];
             });
-            // Обновление плейсхолдеров формы
             document.querySelectorAll('[data-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-placeholder');
                 if (langData[lang][key]) el.placeholder = langData[lang][key];
@@ -455,8 +452,15 @@
 
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 1000); }, 3000);
-            setLang('en');
+            // Авто-определение языка при загрузке
+            autoDetectLang();
+
+            // Убираем прелоадер и разблокируем скролл через 3.5 секунды
+            setTimeout(() => { 
+                preloader.style.opacity = '0'; 
+                document.body.classList.remove('lock-scroll'); // РАЗБЛОКИРОВКА СКРОЛЛА
+                setTimeout(() => preloader.style.display = 'none', 1000); 
+            }, 3500);
         });
 
         const cursor = document.querySelector('.cursor');
