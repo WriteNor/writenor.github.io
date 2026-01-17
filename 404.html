@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>Redirecting…</title>
+  <script>
+    // Сохраняем путь, чтобы можно было потом показать "вы искали ..."
+    sessionStorage.setItem("lastBadPath", location.pathname + location.search + location.hash);
+    location.replace("/?from=404");
+  </script>
+</head>
+<body></body>
+</html>
