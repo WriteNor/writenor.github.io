@@ -3,212 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Primary SEO -->
-  <title>WriteNor — Psychological Meta-Horror Coding Sim | Demo on itch.io</title>
-  <meta name="description" content="WriteNor is a psychological meta-horror coding sim: debug a corrupted system, use a command console to bend reality, and survive the AI entity NORI. Play the demo on itch.io." />
+  <title>WriteNor — Psychological Meta-Horror Coding Sim</title>
+  <meta name="description" content="WriteNor is a psychological meta-horror coding sim: debug a corrupted system, use a command console to bend reality, and survive the AI entity NORI." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="/" />
+  <link rel="icon" type="image/png" href="/favicon.png?v=6">
 
-  <!-- Social / Share -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="WriteNor — Psychological Meta-Horror Coding Sim" />
-  <meta property="og:description" content="Debug a corrupted system. The code rewrites itself. Use a terminal to alter reality — and face NORI." />
-  <meta property="og:url" content="/" />
-  <meta property="og:image" content="og-cover.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="WriteNor — Psychological Meta-Horror Coding Sim" />
-  <meta name="twitter:description" content="Use a terminal to bend reality. Survive NORI. Play the demo." />
-  <meta name="twitter:image" content="og-cover.jpg" />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png?v=6" />
-
-  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@graph":[
-      {
-        "@type":"VideoGame",
-        "name":"WriteNor",
-        "alternateName":["WRITENOR","Write Nor","Writenor","WriteNoR","WriteNowe","Write Nor game","WriteNor game"],
-        "genre":["Psychological Horror","Meta Horror","Simulation","Indie"],
-        "gamePlatform":["PC"],
-        "author":{"@type":"Person","name":"Terawww"},
-        "url":"/",
-        "sameAs":[
-          "https://terawww.itch.io/writenor",
-          "https://discord.gg/QD5mUt44n5",
-          "https://www.youtube.com/@WriteNor",
-          "https://www.igdb.com/games/writenor"
-        ]
-      },
-      {
-        "@type":"WebSite",
-        "name":"WriteNor",
-        "url":"/"
-      }
+    "@type":"VideoGame",
+    "name":"WriteNor",
+    "alternateName":["WRITENOR","Write Nor","Writenor","WriteNoR","WriteNowe"],
+    "genre":["Psychological Horror","Meta Horror","Simulation","Indie"],
+    "gamePlatform":["PC"],
+    "author":{"@type":"Person","name":"Terawww"},
+    "url":"/",
+    "sameAs":[
+      "https://terawww.itch.io/writenor",
+      "https://discord.gg/QD5mUt44n5",
+      "https://www.youtube.com/@WriteNor",
+      "https://www.igdb.com/games/writenor"
     ]
   }
   </script>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --primary: #ff003c;
-      --secondary: #00f3ff;
-      --bg: #000000;
-      --text-main: #f0f0f0;
+    :root { --primary:#ff003c; --secondary:#00f3ff; --bg:#000; --text-main:#f0f0f0; }
+    * { margin:0; padding:0; box-sizing:border-box; cursor:none; }
+    body.lock-scroll { overflow:hidden; }
+    body { background:var(--bg); color:var(--text-main); font-family:'Rajdhani',sans-serif; overflow-x:hidden; width:100%; }
+
+    canvas { position:fixed; top:0; left:0; z-index:-3; }
+    .bg-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:-2; pointer-events:none; }
+    .scanlines{ position:fixed; inset:0; background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); background-size:100% 4px; pointer-events:none; z-index:900; opacity:.3; }
+
+    .cursor{ width:20px; height:20px; border:2px solid var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
+    .cursor-dot{ width:4px; height:4px; background:var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+
+    #preloader{ position:fixed; inset:0; background:#000; z-index:10000; display:flex; align-items:center; justify-content:center; flex-direction:column; transition:opacity 1s ease-out; }
+    .loader-text{ font-family:'JetBrains Mono',monospace; color:var(--primary); margin-top:20px; animation:blink .5s infinite; }
+    .bar{ width:200px; height:2px; background:#333; margin-top:10px; position:relative; overflow:hidden; }
+    .bar::after{ content:''; position:absolute; inset:0; width:0%; background:var(--primary); animation:load 3s ease-in-out forwards; }
+    @keyframes load{ to{ width:100%; } }
+    @keyframes blink{ 50%{ opacity:0; } }
+
+    nav{
+      position:fixed; top:0; width:100%; padding:15px 40px;
+      display:flex; justify-content:space-between; align-items:center;
+      z-index:2000; background:rgba(0,0,0,.9); border-bottom:1px solid #333;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-    body.lock-scroll { overflow: hidden; }
+    .logo{ font-family:'Syncopate',sans-serif; font-weight:700; font-size:1.5rem; letter-spacing:2px; color:#fff; }
+    .nav-links{ display:flex; gap:30px; align-items:center; flex-wrap:wrap; justify-content:center; }
+    .nav-links a{ color:#aaa; text-decoration:none; text-transform:uppercase; font-weight:700; letter-spacing:1px; transition:.3s; font-size:.9rem; }
+    .nav-links a:hover{ color:#fff; text-shadow:0 0 5px #fff; }
+    .nori-link{ color:var(--primary)!important; border:1px solid var(--primary); padding:5px 10px; animation:textGlitch 2s infinite; }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      font-family: 'Rajdhani', sans-serif;
-      overflow-x: hidden;
-      width: 100%;
-    }
+    .dropdown{ position:relative; display:inline-block; font-family:'JetBrains Mono'; }
+    .dropbtn{ background:#000; color:#fff; padding:5px 15px; font-size:.9rem; border:1px solid #fff; cursor:none; transition:.3s; font-weight:bold; text-transform:uppercase; }
+    .dropbtn:hover{ background:#fff; color:#000; }
+    .dropdown-content{ display:none; position:absolute; right:0; top:100%; background:#000; min-width:160px; border:1px solid #fff; z-index:99999; max-height:400px; overflow-y:auto; }
+    .dropdown-content span{ color:#fff; padding:10px 15px; display:block; font-size:.8rem; cursor:pointer; transition:.2s; border-bottom:1px solid #333; }
+    .dropdown-content span:hover{ background:#fff; color:#000; }
+    .dropdown:hover .dropdown-content{ display:block; }
 
-    canvas { position: fixed; top: 0; left: 0; z-index: -3; }
-    .bg-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: -2;
-      pointer-events: none;
-    }
-    .scanlines {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-      background-size: 100% 4px;
-      pointer-events: none; z-index: 900; opacity: 0.3;
-    }
+    header{ height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; }
+    .hero-content{ position:relative; z-index:10; opacity:0; transform:translateY(20px); animation:fadeUp 1.5s 3.2s forwards; width:100%; max-width:1200px; padding:0 20px; display:flex; flex-direction:column; align-items:center; }
+    h1{ font-family:'Syncopate',sans-serif; font-size:9vw; line-height:1; text-transform:uppercase; color:transparent; -webkit-text-stroke:2px #fff; position:relative; }
+    h1::after{ content:'WRITENOR'; position:absolute; top:0; left:0; right:0; color:#fff; opacity:0; animation:glitchText 3s infinite alternate-reverse; }
+    .hero-desc{ font-size:1.5rem; letter-spacing:5px; color:var(--primary); margin:20px 0 40px; text-transform:uppercase; }
+    .hero-btns{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; width:100%; }
+    .cta-btn{ padding:15px 50px; border:2px solid #fff; color:#fff; font-family:'JetBrains Mono'; font-weight:bold; text-decoration:none; text-transform:uppercase; transition:.3s; background:transparent; }
+    .cta-btn:hover{ background:#fff; color:#000; }
+    .steam-btn{ border-color:#555!important; color:#555!important; cursor:not-allowed!important; pointer-events:none; opacity:.6; }
 
-    .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference; }
-    .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+    .marquee{ width:100%; overflow:hidden; white-space:nowrap; background:var(--primary); color:#000; padding:8px 0; font-family:'JetBrains Mono'; font-weight:bold; border-top:1px solid #fff; border-bottom:1px solid #fff; }
+    .marquee span{ display:inline-block; padding-left:100%; animation:marquee 25s linear infinite; }
 
-    #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease-out; }
-    .loader-text { font-family: 'JetBrains Mono', monospace; color: var(--primary); margin-top: 20px; animation: blink 0.5s infinite; }
-    .bar { width: 200px; height: 2px; background: #333; margin-top: 10px; position: relative; overflow: hidden; }
-    .bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary); animation: load 3s ease-in-out forwards; }
-    @keyframes load { to { width: 100%; } }
-    @keyframes blink { 50% { opacity: 0; } }
+    .container{ max-width:1400px; margin:0 auto; padding:100px 20px; }
+    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; margin-bottom:150px; }
+    .text-block{ background:rgba(0,0,0,.8); padding:40px; border-left:5px solid var(--primary); backdrop-filter:blur(5px); }
+    .text-block h2{ font-size:3rem; margin-bottom:30px; text-transform:uppercase; padding-left:10px; }
+    .text-block p{ font-size:1.1rem; line-height:1.8; color:#ccc; margin-bottom:20px; }
+    .img-block{ height:400px; width:100%; background:#111; overflow:hidden; border:1px solid #333; position:relative; }
+    .img-block img{ width:100%; height:100%; object-fit:cover; transition:1s; opacity:.7; }
+    .img-block:hover img{ transform:scale(1.1); opacity:1; }
 
-    nav {
-      position: fixed; top: 0; width: 100%; padding: 15px 40px;
-      display: flex; justify-content: space-between; align-items: center;
-      z-index: 2000;
-      background: rgba(0,0,0,0.9); border-bottom: 1px solid #333;
-    }
-    .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
-    .nav-links { display: flex; gap: 30px; align-items: center; }
-    .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.9rem; }
-    .nav-links a:hover { color: #fff; text-shadow: 0 0 5px #fff; }
-    .nori-link { color: var(--primary) !important; border: 1px solid var(--primary); padding: 5px 10px; animation: textGlitch 2s infinite; }
+    .features{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; text-align:center; }
+    .feature-box{ background:rgba(10,10,10,.9); padding:40px; border:1px solid #222; transition:.3s; }
+    .feature-box:hover{ border-color:var(--primary); transform:translateY(-10px); }
+    .feature-box h3{ font-size:1.5rem; color:#fff; margin-bottom:15px; }
+    .feature-box p{ color:#bbb; line-height:1.7; }
 
-    .dropdown { position: relative; display: inline-block; font-family: 'JetBrains Mono'; }
-    .dropbtn { background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; border: 1px solid #fff; cursor: none; transition: 0.3s; font-weight: bold; text-transform: uppercase; }
-    .dropbtn:hover { background: #fff; color: #000; }
-    .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: #000; min-width: 140px; border: 1px solid #fff; z-index: 1; max-height: 400px; overflow-y: auto; }
-    .dropdown-content span { color: #fff; padding: 10px 15px; display: block; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #333; }
-    .dropdown-content span:hover { background-color: #fff; color: #000; }
-    .dropdown:hover .dropdown-content { display: block; }
+    .contact-form{ display:flex; flex-direction:column; gap:15px; margin-top:20px; }
+    .contact-form input,.contact-form textarea{ background:rgba(20,20,20,.8); border:1px solid #333; padding:15px; color:#fff; font-family:'JetBrains Mono',monospace; outline:none; transition:.3s; }
+    .contact-form input:focus,.contact-form textarea:focus{ border-color:var(--primary); box-shadow:0 0 10px rgba(255,0,60,.5); }
+    .contact-form textarea{ height:120px; resize:none; }
+    .form-btn{ width:100%; }
 
-    header {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-    }
-    .hero-content {
-      position: relative; z-index: 10; opacity: 0; animation: fadeUp 1.5s 3.2s forwards;
-      width: 100%; max-width: 1200px; padding: 0 20px;
-      display: flex; flex-direction: column; align-items: center;
-      transform: translateY(20px);
-    }
-    h1 {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 9vw;
-      line-height: 1;
-      text-transform: uppercase;
-      color: transparent;
-      -webkit-text-stroke: 2px #fff;
-      margin: 0; padding: 0;
-      text-align: center;
-      position: relative;
-    }
-    h1::after { content: 'WRITENOR'; position: absolute; top: 0; left: 0; right: 0; color: #fff; opacity: 0; animation: glitchText 3s infinite alternate-reverse; text-align: center; }
-    .hero-desc { font-size: 1.5rem; letter-spacing: 5px; color: var(--primary); margin: 20px 0 40px 0; text-transform: uppercase; text-align: center; }
-    .hero-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; }
-    .cta-btn { padding: 15px 50px; border: 2px solid #fff; color: #fff; font-family: 'JetBrains Mono'; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; background: transparent; }
-    .cta-btn:hover { background: #fff; color: #000; }
-    .steam-btn { border-color: #555 !important; color: #555 !important; cursor: not-allowed !important; pointer-events: none; opacity: 0.6; }
+    .links-section{ text-align:center; padding:100px 0; background:#080808; }
+    .links-grid{ display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:50px; }
+    .social-link{ font-size:1.5rem; color:#555; text-decoration:none; border-bottom:1px solid transparent; transition:.3s; }
+    .social-link:hover{ color:#fff; border-bottom:1px solid var(--primary); }
+    .social-link.disabled{ opacity:.4; cursor:not-allowed; pointer-events:none; }
 
-    .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--primary); color: #000; padding: 8px 0; font-family: 'JetBrains Mono'; font-weight: bold; border-top: 1px solid #fff; border-bottom: 1px solid #fff; }
-    .marquee span { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; }
+    .reveal{ opacity:0; transform:translateY(50px); transition:1s all ease; }
+    .reveal.active{ opacity:1; transform:translateY(0); }
 
-    .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 150px; }
-    .text-block {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 40px;
-      border-left: 5px solid var(--primary);
-      backdrop-filter: blur(5px);
-    }
-    .text-block h2 { font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; padding-left: 10px; }
-    .text-block p { font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
-    .img-block { height: 400px; width: 100%; background: #111; overflow: hidden; border: 1px solid #333; position: relative; }
-    .img-block img { width: 100%; height: 100%; object-fit: cover; transition: 1s; opacity: 0.7; }
-    .img-block:hover img { transform: scale(1.1); opacity: 1; }
+    @keyframes marquee{ 0%{ transform:translate(0,0);} 100%{ transform:translate(-100%,0);} }
+    @keyframes fadeUp{ to{ opacity:1; transform:translateY(0);} }
+    @keyframes glitchText{ 0%{ opacity:0; clip-path:inset(0 0 0 0);} 5%{ opacity:1; clip-path:inset(10% 0 80% 0); transform:translate(-2px,2px);} 15%{ opacity:0;} }
+    @keyframes textGlitch{ 0%{ opacity:1;} 50%{ opacity:.7; transform:translate(1px,0);} 100%{ opacity:1;} }
 
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: center; }
-    .feature-box { background: rgba(10, 10, 10, 0.9); padding: 40px; border: 1px solid #222; transition: 0.3s; }
-    .feature-box:hover { border-color: var(--primary); transform: translateY(-10px); }
-    .feature-box h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
-    .feature-box p { color: #bbb; line-height: 1.7; }
-
-    .contact-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-    .contact-form input, .contact-form textarea {
-      background: rgba(20, 20, 20, 0.8);
-      border: 1px solid #333;
-      padding: 15px;
-      color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      outline: none;
-      transition: 0.3s;
-    }
-    .contact-form input:focus, .contact-form textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
-    }
-    .contact-form textarea { height: 120px; resize: none; }
-    .form-btn { width: 100%; cursor: none; }
-
-    .links-section { text-align: center; padding: 100px 0; background: #080808; }
-    .links-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
-    .social-link { font-size: 1.5rem; color: #555; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
-    .social-link:hover { color: #fff; border-bottom: 1px solid var(--primary); }
-    .social-link.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-
-    .reveal { opacity: 0; transform: translateY(50px); transition: 1s all ease; }
-    .reveal.active { opacity: 1; transform: translateY(0); }
-
-    @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-    @keyframes glitchText { 0% { opacity: 0; clip-path: inset(0 0 0 0); } 5% { opacity: 1; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); } 15% { opacity: 0; } }
-    @keyframes textGlitch { 0% { opacity: 1; } 50% { opacity: 0.7; transform: translate(1px, 0); } 100% { opacity: 1; } }
-
-    @media (max-width: 900px) {
-      .grid-2, .features { grid-template-columns: 1fr; }
-      h1 { font-size: 4rem; }
-      nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
-      .nav-links { flex-wrap: wrap; justify-content: center; }
+    @media (max-width:900px){
+      .grid-2,.features{ grid-template-columns:1fr; }
+      h1{ font-size:4rem; }
+      nav{ padding:15px 20px; flex-direction:column; gap:15px; }
     }
   </style>
 </head>
@@ -225,9 +137,7 @@
   <canvas id="matrix"></canvas>
 
   <nav>
-    <div class="nav-left">
-      <div class="logo">TERAWWW</div>
-    </div>
+    <div class="nav-left"><div class="logo">TERAWWW</div></div>
 
     <div class="nav-links">
       <a href="#about" data-key="nav_sim">Simulation</a>
@@ -259,7 +169,6 @@
     <div class="hero-content">
       <h1>WRITENOR</h1>
       <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
-
       <div class="hero-btns">
         <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO (Itch.io)</a>
         <a href="#" class="cta-btn steam-btn" data-key="btn_steam">STEAM (SOON)</a>
@@ -277,22 +186,20 @@
         <h2 data-key="about_title">The Simulation</h2>
         <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
         <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality.</p>
-        <p style="margin-top:10px; color:#888; font-family:'JetBrains Mono';">
-          Keywords: psychological horror game, meta horror, terminal hacking game, command console horror, indie horror PC.
-        </p>
         <br>
         <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE (WIKI)</a>
       </div>
-      <div class="img-block"><img src="Office.png" alt="WriteNor office scene screenshot"></div>
+      <div class="img-block"><img src="/Office.png" alt="WriteNor office screenshot"></div>
     </div>
   </section>
 
-  <section id="features" class="container" style="border-top:1px solid #333;">
+  <section id="features" class="container" style="border-top: 1px solid #333;">
     <div class="reveal">
       <div class="text-block" style="margin-bottom:30px;">
-        <h2 data-key="feat_title">System Features</h2>
-        <p>WriteNor focuses on diegetic UX and meta-horror: the system is part of the story.</p>
+        <h2 data-key="feat_title">SYSTEM FEATURES</h2>
+        <p data-key="feat_intro">Type commands. Break the loop. The system fights back.</p>
       </div>
+
       <div class="features">
         <div class="feature-box">
           <h3 data-key="feat_1_title">CMD_HACKING</h3>
@@ -300,11 +207,11 @@
         </div>
         <div class="feature-box">
           <h3 data-key="feat_2_title">DIEGETIC_UI</h3>
-          <p data-key="feat_2_text">No HUD. No comfort. Only the system and your choices.</p>
+          <p data-key="feat_2_text">No HUD. No pause menu. UI exists inside the world.</p>
         </div>
         <div class="feature-box">
           <h3 data-key="feat_3_title">META_HORROR</h3>
-          <p data-key="feat_3_text">The game plays with perception. NORI learns patterns.</p>
+          <p data-key="feat_3_text">NORI knows you are playing. She manipulates perception.</p>
         </div>
       </div>
     </div>
@@ -313,23 +220,13 @@
   <section id="dev" class="container" style="border-top: 1px solid #333;">
     <div class="grid-2 reveal">
       <div class="img-block" style="border-radius: 50%; width: 300px; height: 300px; margin: 0 auto; border: 2px solid var(--primary);">
-        <img src="Dev_Avatar.png" alt="WriteNor developer avatar">
+        <img src="/Dev_Avatar.png" alt="Developer avatar">
       </div>
       <div class="text-block">
         <h2 data-key="dev_title">The Architect</h2>
         <p data-key="dev_text1">I am a 16-year-old solo developer. WriteNor is my passion project built on zero budget.</p>
         <p data-key="dev_text2">Every line of code, every glitch, and every secret was crafted to mess with your mind.</p>
       </div>
-    </div>
-  </section>
-
-  <section id="faq" class="container reveal" style="border-top: 1px solid #333;">
-    <div class="text-block" style="max-width: 900px; margin: 0 auto;">
-      <h2>FAQ</h2>
-      <p>
-        <b>WriteNor</b> is sometimes searched as: <i>write nor</i>, <i>writenor</i>, <i>write nowe</i>, <i>write no r</i>.
-        If you are looking for the psychological meta-horror coding sim with the AI entity <b>NORI</b>, this is the official site.
-      </p>
     </div>
   </section>
 
@@ -358,6 +255,9 @@
   </section>
 
   <script>
+    // ===== Language (shared key across pages) =====
+    const LANG_KEY = "writeNorLang";
+
     const langData = {
       en: {
         nav_sim: "Simulation", nav_sys: "System", nav_dev: "The Architect", nav_contact: "Contact", nav_nori: "⚠ NORI_V.1.0",
@@ -367,99 +267,277 @@
         about_text1: "You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.",
         about_text2: "WriteNor is a meta-horror experience where you use a command console to manipulate reality.",
         link_wiki: ">> ACCESS DATABASE (WIKI)",
+        feat_title: "SYSTEM FEATURES",
+        feat_intro: "Type commands. Break the loop. The system fights back.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Type commands to alter the game world. The terminal is your weapon.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause menu. UI exists inside the world.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI knows you are playing. She manipulates perception.",
         dev_title: "The Architect",
         dev_text1: "I am a 16-year-old solo developer. WriteNor is my passion project built on zero budget.",
         dev_text2: "Every line of code, every glitch, and every secret was crafted to mess with your mind.",
-        feat_title: "SYSTEM FEATURES",
-        feat_1_title: "CMD_HACKING", feat_1_text: "Type commands to alter the game world. The terminal is your weapon.",
-        feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No comfort. Only the system and your choices.",
-        feat_3_title: "META_HORROR", feat_3_text: "The game plays with perception. NORI learns patterns.",
         join_title: "JOIN THE NETWORK",
         contact_title: "CONNECT_DEVELOPERS", contact_text: "Want to collaborate or report a system bug? Send a packet to my terminal.",
         form_name_ph: "Name / Developer ID", form_email_ph: "Email / Return Path", form_msg_ph: "Your Message...", form_send: "SEND_DATA"
       },
       ru: {
         nav_sim: "Симуляция", nav_sys: "Система", nav_dev: "Архитектор", nav_contact: "Связь", nav_nori: "⚠ ФАЙЛ_НОРИ",
-        hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить Демо", btn_steam: "STEAM (СКОРО)",
+        hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить демо", btn_steam: "STEAM (СКОРО)",
         marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
         about_title: "Симуляция",
-        about_text1: "Ты — Джонни. Разработчик, который отлаживает сломанную систему. Но код переписывает сам себя.",
-        about_text2: "WriteNor — мета-хоррор, где ты используешь консоль и команды, чтобы менять реальность.",
-        link_wiki: ">> БАЗА ДАННЫХ (ВИКИ)",
+        about_text1: "Ты — Джонни, разработчик, который отлаживает повреждённую систему. Но код переписывает сам себя.",
+        about_text2: "WriteNor — мета-хоррор, где командная консоль позволяет менять реальность.",
+        link_wiki: ">> ДОСТУП К БАЗЕ (WIKI)",
+        feat_title: "ОСОБЕННОСТИ",
+        feat_intro: "Вводи команды. Ломай цикл. Система сопротивляется.",
+        feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи команды и меняй мир. Терминал — твое оружие.",
+        feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет паузы. Интерфейс существует внутри мира.",
+        feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Нори знает, что ты играешь. Она ломает восприятие.",
         dev_title: "Архитектор",
         dev_text1: "Мне 16 лет, я соло-разработчик. WriteNor — проект на нулевом бюджете.",
-        dev_text2: "Каждый глюк и каждая мелочь созданы, чтобы ломать восприятие.",
-        feat_title: "ОСОБЕННОСТИ СИСТЕМЫ",
-        feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи команды и меняй мир. Терминал — твое оружие.",
-        feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет комфорта. Только система и выбор.",
-        feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Игра играет с восприятием. Нори учится твоим паттернам.",
+        dev_text2: "Каждый глюк и каждая деталь сделаны, чтобы давить на психику.",
         join_title: "ВСТУПАЙ В СЕТЬ",
-        contact_title: "СВЯЗЬ_С_РАЗРАБОТЧИКОМ", contact_text: "Хочешь сотрудничать или нашёл баг? Отправь пакет данных.",
-        form_name_ph: "Имя / ID", form_email_ph: "Email", form_msg_ph: "Сообщение...", form_send: "ОТПРАВИТЬ_ДАННЫЕ"
+        contact_title: "СВЯЗЬ", contact_text: "Хочешь сотрудничать или нашёл баг? Отправь сообщение.",
+        form_name_ph: "Имя / ID", form_email_ph: "Email", form_msg_ph: "Сообщение...", form_send: "ОТПРАВИТЬ"
+      },
+      ua: {
+        nav_sim: "Симуляція", nav_sys: "Система", nav_dev: "Архітектор", nav_contact: "Звʼязок", nav_nori: "⚠ ФАЙЛ_НОРІ",
+        hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити демо", btn_steam: "STEAM (СКОРО)",
+        marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
+        about_title: "Симуляція",
+        about_text1: "Ти — Джонні, розробник, який налагоджує пошкоджену систему. Але код переписує сам себе.",
+        about_text2: "WriteNor — мета-горор, де командна консоль змінює реальність.",
+        link_wiki: ">> ДОСТУП ДО БАЗИ (WIKI)",
+        feat_title: "ОСОБЛИВОСТІ",
+        feat_intro: "Вводь команди. Ламай цикл. Система чинить опір.",
+        feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь команди та змінюй світ. Термінал — твоя зброя.",
+        feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає паузи. Інтерфейс існує в світі.",
+        feat_3_title: "МЕТА-ГОРОР", feat_3_text: "Норі знає, що ти граєш. Вона ламає сприйняття.",
+        dev_title: "Архітектор",
+        dev_text1: "Мені 16 років, я соло-розробник. WriteNor — проєкт з нульовим бюджетом.",
+        dev_text2: "Кожен глюк і кожна деталь зроблені, щоб тиснути на психіку.",
+        join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ",
+        contact_title: "ЗВʼЯЗОК", contact_text: "Хочеш співпрацювати або знайшов баг? Напиши мені.",
+        form_name_ph: "Імʼя / ID", form_email_ph: "Email", form_msg_ph: "Повідомлення...", form_send: "НАДІСЛАТИ"
+      },
+      pl: {
+        nav_sim: "Symulacja", nav_sys: "System", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ PLIK_NORI",
+        hero_desc: "Horror psychologiczny / Coding Sim", btn_play: "Uruchom demo", btn_steam: "STEAM (WKRÓTCE)",
+        marquee_text: "> OSTRZEŻENIE: AI 'NORI' JEST AKTYWNA. > WYKRYTO NARUSZENIE. >",
+        about_title: "Symulacja",
+        about_text1: "Jesteś Johnny — programista debugujący uszkodzony system. Ale kod przepisuje się sam.",
+        about_text2: "WriteNor to meta-horror, w którym konsola poleceń zmienia rzeczywistość.",
+        link_wiki: ">> BAZA DANYCH (WIKI)",
+        feat_title: "FUNKCJE SYSTEMU",
+        feat_intro: "Wpisuj komendy. Przerwij pętlę. System walczy.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Wpisuj komendy, by zmieniać świat. Terminal to broń.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "Brak HUD. Brak pauzy. Interfejs istnieje w świecie.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI wie, że grasz. Manipuluje percepcją.",
+        dev_title: "Architekt",
+        dev_text1: "Mam 16 lat i tworzę grę solo. WriteNor powstaje bez budżetu.",
+        dev_text2: "Każdy glitch i sekret został zaprojektowany, by namieszać w głowie.",
+        join_title: "DOŁĄCZ DO SIECI",
+        contact_title: "KONTAKT", contact_text: "Chcesz współpracy albo znalazłeś błąd? Napisz do mnie.",
+        form_name_ph: "Imię / ID", form_email_ph: "Email", form_msg_ph: "Wiadomość...", form_send: "WYŚLIJ"
+      },
+      de: {
+        nav_sim: "Simulation", nav_sys: "System", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ NORI_DATEI",
+        hero_desc: "Psychologischer Horror / Coding Sim", btn_play: "Demo starten", btn_steam: "STEAM (BALD)",
+        marquee_text: "> WARNUNG: KI 'NORI' IST AKTIV. > SYSTEMVERLETZUNG ERKANNT. >",
+        about_title: "Simulation",
+        about_text1: "Du bist Johnny — ein Entwickler in einem beschädigten System. Doch der Code schreibt sich neu.",
+        about_text2: "WriteNor ist Meta-Horror: Eine Konsole, die Realität verändert.",
+        link_wiki: ">> DATENBANK (WIKI)",
+        feat_title: "SYSTEMFUNKTIONEN",
+        feat_intro: "Tippe Befehle. Brich die Schleife. Das System wehrt sich.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Befehle ändern die Welt. Das Terminal ist deine Waffe.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "Kein HUD. Kein Pause-Menü. UI existiert in der Welt.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI weiß, dass du spielst. Sie manipuliert Wahrnehmung.",
+        dev_title: "Architekt",
+        dev_text1: "Ich bin 16 und Solo-Entwickler. WriteNor ist ein Zero-Budget-Projekt.",
+        dev_text2: "Jeder Glitch und jedes Geheimnis wurde gebaut, um dich zu verunsichern.",
+        join_title: "NETZWERK BEITRETEN",
+        contact_title: "KONTAKT", contact_text: "Kooperation oder Bug-Report? Schreib mir.",
+        form_name_ph: "Name / ID", form_email_ph: "Email", form_msg_ph: "Nachricht...", form_send: "SENDEN"
+      },
+      es: {
+        nav_sim: "Simulación", nav_sys: "Sistema", nav_dev: "Arquitecto", nav_contact: "Contacto", nav_nori: "⚠ ARCHIVO_NORI",
+        hero_desc: "Terror psicológico / Coding Sim", btn_play: "Iniciar demo", btn_steam: "STEAM (PRONTO)",
+        marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > INTRUSIÓN DETECTADA. >",
+        about_title: "Simulación",
+        about_text1: "Eres Johnny, un desarrollador atrapado en un sistema corrupto. Pero el código se reescribe.",
+        about_text2: "WriteNor es meta-horror: una consola que altera la realidad.",
+        link_wiki: ">> BASE DE DATOS (WIKI)",
+        feat_title: "FUNCIONES DEL SISTEMA",
+        feat_intro: "Escribe comandos. Rompe el bucle. El sistema se defiende.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Los comandos cambian el mundo. El terminal es tu arma.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "Sin HUD. Sin pausa. La UI existe dentro del mundo.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI sabe que juegas. Manipula tu percepción.",
+        dev_title: "Arquitecto",
+        dev_text1: "Tengo 16 años y desarrollo en solitario. WriteNor se crea sin presupuesto.",
+        dev_text2: "Cada glitch y secreto está diseñado para romperte la cabeza.",
+        join_title: "ÚNETE A LA RED",
+        contact_title: "CONTACTO", contact_text: "¿Colaboración o reporte de bug? Envíame un mensaje.",
+        form_name_ph: "Nombre / ID", form_email_ph: "Email", form_msg_ph: "Mensaje...", form_send: "ENVIAR"
+      },
+      fr: {
+        nav_sim: "Simulation", nav_sys: "Système", nav_dev: "Architecte", nav_contact: "Contact", nav_nori: "⚠ FICHIER_NORI",
+        hero_desc: "Horreur psychologique / Coding Sim", btn_play: "Lancer la démo", btn_steam: "STEAM (BIENTÔT)",
+        marquee_text: "> ALERTE: IA 'NORI' ACTIVE. > INTRUSION DÉTECTÉE. >",
+        about_title: "Simulation",
+        about_text1: "Vous êtes Johnny, développeur piégé dans un système corrompu. Mais le code se réécrit.",
+        about_text2: "WriteNor est un meta-horror: une console qui modifie la réalité.",
+        link_wiki: ">> BASE DE DONNÉES (WIKI)",
+        feat_title: "FONCTIONS DU SYSTÈME",
+        feat_intro: "Tapez des commandes. Brisez la boucle. Le système riposte.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Les commandes changent le monde. Le terminal est votre arme.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "Pas de HUD. Pas de pause. L’UI existe dans le monde.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI sait que vous jouez. Elle manipule la perception.",
+        dev_title: "Architecte",
+        dev_text1: "J’ai 16 ans et je développe en solo. WriteNor est un projet sans budget.",
+        dev_text2: "Chaque glitch et secret est conçu pour vous déstabiliser.",
+        join_title: "REJOINDRE LE RÉSEAU",
+        contact_title: "CONTACT", contact_text: "Collaboration ou bug ? Envoyez-moi un message.",
+        form_name_ph: "Nom / ID", form_email_ph: "Email", form_msg_ph: "Message...", form_send: "ENVOYER"
+      },
+      jp: {
+        nav_sim: "シミュレーション", nav_sys: "システム", nav_dev: "アーキテクト", nav_contact: "連絡", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "サイコホラー / コーディング", btn_play: "デモ起動", btn_steam: "STEAM（近日）",
+        marquee_text: "> 警告：AI「NORI」起動。個人情報を送信するな。> 侵害検出。>",
+        about_title: "シミュレーション",
+        about_text1: "あなたはジョニー。破損したシステムをデバッグしている。しかしコードは自己書換する。",
+        about_text2: "WriteNorはメタホラー。コンソールで現実を改変する。",
+        link_wiki: ">> データベース (WIKI)",
+        feat_title: "システム機能",
+        feat_intro: "コマンド入力。ループ破壊。システムは反撃する。",
+        feat_1_title: "CMD_HACKING", feat_1_text: "コマンドで世界を変える。ターミナルは武器。",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "HUDなし。ポーズなし。UIは世界の中にある。",
+        feat_3_title: "META_HORROR", feat_3_text: "NORIはあなたがプレイしていることを知っている。",
+        dev_title: "アーキテクト",
+        dev_text1: "16歳のソロ開発者。WriteNorはゼロ予算プロジェクト。",
+        dev_text2: "グリッチも秘密も、すべて意図的に設計した。",
+        join_title: "ネットワーク参加",
+        contact_title: "連絡", contact_text: "協力やバグ報告はこちら。",
+        form_name_ph: "名前 / ID", form_email_ph: "メール", form_msg_ph: "メッセージ...", form_send: "送信"
+      },
+      cn: {
+        nav_sim: "模拟", nav_sys: "系统", nav_dev: "架构师", nav_contact: "联系", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "心理恐怖 / 编程模拟", btn_play: "启动演示", btn_steam: "STEAM（即将推出）",
+        marquee_text: "> 警告：AI“NORI”已激活。不要上传个人数据。> 检测到入侵。>",
+        about_title: "模拟",
+        about_text1: "你是Johnny，一个在损坏系统里调试的开发者。但代码正在自我改写。",
+        about_text2: "WriteNor是元恐怖体验：用命令行操控现实。",
+        link_wiki: ">> 数据库 (WIKI)",
+        feat_title: "系统特性",
+        feat_intro: "输入命令。打破循环。系统会反击。",
+        feat_1_title: "CMD_HACKING", feat_1_text: "用命令改变世界。终端是你的武器。",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "无HUD。无暂停菜单。界面存在于世界之中。",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI知道你在玩。她操控你的感知。",
+        dev_title: "架构师",
+        dev_text1: "我16岁，独立开发。WriteNor是零预算项目。",
+        dev_text2: "每一个故障与秘密，都为扰乱你的思维而设计。",
+        join_title: "加入网络",
+        contact_title: "联系", contact_text: "合作或反馈Bug？给我发消息。",
+        form_name_ph: "名字 / ID", form_email_ph: "邮箱", form_msg_ph: "消息...", form_send: "发送"
+      },
+      it: {
+        nav_sim: "Simulazione", nav_sys: "Sistema", nav_dev: "Architetto", nav_contact: "Contatto", nav_nori: "⚠ FILE_NORI",
+        hero_desc: "Horror psicologico / Coding Sim", btn_play: "Avvia demo", btn_steam: "STEAM (PRESTO)",
+        marquee_text: "> ATTENZIONE: AI 'NORI' ATTIVA. > INTRUSIONE RILEVATA. >",
+        about_title: "Simulazione",
+        about_text1: "Sei Johnny, uno sviluppatore che debugga un sistema corrotto. Ma il codice si riscrive da solo.",
+        about_text2: "WriteNor è meta-horror: una console che altera la realtà.",
+        link_wiki: ">> DATABASE (WIKI)",
+        feat_title: "FUNZIONI DI SISTEMA",
+        feat_intro: "Digita comandi. Rompi il loop. Il sistema reagisce.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "I comandi cambiano il mondo. Il terminale è la tua arma.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "Niente HUD. Niente pausa. UI nel mondo.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI sa che stai giocando. Manipola la percezione.",
+        dev_title: "Architetto",
+        dev_text1: "Ho 16 anni e sviluppo da solo. WriteNor è un progetto senza budget.",
+        dev_text2: "Ogni glitch e segreto è progettato per disturbarti.",
+        join_title: "UNISCITI ALLA RETE",
+        contact_title: "CONTATTO", contact_text: "Collaborazione o bug? Scrivimi.",
+        form_name_ph: "Nome / ID", form_email_ph: "Email", form_msg_ph: "Messaggio...", form_send: "INVIA"
+      },
+      pt: {
+        nav_sim: "Simulação", nav_sys: "Sistema", nav_dev: "Arquiteto", nav_contact: "Contato", nav_nori: "⚠ ARQUIVO_NORI",
+        hero_desc: "Terror psicológico / Coding Sim", btn_play: "Iniciar demo", btn_steam: "STEAM (EM BREVE)",
+        marquee_text: "> AVISO: IA 'NORI' ATIVA. > INTRUSÃO DETECTADA. >",
+        about_title: "Simulação",
+        about_text1: "Você é Johnny, um dev debugando um sistema corrompido. Mas o código se reescreve sozinho.",
+        about_text2: "WriteNor é meta-horror: um console que altera a realidade.",
+        link_wiki: ">> BANCO DE DADOS (WIKI)",
+        feat_title: "RECURSOS DO SISTEMA",
+        feat_intro: "Digite comandos. Quebre o loop. O sistema reage.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Comandos mudam o mundo. O terminal é sua arma.",
+        feat_2_title: "DIEGETIC_UI", feat_2_text: "Sem HUD. Sem pausa. UI existe no mundo.",
+        feat_3_title: "META_HORROR", feat_3_text: "NORI sabe que você está jogando. Ela manipula a percepção.",
+        dev_title: "Arquiteto",
+        dev_text1: "Tenho 16 anos e desenvolvo solo. WriteNor é um projeto sem orçamento.",
+        dev_text2: "Cada glitch e segredo foi feito para mexer com sua mente.",
+        join_title: "JUNTE-SE À REDE",
+        contact_title: "CONTATO", contact_text: "Colaboração ou bug? Me envie uma mensagem.",
+        form_name_ph: "Nome / ID", form_email_ph: "Email", form_msg_ph: "Mensagem...", form_send: "ENVIAR"
       }
     };
 
-    function getLangFromUrlOrStorage() {
-      const params = new URLSearchParams(window.location.search);
-      const urlLang = params.get('lang');
-      if (urlLang && langData[urlLang]) return urlLang;
-      return localStorage.getItem('writeNorLang') || 'en';
-    }
-
     function setLang(lang) {
-      if (!langData[lang]) lang = 'en';
-      localStorage.setItem('writeNorLang', lang);
+      if (!langData[lang]) lang = "en";
+      localStorage.setItem(LANG_KEY, lang);
 
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
+      document.querySelectorAll("[data-key]").forEach(el => {
+        const key = el.getAttribute("data-key");
         if (langData[lang][key]) el.innerHTML = langData[lang][key];
       });
-      document.querySelectorAll('[data-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-placeholder');
+
+      document.querySelectorAll("[data-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-placeholder");
         if (langData[lang][key]) el.placeholder = langData[lang][key];
       });
 
-      document.getElementById('current-lang').innerText = '[ ' + lang.toUpperCase() + ' ]';
+      const label = document.getElementById("current-lang");
+      if (label) label.innerText = `[ ${lang.toUpperCase()} ]`;
     }
 
-    function autoDetectLang() {
-      const saved = getLangFromUrlOrStorage();
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      const saved = localStorage.getItem(LANG_KEY) || "en";
       setLang(saved);
-    }
-
-    window.addEventListener('load', () => {
-      const preloader = document.getElementById('preloader');
-      autoDetectLang();
 
       setTimeout(() => {
-        preloader.style.opacity = '0';
-        document.body.classList.remove('lock-scroll');
-        setTimeout(() => preloader.style.display = 'none', 1000);
+        preloader.style.opacity = "0";
+        document.body.classList.remove("lock-scroll");
+        setTimeout(() => preloader.style.display = "none", 1000);
       }, 3500);
     });
 
-    const cursor = document.querySelector('.cursor');
-    const dot = document.querySelector('.cursor-dot');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-      dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+    const cursor = document.querySelector(".cursor");
+    const dot = document.querySelector(".cursor-dot");
+    document.addEventListener("mousemove", e => {
+      cursor.style.left = e.clientX + "px"; cursor.style.top = e.clientY + "px";
+      dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px";
     });
 
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const letters = "WRITENOR";
     const fontSize = 14;
-    let columns = canvas.width / fontSize;
-    let drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function initDrops() {
+      const columns = Math.floor(canvas.width / fontSize);
+      const d = new Array(columns).fill(1);
+      return d;
+    }
+    let drops = initDrops();
 
     function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#ff003c';
-      ctx.font = fontSize + 'px monospace';
+      ctx.fillStyle = "#ff003c";
+      ctx.font = fontSize + "px monospace";
+
       for (let i = 0; i < drops.length; i++) {
         const text = letters.charAt(Math.floor(Math.random() * letters.length));
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -469,16 +547,15 @@
     }
     setInterval(draw, 40);
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      columns = canvas.width / fontSize;
-      drops = [];
-      for (let x = 0; x < columns; x++) drops[x] = 1;
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drops = initDrops();
     });
 
-    window.addEventListener('scroll', () => {
-      document.querySelectorAll('.reveal').forEach(r => {
-        if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add('active');
+    window.addEventListener("scroll", () => {
+      document.querySelectorAll(".reveal").forEach(r => {
+        if (r.getBoundingClientRect().top < window.innerHeight - 150) r.classList.add("active");
       });
     });
   </script>
