@@ -10,11 +10,12 @@
   <link rel="canonical" href="https://writenor.github.io/" />
   <link rel="icon" type="image/png" href="/favicon.png?v=6">
 
-  <!-- SEO keywords (kept reasonable; avoid stuffing) -->
+  <!-- SEO -->
   <meta name="keywords" content="WriteNor, WRITENOR, writenor, write nor, Write Nor, write-nor, Write-Nor, WriteNoR, write, write game, write game nor, Write Nor game, writenor demo, psychological horror game, meta horror, coding simulator, coding sim, indie horror game, narrative horror, terminal horror" />
   <meta name="author" content="Terawww" />
   <meta name="theme-color" content="#000000" />
 
+  <!-- Open Graph -->
   <meta property="og:title" content="WriteNor — Psychological Meta-Horror Coding Sim" />
   <meta property="og:description" content="Debug a corrupted system, bend reality via console commands, and survive the AI entity NORI in WriteNor." />
   <meta property="og:type" content="website" />
@@ -22,6 +23,7 @@
   <meta property="og:image" content="https://writenor.github.io/Nori_Cover.png" />
   <meta property="og:site_name" content="WriteNor" />
 
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="WriteNor — Psychological Meta-Horror Coding Sim" />
   <meta name="twitter:description" content="Debug a corrupted system, bend reality via console commands, and survive the AI entity NORI in WriteNor." />
@@ -57,7 +59,8 @@
       "https://terawww.itch.io/writenor",
       "https://discord.gg/QD5mUt44n5",
       "https://www.youtube.com/@WriteNor",
-      "https://www.igdb.com/games/writenor"
+      "https://www.igdb.com/games/writenor",
+      "https://store.steampowered.com/app/4312600/WriteNor?beta=1"
     ]
   }
   </script>
@@ -157,7 +160,6 @@
     .hero-btns{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; width:100%; }
     .cta-btn{ padding:15px 50px; border:2px solid #fff; color:#fff; font-family:'JetBrains Mono'; font-weight:bold; text-decoration:none; text-transform:uppercase; transition:.3s; background:transparent; }
     .cta-btn:hover{ background:#fff; color:#000; }
-    .steam-btn{ border-color:#555!important; color:#555!important; cursor:not-allowed!important; pointer-events:none; opacity:.6; }
 
     .marquee{ width:100%; overflow:hidden; white-space:nowrap; background:var(--primary); color:#000; padding:8px 0; font-family:'JetBrains Mono'; font-weight:bold; border-top:1px solid #fff; border-bottom:1px solid #fff; }
     .marquee span{ display:inline-block; padding-left:100%; animation:marquee 25s linear infinite; }
@@ -168,7 +170,6 @@
     .text-block h2{ font-size:3rem; margin-bottom:30px; text-transform:uppercase; padding-left:10px; }
     .text-block p{ font-size:1.1rem; line-height:1.8; color:#ccc; margin-bottom:20px; }
 
-    /* SEO hint paragraph (visible but subtle) */
     .seo-hint{
       margin-top:14px;
       font-size:0.98rem;
@@ -205,7 +206,6 @@
     .links-grid{ display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:50px; }
     .social-link{ font-size:1.5rem; color:#555; text-decoration:none; border-bottom:1px solid transparent; transition:.3s; }
     .social-link:hover{ color:#fff; border-bottom:1px solid var(--primary); }
-    .social-link.disabled{ opacity:.4; cursor:not-allowed; pointer-events:none; }
 
     .reveal{ opacity:0; transform:translateY(50px); transition:1s all ease; }
     .reveal.active{ opacity:1; transform:translateY(0); }
@@ -269,8 +269,14 @@
       <h1>WRITENOR</h1>
       <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
       <div class="hero-btns">
-        <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play">PLAY DEMO (Itch.io)</a>
-        <a href="#" class="cta-btn steam-btn" data-key="btn_steam">STEAM (SOON)</a>
+        <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play" target="_blank" rel="noopener noreferrer">PLAY DEMO (Itch.io)</a>
+
+        <!-- ✅ Steam button is now LIVE -->
+        <a href="https://store.steampowered.com/app/4312600/WriteNor?beta=1"
+           class="cta-btn"
+           data-key="btn_steam"
+           target="_blank"
+           rel="noopener noreferrer">STEAM</a>
       </div>
     </div>
   </header>
@@ -286,7 +292,7 @@
         <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
         <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality.</p>
         <br>
-        <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki">>> ACCESS DATABASE (WIKI)</a>
+        <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki" target="_blank" rel="noopener noreferrer">>> ACCESS DATABASE (WIKI)</a>
       </div>
       <div class="img-block"><img src="/Office.png" alt="WriteNor office screenshot"></div>
     </div>
@@ -299,7 +305,6 @@
         <p data-key="search_text1">Search engines learn the name over time — try these aliases and you'll still reach the same game.</p>
         <p data-key="search_text2">Official title: WriteNor, a psychological meta-horror coding sim.</p>
 
-        <!-- Added: natural SEO hint text -->
         <p class="seo-hint">
           People search for the game in different ways: <b>write</b>, <b>write nor</b>, <b>write-nor</b>, <b>Write Nor</b>, or even <b>write game nor</b>.
           These all refer to the same project — <b>WriteNor</b>.
@@ -371,10 +376,15 @@
   <section id="community" class="links-section reveal">
     <h2 data-key="join_title">JOIN THE NETWORK</h2>
     <div class="links-grid">
-      <a href="https://discord.gg/QD5mUt44n5" class="social-link">DISCORD</a>
-      <a href="https://www.youtube.com/@WriteNor" class="social-link">YOUTUBE</a>
-      <a href="https://www.igdb.com/games/writenor" class="social-link">IGDB</a>
-      <a href="#" class="social-link disabled">STEAM</a>
+      <a href="https://discord.gg/QD5mUt44n5" class="social-link" target="_blank" rel="noopener noreferrer">DISCORD</a>
+      <a href="https://www.youtube.com/@WriteNor" class="social-link" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
+      <a href="https://www.igdb.com/games/writenor" class="social-link" target="_blank" rel="noopener noreferrer">IGDB</a>
+
+      <!-- ✅ Steam link enabled -->
+      <a href="https://store.steampowered.com/app/4312600/WriteNor?beta=1"
+         class="social-link"
+         target="_blank"
+         rel="noopener noreferrer">STEAM</a>
     </div>
   </section>
 
@@ -385,7 +395,7 @@
     const langData = {
       en: {
         nav_sim: "Simulation", nav_sys: "System", nav_find: "Find", nav_dev: "The Architect", nav_contact: "Contact", nav_nori: "⚠ NORI_V.1.0",
-        hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM (SOON)",
+        hero_desc: "Psychological Horror / Coding Sim", btn_play: "Initialize Demo", btn_steam: "STEAM",
         marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
         about_title: "The Simulation",
         about_text1: "You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.",
@@ -408,7 +418,7 @@
       },
       ru: {
         nav_sim: "Симуляция", nav_sys: "Система", nav_find: "Поиск", nav_dev: "Архитектор", nav_contact: "Связь", nav_nori: "⚠ ФАЙЛ_НОРИ",
-        hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить демо", btn_steam: "STEAM (СКОРО)",
+        hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "Запустить демо", btn_steam: "STEAM",
         marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
         about_title: "Симуляция",
         about_text1: "Ты — Джонни, разработчик, который отлаживает повреждённую систему. Но код переписывает сам себя.",
@@ -431,7 +441,7 @@
       },
       ua: {
         nav_sim: "Симуляція", nav_sys: "Система", nav_find: "Пошук", nav_dev: "Архітектор", nav_contact: "Звʼязок", nav_nori: "⚠ ФАЙЛ_НОРІ",
-        hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити демо", btn_steam: "STEAM (СКОРО)",
+        hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "Запустити демо", btn_steam: "STEAM",
         marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
         about_title: "Симуляція",
         about_text1: "Ти — Джонні, розробник, який налагоджує пошкоджену систему. Але код переписує сам себе.",
@@ -445,7 +455,7 @@
         feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь команди та змінюй світ. Термінал — твоя зброя.",
         feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає паузи. Інтерфейс існує в світі.",
         feat_3_title: "МЕТА-ГОРОР", feat_3_text: "Норі знає, що ти граєш. Вона ламає сприйняття.",
-        dev_title: "Архітектор",
+        dev_title: "Архитектор",
         dev_text1: "Мені 16 років, я соло-розробник. WriteNor — проєкт з нульовим бюджетом.",
         dev_text2: "Кожен глюк і кожна деталь зроблені, щоб тиснути на психіку.",
         join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ",
@@ -454,7 +464,7 @@
       },
       pl: {
         nav_sim: "Symulacja", nav_sys: "System", nav_find: "Szukaj", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ PLIK_NORI",
-        hero_desc: "Horror psychologiczny / Coding Sim", btn_play: "Uruchom demo", btn_steam: "STEAM (WKRÓTCE)",
+        hero_desc: "Horror psychologiczny / Coding Sim", btn_play: "Uruchom demo", btn_steam: "STEAM",
         marquee_text: "> OSTRZEŻENIE: AI 'NORI' JEST AKTYWNA. > WYKRYTO NARUSZENIE. >",
         about_title: "Symulacja",
         about_text1: "Jesteś Johnny — programista debugujący uszkodzony system. Ale kod przepisuje się sam.",
@@ -477,7 +487,7 @@
       },
       de: {
         nav_sim: "Simulation", nav_sys: "System", nav_find: "Suche", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ NORI_DATEI",
-        hero_desc: "Psychologischer Horror / Coding Sim", btn_play: "Demo starten", btn_steam: "STEAM (BALD)",
+        hero_desc: "Psychologischer Horror / Coding Sim", btn_play: "Demo starten", btn_steam: "STEAM",
         marquee_text: "> WARNUNG: KI 'NORI' IST AKTIV. > SYSTEMVERLETZUNG ERKANNT. >",
         about_title: "Simulation",
         about_text1: "Du bist Johnny — ein Entwickler in einem beschädigten System. Doch der Code schreibt sich neu.",
@@ -500,7 +510,7 @@
       },
       es: {
         nav_sim: "Simulación", nav_sys: "Sistema", nav_find: "Buscar", nav_dev: "Arquitecto", nav_contact: "Contacto", nav_nori: "⚠ ARCHIVO_NORI",
-        hero_desc: "Terror psicológico / Coding Sim", btn_play: "Iniciar demo", btn_steam: "STEAM (PRONTO)",
+        hero_desc: "Terror psicológico / Coding Sim", btn_play: "Iniciar demo", btn_steam: "STEAM",
         marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > INTRUSIÓN DETECTADA. >",
         about_title: "Simulación",
         about_text1: "Eres Johnny, un desarrollador atrapado en un sistema corrupto. Pero el código se reescribe.",
@@ -523,7 +533,7 @@
       },
       fr: {
         nav_sim: "Simulation", nav_sys: "Système", nav_find: "Recherche", nav_dev: "Architecte", nav_contact: "Contact", nav_nori: "⚠ FICHIER_NORI",
-        hero_desc: "Horreur psychologique / Coding Sim", btn_play: "Lancer la démo", btn_steam: "STEAM (BIENTÔT)",
+        hero_desc: "Horreur psychologique / Coding Sim", btn_play: "Lancer la démo", btn_steam: "STEAM",
         marquee_text: "> ALERTE: IA 'NORI' ACTIVE. > INTRUSION DÉTECTÉE. >",
         about_title: "Simulation",
         about_text1: "Vous êtes Johnny, développeur piégé dans un système corrompu. Mais le code se réécrit.",
@@ -546,7 +556,7 @@
       },
       jp: {
         nav_sim: "シミュレーション", nav_sys: "システム", nav_find: "検索", nav_dev: "アーキテクト", nav_contact: "連絡", nav_nori: "⚠ NORI_V.1.0",
-        hero_desc: "サイコホラー / コーディング", btn_play: "デモ起動", btn_steam: "STEAM（近日）",
+        hero_desc: "サイコホラー / コーディング", btn_play: "デモ起動", btn_steam: "STEAM",
         marquee_text: "> 警告：AI「NORI」起動。個人情報を送信するな。> 侵害検出。>",
         about_title: "シミュレーション",
         about_text1: "あなたはジョニー。破損したシステムをデバッグしている。しかしコードは自己書換する。",
@@ -569,7 +579,7 @@
       },
       cn: {
         nav_sim: "模拟", nav_sys: "系统", nav_find: "搜索", nav_dev: "架构师", nav_contact: "联系", nav_nori: "⚠ NORI_V.1.0",
-        hero_desc: "心理恐怖 / 编程模拟", btn_play: "启动演示", btn_steam: "STEAM（即将推出）",
+        hero_desc: "心理恐怖 / 编程模拟", btn_play: "启动演示", btn_steam: "STEAM",
         marquee_text: "> 警告：AI“NORI”已激活。不要上传个人数据。> 检测到入侵。>",
         about_title: "模拟",
         about_text1: "你是Johnny，一个在损坏系统里调试的开发者。但代码正在自我改写。",
@@ -592,7 +602,7 @@
       },
       it: {
         nav_sim: "Simulazione", nav_sys: "Sistema", nav_find: "Cerca", nav_dev: "Architetto", nav_contact: "Contatto", nav_nori: "⚠ FILE_NORI",
-        hero_desc: "Horror psicologico / Coding Sim", btn_play: "Avvia demo", btn_steam: "STEAM (PRESTO)",
+        hero_desc: "Horror psicologico / Coding Sim", btn_play: "Avvia demo", btn_steam: "STEAM",
         marquee_text: "> ATTENZIONE: AI 'NORI' ATTIVA. > INTRUSIONE RILEVATA. >",
         about_title: "Simulazione",
         about_text1: "Sei Johnny, uno sviluppatore che debugga un sistema corrotto. Ma il codice si riscrive da solo.",
@@ -615,7 +625,7 @@
       },
       pt: {
         nav_sim: "Simulação", nav_sys: "Sistema", nav_find: "Buscar", nav_dev: "Arquiteto", nav_contact: "Contato", nav_nori: "⚠ ARQUIVO_NORI",
-        hero_desc: "Terror psicológico / Coding Sim", btn_play: "Iniciar demo", btn_steam: "STEAM (EM BREVE)",
+        hero_desc: "Terror psicológico / Coding Sim", btn_play: "Iniciar demo", btn_steam: "STEAM",
         marquee_text: "> AVISO: IA 'NORI' ATIVA. > INTRUSÃO DETECTADA. >",
         about_title: "Simulação",
         about_text1: "Você é Johnny, um dev debugando um sistema corrompido. Mas o código se reescreve sozinho.",
