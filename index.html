@@ -5,13 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>WriteNor — Psychological Meta-Horror Coding Sim</title>
-  <meta name="description" content="WriteNor (also written as Write Nor / Write-Nor / hooking: Writenor) is a psychological meta-horror coding sim: debug a corrupted system, use a command console to bend reality, and survive the AI entity NORI." />
+  <meta name="description" content="WriteNor (also searched as Write Nor / Write-Nor / Writenor / WriteNoR / WRITENOR) is a psychological meta-horror coding sim: debug a corrupted system, use a command console to bend reality, and survive the AI entity NORI." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://writenor.github.io/" />
   <link rel="icon" type="image/png" href="/favicon.png?v=6">
 
-  <!-- SEO (note: Google mostly ignores meta keywords, but harmless to keep) -->
-  <meta name="keywords" content="WriteNor, WRITENOR, writenor, write nor, Write Nor, write-nor, Write-Nor, WriteNoR, Writenor demo, Write Nor game, psychological horror game, meta horror, coding simulator, coding sim, indie horror game, narrative horror, terminal horror" />
+  <!-- ✅ Sitemap discovery -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://writenor.github.io/sitemap.xml" />
+
+  <!-- ✅ hreflang (same URL, still helps Google understand multi-language intent) -->
+  <link rel="alternate" hreflang="x-default" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="ru" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="uk" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="pl" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="de" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="es" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="fr" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="ja" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="zh" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="it" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="pt" href="https://writenor.github.io/" />
+
+  <!-- SEO -->
+  <meta name="keywords" content="WriteNor, WRITENOR, writenor, write nor, Write Nor, write-nor, Write-Nor, WriteNoR, Write Nor game, writenor demo, psychological horror game, meta horror, coding simulator, coding sim, indie horror game, narrative horror, terminal horror" />
   <meta name="author" content="Terawww" />
   <meta name="theme-color" content="#000000" />
 
@@ -29,67 +46,72 @@
   <meta name="twitter:description" content="WriteNor (Write Nor / Write-Nor) — debug a corrupted system, bend reality via console commands, and survive the AI entity NORI." />
   <meta name="twitter:image" content="https://writenor.github.io/Nori_Cover.png" />
 
-  <!-- ✅ Structured data (strongest signal for aliases) -->
+  <!-- ✅ Structured data (single clean @graph, strongest alias signal) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"VideoGame",
-    "name":"WriteNor",
-    "alternateName":[
-      "Write Nor",
-      "Write-Nor",
-      "WRITENOR",
-      "Writenor",
-      "WriteNoR"
-    ],
-    "genre":["Psychological Horror","Meta Horror","Simulation","Indie"],
-    "gamePlatform":["PC"],
-    "author":{"@type":"Person","name":"Terawww"},
-    "url":"https://writenor.github.io/",
-    "image":"https://writenor.github.io/Nori_Cover.png",
-    "sameAs":[
-      "https://terawww.itch.io/writenor",
-      "https://discord.gg/QD5mUt44n5",
-      "https://www.youtube.com/@WriteNor",
-      "https://www.igdb.com/games/writenor",
-      "https://store.steampowered.com/app/4312600/WriteNor?beta=1"
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"WriteNor",
-    "alternateName":["Write Nor","Write-Nor","WRITENOR","Writenor","WriteNoR"],
-    "url":"https://writenor.github.io/",
-    "inLanguage":["en","ru","uk","pl","de","es","fr","ja","zh","it","pt"],
-    "publisher":{"@type":"Person","name":"Terawww"}
-  }
-  </script>
-
-  <!-- ✅ FAQPage: helps Google learn equivalence Write Nor == WriteNor -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
+    "@graph":[
       {
-        "@type":"Question",
-        "name":"Is it WriteNor or Write Nor?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"The official name is WriteNor. Searches for “Write Nor”, “Write-Nor”, “WRITENOR”, or “Writenor” refer to the same game."
-        }
+        "@type":"WebSite",
+        "@id":"https://writenor.github.io/#website",
+        "name":"WriteNor",
+        "url":"https://writenor.github.io/",
+        "publisher":{"@type":"Person","name":"Terawww"}
       },
       {
-        "@type":"Question",
-        "name":"What kind of game is WriteNor?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"WriteNor is a psychological meta-horror coding sim where you use a command console to manipulate reality and progress through the story."
-        }
+        "@type":"WebPage",
+        "@id":"https://writenor.github.io/#webpage",
+        "url":"https://writenor.github.io/",
+        "name":"WriteNor — Psychological Meta-Horror Coding Sim",
+        "isPartOf":{"@id":"https://writenor.github.io/#website"},
+        "about":{"@id":"https://writenor.github.io/#game"},
+        "primaryImageOfPage":{"@type":"ImageObject","url":"https://writenor.github.io/Nori_Cover.png"}
+      },
+      {
+        "@type":"VideoGame",
+        "@id":"https://writenor.github.io/#game",
+        "name":"WriteNor",
+        "alternateName":[
+          "Write Nor",
+          "Write-Nor",
+          "WRITENOR",
+          "Writenor",
+          "WriteNoR"
+        ],
+        "genre":["Psychological Horror","Meta Horror","Simulation","Indie"],
+        "gamePlatform":["PC"],
+        "author":{"@type":"Person","name":"Terawww"},
+        "url":"https://writenor.github.io/",
+        "image":"https://writenor.github.io/Nori_Cover.png",
+        "sameAs":[
+          "https://terawww.itch.io/writenor",
+          "https://discord.gg/QD5mUt44n5",
+          "https://www.youtube.com/@WriteNor",
+          "https://www.igdb.com/games/writenor",
+          "https://store.steampowered.com/app/4312600/WriteNor?beta=1"
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "@id":"https://writenor.github.io/#faq",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Is it WriteNor or Write Nor?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"The official name is WriteNor. Searches for “Write Nor”, “Writenor”, “Write-Nor”, “WriteNoR”, or “WRITENOR” refer to the same game."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"What kind of game is WriteNor?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"WriteNor is a psychological meta-horror coding sim where you use a command console to bend reality."
+            }
+          }
+        ]
       }
     ]
   }
@@ -138,11 +160,8 @@
 
     header{ height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; }
     .hero-content{ position:relative; z-index:10; opacity:0; transform:translateY(20px); animation:fadeUp 1.5s 3.2s forwards; width:100%; max-width:1200px; padding:0 20px; display:flex; flex-direction:column; align-items:center; }
-
-    /* ✅ H1 now contains the full meaning (stronger for Google) */
     h1{ font-family:'Syncopate',sans-serif; font-size:9vw; line-height:1; text-transform:uppercase; color:transparent; -webkit-text-stroke:2px #fff; position:relative; }
     h1::after{ content:'WRITENOR'; position:absolute; top:0; left:0; right:0; color:#fff; opacity:0; animation:glitchText 3s infinite alternate-reverse; }
-
     .hero-desc{ font-size:1.5rem; letter-spacing:5px; color:var(--primary); margin:20px 0 40px; text-transform:uppercase; }
     .hero-btns{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; width:100%; }
     .cta-btn{ padding:15px 50px; border:2px solid #fff; color:#fff; font-family:'JetBrains Mono'; font-weight:bold; text-decoration:none; text-transform:uppercase; transition:.3s; background:transparent; }
@@ -157,8 +176,17 @@
     .text-block h2{ font-size:3rem; margin-bottom:30px; text-transform:uppercase; padding-left:10px; }
     .text-block p{ font-size:1.1rem; line-height:1.8; color:#ccc; margin-bottom:20px; }
 
-    .seo-hint{ margin-top:14px; font-size:0.98rem; line-height:1.7; color:#9a9a9a; opacity:.92; }
-    .seo-hint b{ color:#cfcfcf; font-weight:700; }
+    .seo-hint{
+      margin-top:14px;
+      font-size:0.98rem;
+      line-height:1.7;
+      color:#9a9a9a;
+      opacity:.92;
+    }
+    .seo-hint b{
+      color:#cfcfcf;
+      font-weight:700;
+    }
 
     .img-block{ height:400px; width:100%; background:#111; overflow:hidden; border:1px solid #333; position:relative; }
     .img-block img{ width:100%; height:100%; object-fit:cover; transition:1s; opacity:.7; }
@@ -199,10 +227,15 @@
       nav{ padding:15px 20px; flex-direction:column; gap:15px; }
     }
 
-    /* ✅ optional: hidden SEO text without ruining design (Google can read) */
+    /* ✅ SEO-only text (safe, not spam). Visible to screen readers, not visual clutter. */
     .sr-only{
-      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+      position:absolute;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
     }
   </style>
 </head>
@@ -250,18 +283,19 @@
 
   <header>
     <div class="hero-content">
-      <!-- ✅ H1 now contains the brand meaning for Google -->
-      <h1 aria-label="WriteNor — Psychological Meta-Horror Coding Sim">WRITENOR</h1>
+      <h1>WRITENOR</h1>
 
-      <!-- ✅ Hidden text: helps “Write Nor” association without changing visuals -->
+      <!-- ✅ Hidden but safe SEO reinforcement (NO 100+ spam list) -->
       <p class="sr-only">
-        WriteNor is also known as Write Nor and Write-Nor. If you search for Write Nor game or Writenor, it refers to the same game: WriteNor.
+        WriteNor is also known as Write Nor, Writenor, Write-Nor, WriteNoR, and WRITENOR.
+        If you searched for Write Nor (with a space), it refers to the same game: WriteNor.
       </p>
 
       <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
       <div class="hero-btns">
         <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play" target="_blank" rel="noopener noreferrer">PLAY DEMO (Itch.io)</a>
 
+        <!-- ✅ Steam button is now LIVE -->
         <a href="https://store.steampowered.com/app/4312600/WriteNor?beta=1"
            class="cta-btn"
            data-key="btn_steam"
@@ -280,13 +314,14 @@
       <div class="text-block">
         <h2 data-key="about_title">The Simulation</h2>
         <p data-key="about_text1">You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.</p>
-        <p data-key="about_text2"><b>WriteNor</b> (Write Nor / Write-Nor) is a meta-horror experience where you use a command console to manipulate reality.</p>
+        <p data-key="about_text2"><b>WriteNor</b> is a meta-horror experience where you use a command console to manipulate reality.</p>
+        <p class="seo-hint">
+          Official name: <b>WriteNor</b>. Also searched as: <b>Write Nor</b>, <b>Writenor</b>, <b>Write-Nor</b>, <b>WriteNoR</b>, <b>WRITENOR</b>.
+        </p>
         <br>
         <a href="https://writenor.fandom.com" style="color:var(--primary); text-decoration:none; font-weight:bold;" data-key="link_wiki" target="_blank" rel="noopener noreferrer">>> ACCESS DATABASE (WIKI)</a>
       </div>
-      <div class="img-block">
-        <img src="/Office.png" alt="WriteNor office screenshot from the demo — psychological meta-horror coding sim" loading="lazy" decoding="async">
-      </div>
+      <div class="img-block"><img src="/Office.png" alt="WriteNor office screenshot"></div>
     </div>
   </section>
 
@@ -298,12 +333,12 @@
         <p data-key="search_text2">Official title: WriteNor, a psychological meta-horror coding sim.</p>
 
         <p class="seo-hint">
-          People search for the game in different ways: <b>Write Nor</b>, <b>Write-Nor</b>, <b>WRITENOR</b>, <b>Writenor</b>.
+          People search for the game in different ways: <b>Write Nor</b>, <b>Write-Nor</b>, <b>WRITENOR</b>, <b>Writenor</b>, <b>WriteNoR</b>.
           These all refer to the same project — <b>WriteNor</b>.
         </p>
       </div>
 
-      <div class="alias-panel" aria-label="WriteNor aliases">
+      <div class="alias-panel">
         <div class="alias-tag">Write Nor</div>
         <div class="alias-tag">Writenor</div>
         <div class="alias-tag">Write-Nor</div>
@@ -340,7 +375,7 @@
   <section id="dev" class="container" style="border-top: 1px solid #333;">
     <div class="grid-2 reveal">
       <div class="img-block" style="border-radius: 50%; width: 300px; height: 300px; margin: 0 auto; border: 2px solid var(--primary);">
-        <img src="/Dev_Avatar.png" alt="Terawww — developer of WriteNor" loading="lazy" decoding="async">
+        <img src="/Dev_Avatar.png" alt="Developer avatar">
       </div>
       <div class="text-block">
         <h2 data-key="dev_title">The Architect</h2>
@@ -370,7 +405,12 @@
       <a href="https://discord.gg/QD5mUt44n5" class="social-link" target="_blank" rel="noopener noreferrer">DISCORD</a>
       <a href="https://www.youtube.com/@WriteNor" class="social-link" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
       <a href="https://www.igdb.com/games/writenor" class="social-link" target="_blank" rel="noopener noreferrer">IGDB</a>
-      <a href="https://store.steampowered.com/app/4312600/WriteNor?beta=1" class="social-link" target="_blank" rel="noopener noreferrer">STEAM</a>
+
+      <!-- ✅ Steam link enabled -->
+      <a href="https://store.steampowered.com/app/4312600/WriteNor?beta=1"
+         class="social-link"
+         target="_blank"
+         rel="noopener noreferrer">STEAM</a>
     </div>
   </section>
 
