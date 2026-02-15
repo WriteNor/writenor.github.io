@@ -175,7 +175,6 @@
   <style>
     :root { --primary:#ff003c; --secondary:#00f3ff; --bg:#000; --text-main:#f0f0f0; }
     * { margin:0; padding:0; box-sizing:border-box; cursor:none; }
-    body.lock-scroll { overflow:hidden; }
     body { background:var(--bg); color:var(--text-main); font-family:'Rajdhani',sans-serif; overflow-x:hidden; width:100%; }
 
     canvas { position:fixed; top:0; left:0; z-index:-3; }
@@ -184,13 +183,6 @@
 
     .cursor{ width:20px; height:20px; border:2px solid var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
     .cursor-dot{ width:4px; height:4px; background:var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
-
-    #preloader{ position:fixed; inset:0; background:#000; z-index:10000; display:flex; align-items:center; justify-content:center; flex-direction:column; transition:opacity 1s ease-out; }
-    .loader-text{ font-family:'JetBrains Mono',monospace; color:var(--primary); margin-top:20px; animation:blink .5s infinite; }
-    .bar{ width:200px; height:2px; background:#333; margin-top:10px; position:relative; overflow:hidden; }
-    .bar::after{ content:''; position:absolute; inset:0; width:0%; background:var(--primary); animation:load 3s ease-in-out forwards; }
-    @keyframes load{ to{ width:100%; } }
-    @keyframes blink{ 50%{ opacity:0; } }
 
     nav{
       position:fixed; top:0; width:100%; padding:15px 40px;
@@ -407,12 +399,7 @@
   </style>
 </head>
 
-<body class="lock-scroll">
-  <div id="preloader">
-    <div class="loader-text">> BOOTING SYSTEM...</div>
-    <div class="bar"></div>
-  </div>
-
+<body>
   <div class="cursor"></div><div class="cursor-dot"></div>
   <div class="scanlines"></div>
   <div class="bg-overlay"></div>
@@ -890,29 +877,8 @@
     }
 
     window.addEventListener("load", () => {
-      const preloader = document.getElementById("preloader");
       const saved = localStorage.getItem(LANG_KEY) || "en";
       setLang(saved);
-
-      // Проверяем, был ли пользователь на сайте раньше
-      const hasVisited = localStorage.getItem("writeNorVisited");
-      
-      if (hasVisited) {
-        // Если уже был - сразу скрываем preloader
-        preloader.style.display = "none";
-        document.body.classList.remove("lock-scroll");
-      } else {
-        // Если первый раз - показываем preloader
-        setTimeout(() => {
-          preloader.style.opacity = "0";
-          document.body.classList.remove("lock-scroll");
-          setTimeout(() => {
-            preloader.style.display = "none";
-            // Сохраняем, что пользователь уже был
-            localStorage.setItem("writeNorVisited", "true");
-          }, 1000);
-        }, 3500);
-      }
     });
 
     const cursor = document.querySelector(".cursor");
