@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <!-- Primary Meta Tags - МАКСИМАЛЬНОЕ SEO -->
-  <title>WriteNor — Psychological Meta-Horror Coding Sim by Terawww | Official Game</title>
-  <meta name="title" content="WriteNor — Psychological Meta-Horror Coding Sim by Terawww" />
+  <title>WriteNor - Psychological Meta-Horror Coding Sim by Terawww | Official Game</title>
+  <meta name="title" content="WriteNor - Psychological Meta-Horror Coding Sim by Terawww" />
   <meta name="description" content="WriteNor (also searched as Write Nor / Write-Nor / Writenor / WriteNoR / WRITENOR) is a psychological meta-horror coding sim created by indie developer Terawww: debug a corrupted system, use a command console to bend reality, and survive the AI entity NORI." />
   <meta name="keywords" content="WriteNor, Write Nor, WRITENOR, writenor, write nor, write-nor, Write-Nor, WriteNoR, Write Nor game, writenor demo, psychological horror game, meta horror, coding simulator, coding sim, indie horror game, narrative horror, terminal horror, Terawww, Terawww games, Terawww developer, indie game developer, who created WriteNor, WriteNor developer, WriteNor creator, who made WriteNor" />
   <meta name="author" content="Terawww" />
@@ -32,14 +32,15 @@
   <link rel="alternate" hreflang="de" href="https://writenor.github.io/" />
   <link rel="alternate" hreflang="es" href="https://writenor.github.io/" />
   <link rel="alternate" hreflang="ja" href="https://writenor.github.io/" />
-  <link rel="alternate" hreflang="zh-Hans" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="zh" href="https://writenor.github.io/" />
+  <link rel="alternate" hreflang="pt" href="https://writenor.github.io/" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://writenor.github.io/" />
   <meta property="og:site_name" content="WriteNor by Terawww" />
-  <meta property="og:title" content="WriteNor — Psychological Meta-Horror Coding Sim by Terawww" />
-  <meta property="og:description" content="WriteNor (Write Nor / Write-Nor) — debug a corrupted system, bend reality via console commands. Created by indie developer Terawww." />
+  <meta property="og:title" content="WriteNor - Psychological Meta-Horror Coding Sim by Terawww" />
+  <meta property="og:description" content="WriteNor (Write Nor / Write-Nor) - debug a corrupted system, bend reality via console commands. Created by indie developer Terawww." />
   <meta property="og:image" content="https://writenor.github.io/Nori_Cover.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -86,7 +87,7 @@
         "@type": "WebPage",
         "@id": "https://writenor.github.io/#webpage",
         "url": "https://writenor.github.io/",
-        "name": "WriteNor — Psychological Meta-Horror Coding Sim by Terawww",
+        "name": "WriteNor - Psychological Meta-Horror Coding Sim by Terawww",
         "isPartOf": {"@id": "https://writenor.github.io/#website"},
         "about": {"@id": "https://writenor.github.io/#game"},
         "primaryImageOfPage": {"@type": "ImageObject", "url": "https://writenor.github.io/Nori_Cover.png"}
@@ -175,6 +176,7 @@
   <style>
     :root { --primary:#ff003c; --secondary:#00f3ff; --bg:#000; --text-main:#f0f0f0; }
     * { margin:0; padding:0; box-sizing:border-box; cursor:none; }
+    body.lock-scroll { overflow:hidden; }
     body { background:var(--bg); color:var(--text-main); font-family:'Rajdhani',sans-serif; overflow-x:hidden; width:100%; }
 
     canvas { position:fixed; top:0; left:0; z-index:-3; }
@@ -183,6 +185,13 @@
 
     .cursor{ width:20px; height:20px; border:2px solid var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
     .cursor-dot{ width:4px; height:4px; background:var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+
+    #preloader{ position:fixed; inset:0; background:#000; z-index:10000; display:flex; align-items:center; justify-content:center; flex-direction:column; transition:opacity 1s ease-out; }
+    .loader-text{ font-family:'JetBrains Mono',monospace; color:var(--primary); margin-top:20px; animation:blink .5s infinite; }
+    .bar{ width:200px; height:2px; background:#333; margin-top:10px; position:relative; overflow:hidden; }
+    .bar::after{ content:''; position:absolute; inset:0; width:0%; background:var(--primary); animation:load 3s ease-in-out forwards; }
+    @keyframes load{ to{ width:100%; } }
+    @keyframes blink{ 50%{ opacity:0; } }
 
     nav{
       position:fixed; top:0; width:100%; padding:15px 40px;
@@ -399,7 +408,12 @@
   </style>
 </head>
 
-<body>
+<body class="lock-scroll">
+  <div id="preloader">
+    <div class="loader-text">> BOOTING SYSTEM...</div>
+    <div class="bar"></div>
+  </div>
+
   <div class="cursor"></div><div class="cursor-dot"></div>
   <div class="scanlines"></div>
   <div class="bg-overlay"></div>
@@ -421,14 +435,15 @@
     <div class="dropdown">
       <button class="dropbtn"><span id="current-lang">[ EN ]</span> ▼</button>
       <div class="dropdown-content">
-        <span onclick="setLang('en')">EN - English</span>
-        <span onclick="setLang('ru')">RU - Русский</span>
-        <span onclick="setLang('ua')">UA - Українська</span>
-        <span onclick="setLang('pl')">PL - Polski</span>
-        <span onclick="setLang('de')">DE - Deutsch</span>
-        <span onclick="setLang('es')">ES - Español</span>
-        <span onclick="setLang('jp')">JP - 日本語</span>
-        <span onclick="setLang('cn')">CN - 中文</span>
+        <span onclick="setLang('en')">🇬🇧 English (EN)</span>
+        <span onclick="setLang('ru')">🇷🇺 Русский (RU)</span>
+        <span onclick="setLang('ua')">🇺🇦 Українська (UA)</span>
+        <span onclick="setLang('pl')">🇵🇱 Polski (PL)</span>
+        <span onclick="setLang('de')">🇩🇪 Deutsch (DE)</span>
+        <span onclick="setLang('es')">🇪🇸 Español (ES)</span>
+        <span onclick="setLang('jp')">🇯🇵 日本語 (JP)</span>
+        <span onclick="setLang('cn')">🇨🇳 中文 (CN)</span>
+        <span onclick="setLang('pt')">🇵🇹 Português (PT)</span>
       </div>
     </div>
   </nav>
@@ -528,12 +543,12 @@
     <div class="grid-2 reveal">
       <div class="text-block">
         <h2 data-key="search_title">Find WriteNor</h2>
-        <p data-key="search_text1">Search engines learn the name over time — try these aliases and you'll still reach the same game.</p>
+        <p data-key="search_text1">Search engines learn the name over time - try these aliases and you'll still reach the same game.</p>
         <p data-key="search_text2">Official title: WriteNor, a psychological meta-horror coding sim by <b>Terawww</b>.</p>
 
         <p class="seo-hint">
           People search for the game in different ways: <b>Write Nor</b>, <b>Write-Nor</b>, <b>WRITENOR</b>, <b>Writenor</b>, <b>WriteNoR</b>.
-          These all refer to the same project — <b>WriteNor</b> by developer <b>Terawww</b>.
+          These all refer to the same project - <b>WriteNor</b> by developer <b>Terawww</b>.
         </p>
       </div>
 
@@ -632,7 +647,7 @@
         screen4_title: "SYSTEM BREACH", screen4_desc: "Reality fractures. Code becomes corruption.",
         screen5_title: "DEBUG THE IMPOSSIBLE", screen5_desc: "Every command rewrites the game world.",
         search_title: "Find WriteNor",
-        search_text1: "Search engines learn the name over time — try these aliases and you'll still reach the same game.",
+        search_text1: "Search engines learn the name over time - try these aliases and you'll still reach the same game.",
         search_text2: "Official title: WriteNor, a psychological meta-horror coding sim by Terawww.",
         feat_title: "SYSTEM FEATURES",
         feat_intro: "Type commands. Break the loop. The system fights back.",
@@ -651,8 +666,8 @@
         hero_desc: "Психологический хоррор / Симулятор кодинга", btn_play: "ДЕМО (Itch.io)", btn_steam: "STEAM",
         marquee_text: "> ВНИМАНИЕ: ИИ 'НОРИ' АКТИВЕН. НЕ ЗАГРУЖАЙТЕ ЛИЧНЫЕ ДАННЫЕ. > ОБНАРУЖЕН ВЗЛОМ. >",
         about_title: "Симуляция",
-        about_text1: "Ты — Джонни, разработчик, который отлаживает повреждённую систему. Но код переписывает сам себя.",
-        about_text2: "WriteNor — мета-хоррор, где командная консоль позволяет менять реальность.",
+        about_text1: "Ты - Джонни, разработчик, который отлаживает повреждённую систему. Но код переписывает сам себя.",
+        about_text2: "WriteNor - мета-хоррор, где командная консоль позволяет менять реальность.",
         link_wiki: ">> ДОСТУП К БАЗЕ (WIKI)",
         screenshots_title: "ВИЗУАЛЬНЫЙ АРХИВ",
         screenshots_subtitle: "// Документация повреждённой системы //",
@@ -662,199 +677,229 @@
         screen4_title: "ВЗЛОМ СИСТЕМЫ", screen4_desc: "Реальность ломается. Код становится коррупцией.",
         screen5_title: "ОТЛАДЬ НЕВОЗМОЖНОЕ", screen5_desc: "Каждая команда переписывает игровой мир.",
         search_title: "Найти WriteNor",
-        search_text1: "Поисковики постепенно учатся названию — пробуй эти варианты, и ты всё равно попадёшь на ту же игру.",
-        search_text2: "Официальное название: WriteNor — психологический мета-хоррор симулятор кодинга от Terawww.",
+        search_text1: "Поисковики постепенно учатся названию - пробуй эти варианты, и ты всё равно попадёшь на ту же игру.",
+        search_text2: "Официальное название: WriteNor - психологический мета-хоррор симулятор кодинга от Terawww.",
         feat_title: "ОСОБЕННОСТИ",
         feat_intro: "Вводи команды. Ломай цикл. Система сопротивляется.",
-        feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи команды и меняй мир. Терминал — твое оружие.",
+        feat_1_title: "ВЗЛОМ КОНСОЛИ", feat_1_text: "Вводи команды и меняй мир. Терминал - твое оружие.",
         feat_2_title: "ДИЕГЕТИЧЕСКИЙ UI", feat_2_text: "Нет HUD. Нет паузы. Интерфейс существует внутри мира.",
         feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Нори знает, что ты играешь. Она ломает восприятие.",
         dev_title: "Архитектор",
-        dev_text1: "Я Terawww, мне 16 лет, я соло-разработчик. WriteNor — проект на нулевом бюджете.",
+        dev_text1: "Я Terawww, мне 16 лет, я соло-разработчик. WriteNor - проект на нулевом бюджете.",
         dev_text2: "Каждый глюк и каждая деталь сделаны, чтобы давить на психику.",
         join_title: "ВСТУПАЙ В СЕТЬ",
         contact_title: "СВЯЗЬ", contact_text: "Хочешь сотрудничать или нашёл баг? Отправь сообщение.",
         form_name_ph: "Имя / ID", form_email_ph: "Email", form_msg_ph: "Сообщение...", form_send: "ОТПРАВИТЬ"
       },
       ua: {
-        nav_sim: "Симуляція", nav_screens: "Скриншоти", nav_sys: "Система", nav_find: "Пошук", nav_dev: "Архітектор", nav_contact: "Звʼязок", nav_nori: "⚠ ФАЙЛ_НОРІ",
-        hero_desc: "Психологічний горор / Симулятор кодингу", btn_play: "ДЕМО (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛАМ. >",
+        nav_sim: "Симуляція", nav_screens: "Скріншоти", nav_sys: "Система", nav_find: "Пошук", nav_dev: "Архітектор", nav_contact: "Зв'язок", nav_nori: "⚠ ФАЙЛ_НОРІ",
+        hero_desc: "Психологічний хоррор / Симулятор кодингу", btn_play: "ДЕМО (Itch.io)", btn_steam: "STEAM",
+        marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛОМ. >",
         about_title: "Симуляція",
-        about_text1: "Ти — Джонні, розробник, який налагоджує пошкоджену систему. Але код переписує сам себе.",
-        about_text2: "WriteNor — мета-горор, де командна консоль змінює реальність.",
+        about_text1: "Ти - Джонні, розробник, який налагоджує пошкоджену систему. Але код переписує сам себе.",
+        about_text2: "WriteNor - мета-хоррор, де командна консоль дозволяє змінювати реальність.",
         link_wiki: ">> ДОСТУП ДО БАЗИ (WIKI)",
         screenshots_title: "ВІЗУАЛЬНИЙ АРХІВ",
         screenshots_subtitle: "// Документація пошкодженої системи //",
-        screen1_title: "ОФІС", screen1_desc: "Твоє робоче місце. Або твоя в'язниця?",
+        screen1_title: "ОФІС", screen1_desc: "Твоє робоче місце. Чи це твоя в'язниця?",
         screen2_title: "ДОСТУП ДО ТЕРМІНАЛУ", screen2_desc: "Вводь команди, щоб змінювати реальність.",
         screen3_title: "ПРОБУДЖЕННЯ НОРІ", screen3_desc: "Вона знає, що ти дивишся. Вона знає, що ти граєш.",
-        screen4_title: "ЗЛАМ СИСТЕМИ", screen4_desc: "Реальність ламається. Код стає корупцією.",
+        screen4_title: "ЗЛОМ СИСТЕМИ", screen4_desc: "Реальність руйнується. Код стає корупцією.",
         screen5_title: "НАЛАГОДЬ НЕМОЖЛИВЕ", screen5_desc: "Кожна команда переписує ігровий світ.",
         search_title: "Знайти WriteNor",
-        search_text1: "Пошуковики поступово вивчають назву — спробуй ці варіанти, і ти все одно потрапиш на ту саму гру.",
-        search_text2: "Офіційна назва: WriteNor — психологічний мета-горор симулятор кодингу від Terawww.",
+        search_text1: "Пошуковики поступово вчаться назви - спробуй ці варіанти, і ти все одно потрапиш на ту ж гру.",
+        search_text2: "Офіційна назва: WriteNor - психологічний мета-хоррор симулятор кодингу від Terawww.",
         feat_title: "ОСОБЛИВОСТІ",
-        feat_intro: "Вводь команди. Ламай цикл. Система чинить опір.",
-        feat_1_title: "ЗЛАМ КОНСОЛІ", feat_1_text: "Вводь команди та змінюй світ. Термінал — твоя зброя.",
-        feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає паузи. Інтерфейс існує в світі.",
-        feat_3_title: "МЕТА-ГОРОР", feat_3_text: "Норі знає, що ти граєш. Вона ламає сприйняття.",
+        feat_intro: "Вводь команди. Ламай цикл. Система опирається.",
+        feat_1_title: "ЗЛОМ КОНСОЛІ", feat_1_text: "Вводь команди і змінюй світ. Термінал - твоя зброя.",
+        feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає паузи. Інтерфейс існує всередині світу.",
+        feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Норі знає, що ти граєш. Вона ламає сприйняття.",
         dev_title: "Архітектор",
-        dev_text1: "Я Terawww, мені 16 років, я соло-розробник. WriteNor — проєкт з нульовим бюджетом.",
-        dev_text2: "Кожен глюк і кожна деталь зроблені, щоб тиснути на психіку.",
-        join_title: "ПРИЄДНУЙСЯ ДО МЕРЕЖІ",
-        contact_title: "ЗВʼЯЗОК", contact_text: "Хочеш співпрацювати або знайшов баг? Напиши мені.",
-        form_name_ph: "Імʼя / ID", form_email_ph: "Email", form_msg_ph: "Повідомлення...", form_send: "НАДІСЛАТИ"
+        dev_text1: "Я Terawww, мені 16 років, я соло-розробник. WriteNor - проект на нульовому бюджеті.",
+        dev_text2: "Кожен збій і кожна деталь зроблені, щоб тиснути на психіку.",
+        join_title: "ВСТУПАЙ ДО МЕРЕЖІ",
+        contact_title: "ЗВ'ЯЗОК", contact_text: "Хочеш співпрацювати або знайшов баг? Відправ повідомлення.",
+        form_name_ph: "Ім'я / ID", form_email_ph: "Email", form_msg_ph: "Повідомлення...", form_send: "ВІДПРАВИТИ"
       },
       pl: {
         nav_sim: "Symulacja", nav_screens: "Zrzuty ekranu", nav_sys: "System", nav_find: "Szukaj", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ PLIK_NORI",
         hero_desc: "Horror psychologiczny / Symulator kodowania", btn_play: "DEMO (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> OSTRZEŻENIE: AI 'NORI' JEST AKTYWNA. > WYKRYTO NARUSZENIE. >",
+        marquee_text: "> OSTRZEŻENIE: JEDNOSTKA AI 'NORI' JEST AKTYWNA. NIE PRZESYŁAJ DANYCH OSOBOWYCH. > WYKRYTO NARUSZENIE SYSTEMU. >",
         about_title: "Symulacja",
-        about_text1: "Jesteś Johnny — programista debugujący uszkodzony system. Ale kod przepisuje się sam.",
-        about_text2: "WriteNor to meta-horror, w którym konsola poleceń zmienia rzeczywistość.",
-        link_wiki: ">> BAZA DANYCH (WIKI)",
+        about_text1: "Jesteś Johnnym, deweloperem debugującym uszkodzony system. Ale kod sam się przepisuje.",
+        about_text2: "WriteNor to meta-horror, w którym używasz konsoli poleceń do manipulowania rzeczywistością.",
+        link_wiki: ">> DOSTĘP DO BAZY (WIKI)",
         screenshots_title: "ARCHIWUM WIZUALNE",
         screenshots_subtitle: "// Dokumentacja uszkodzonego systemu //",
-        screen1_title: "BIURO", screen1_desc: "Twoje miejsce pracy. Czy Twoje więzienie?",
-        screen2_title: "DOSTĘP DO TERMINALA", screen2_desc: "Wpisuj komendy, by zmieniać rzeczywistość.",
+        screen1_title: "BIURO", screen1_desc: "Twoje miejsce pracy. Czy to Twoje więzienie?",
+        screen2_title: "DOSTĘP DO TERMINALA", screen2_desc: "Wpisuj komendy, aby zmieniać rzeczywistość.",
         screen3_title: "PRZEBUDZENIE NORI", screen3_desc: "Wie, że patrzysz. Wie, że grasz.",
-        screen4_title: "NARUSZENIE SYSTEMU", screen4_desc: "Rzeczywistość się łamie. Kod staje się korupcją.",
-        screen5_title: "DEBUGUJ NIEMOŻLIWE", screen5_desc: "Każda komenda przepisuje świat gry.",
+        screen4_title: "NARUSZENIE SYSTEMU", screen4_desc: "Rzeczywistość pęka. Kod staje się korupcją.",
+        screen5_title: "DEBUGUJ NIEMOŻLIWE", screen5_desc: "Każde polecenie przepisuje świat gry.",
         search_title: "Znajdź WriteNor",
-        search_text1: "Wyszukiwarki uczą się nazwy z czasem — spróbuj tych wariantów, a i tak trafisz na tę samą grę.",
-        search_text2: "Oficjalna nazwa: WriteNor — psychologiczny meta-horror i symulator kodowania od Terawww.",
+        search_text1: "Wyszukiwarki z czasem uczą się nazwy - spróbuj tych aliasów, a i tak trafisz na tę samą grę.",
+        search_text2: "Oficjalny tytuł: WriteNor - psychologiczny meta-horror symulator kodowania od Terawww.",
         feat_title: "FUNKCJE SYSTEMU",
-        feat_intro: "Wpisuj komendy. Przerwij pętlę. System walczy.",
-        feat_1_title: "CMD_HACKING", feat_1_text: "Wpisuj komendy, by zmieniać świat. Terminal to broń.",
-        feat_2_title: "DIEGETIC_UI", feat_2_text: "Brak HUD. Brak pauzy. Interfejs istnieje w świecie.",
-        feat_3_title: "META_HORROR", feat_3_text: "NORI wie, że grasz. Manipuluje percepcją.",
+        feat_intro: "Wpisuj komendy. Złam pętlę. System walczy.",
+        feat_1_title: "HAKOWANIE CMD", feat_1_text: "Wpisuj komendy, aby zmienić świat gry. Terminal to twoja broń.",
+        feat_2_title: "DIEGETYCZNY UI", feat_2_text: "Brak HUD. Brak menu pauzy. UI istnieje wewnątrz świata.",
+        feat_3_title: "META-HORROR", feat_3_text: "NORI wie, że grasz. Manipuluje percepcją.",
         dev_title: "Architekt",
-        dev_text1: "Jestem Terawww, mam 16 lat i tworzę grę solo. WriteNor powstaje bez budżetu.",
-        dev_text2: "Każdy glitch i sekret został zaprojektowany, by namieszać w głowie.",
+        dev_text1: "Jestem Terawww, 16-letnim solo deweloperem. WriteNor to mój projekt pasji na zerowym budżecie.",
+        dev_text2: "Każda linia kodu, każdy glitch i każdy sekret zostały stworzone, by mieszać w głowie.",
         join_title: "DOŁĄCZ DO SIECI",
-        contact_title: "KONTAKT", contact_text: "Chcesz współpracy albo znalazłeś błąd? Napisz do mnie.",
-        form_name_ph: "Imię / ID", form_email_ph: "Email", form_msg_ph: "Wiadomość...", form_send: "WYŚLIJ"
+        contact_title: "POŁĄCZ_DEWELOPERÓW", contact_text: "Chcesz współpracować lub zgłosić błąd systemu? Wyślij pakiet do mojego terminala.",
+        form_name_ph: "Imię / ID dewelopera", form_email_ph: "Email / Ścieżka zwrotna", form_msg_ph: "Twoja wiadomość...", form_send: "WYŚLIJ_DANE"
       },
       de: {
-        nav_sim: "Simulation", nav_screens: "Screenshots", nav_sys: "System", nav_find: "Suche", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ NORI_DATEI",
-        hero_desc: "Psychologischer Horror / Coding-Sim", btn_play: "DEMO (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> WARNUNG: KI 'NORI' IST AKTIV. > SYSTEMVERLETZUNG ERKANNT. >",
-        about_title: "Simulation",
-        about_text1: "Du bist Johnny — ein Entwickler in einem beschädigten System. Doch der Code schreibt sich neu.",
-        about_text2: "WriteNor ist Meta-Horror: Eine Konsole, die Realität verändert.",
-        link_wiki: ">> DATENBANK (WIKI)",
+        nav_sim: "Simulation", nav_screens: "Screenshots", nav_sys: "System", nav_find: "Suchen", nav_dev: "Der Architekt", nav_contact: "Kontakt", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "Psychologischer Horror / Coding-Sim", btn_play: "DEMO SPIELEN (Itch.io)", btn_steam: "STEAM",
+        marquee_text: "> WARNUNG: KI-ENTITÄT 'NORI' IST AKTIV. LADEN SIE KEINE PERSÖNLICHEN DATEN HOCH. > SYSTEMVERLETZUNG ERKANNT. >",
+        about_title: "Die Simulation",
+        about_text1: "Du bist Johnny, ein Entwickler, der ein beschädigtes System debuggt. Aber der Code schreibt sich selbst um.",
+        about_text2: "WriteNor ist ein Meta-Horror-Erlebnis, bei dem du eine Befehlskonsole verwendest, um die Realität zu manipulieren.",
+        link_wiki: ">> ZUGRIFF AUF DATENBANK (WIKI)",
         screenshots_title: "VISUELLES ARCHIV",
-        screenshots_subtitle: "// Dokumentation des beschädigten Systems //",
-        screen1_title: "DAS BÜRO", screen1_desc: "Dein Arbeitsplatz. Oder dein Gefängnis?",
-        screen2_title: "TERMINAL-ZUGANG", screen2_desc: "Tippe Befehle, um die Realität zu verändern.",
+        screenshots_subtitle: "// Beschädigte Systemdokumentation //",
+        screen1_title: "DAS BÜRO", screen1_desc: "Dein Arbeitsplatz. Oder ist es dein Gefängnis?",
+        screen2_title: "TERMINAL-ZUGRIFF", screen2_desc: "Tippe Befehle, um die Realität zu verändern.",
         screen3_title: "NORI ERWACHT", screen3_desc: "Sie weiß, dass du zuschaust. Sie weiß, dass du spielst.",
         screen4_title: "SYSTEMVERLETZUNG", screen4_desc: "Die Realität zerbricht. Code wird zur Korruption.",
         screen5_title: "DEBUGGE DAS UNMÖGLICHE", screen5_desc: "Jeder Befehl schreibt die Spielwelt neu.",
-        search_title: "WriteNor finden",
-        search_text1: "Suchmaschinen lernen den Namen mit der Zeit — probiere diese Varianten, du landest trotzdem beim selben Spiel.",
-        search_text2: "Offizieller Titel: WriteNor — ein psychologischer Meta-Horror-Coding-Sim von Terawww.",
+        search_title: "Finde WriteNor",
+        search_text1: "Suchmaschinen lernen den Namen mit der Zeit - probiere diese Aliase aus und du erreichst trotzdem das gleiche Spiel.",
+        search_text2: "Offizieller Titel: WriteNor - ein psychologischer Meta-Horror-Coding-Sim von Terawww.",
         feat_title: "SYSTEMFUNKTIONEN",
-        feat_intro: "Tippe Befehle. Brich die Schleife. Das System wehrt sich.",
-        feat_1_title: "CMD_HACKING", feat_1_text: "Befehle ändern die Welt. Das Terminal ist deine Waffe.",
-        feat_2_title: "DIEGETIC_UI", feat_2_text: "Kein HUD. Kein Pause-Menü. UI existiert in der Welt.",
-        feat_3_title: "META_HORROR", feat_3_text: "NORI weiß, dass du spielst. Sie manipuliert Wahrnehmung.",
-        dev_title: "Architekt",
-        dev_text1: "Ich bin Terawww, 16 Jahre alt und Solo-Entwickler. WriteNor ist ein Zero-Budget-Projekt.",
-        dev_text2: "Jeder Glitch und jedes Geheimnis wurde gebaut, um dich zu verunsichern.",
-        join_title: "NETZWERK BEITRETEN",
-        contact_title: "KONTAKT", contact_text: "Kooperation oder Bug-Report? Schreib mir.",
-        form_name_ph: "Name / ID", form_email_ph: "Email", form_msg_ph: "Nachricht...", form_send: "SENDEN"
+        feat_intro: "Tippe Befehle. Durchbrich die Schleife. Das System wehrt sich.",
+        feat_1_title: "CMD_HACKING", feat_1_text: "Tippe Befehle, um die Spielwelt zu verändern. Das Terminal ist deine Waffe.",
+        feat_2_title: "DIEGETISCHES UI", feat_2_text: "Kein HUD. Kein Pausenmenü. Die UI existiert in der Welt.",
+        feat_3_title: "META-HORROR", feat_3_text: "NORI weiß, dass du spielst. Sie manipuliert die Wahrnehmung.",
+        dev_title: "Der Architekt",
+        dev_text1: "Ich bin Terawww, ein 16-jähriger Solo-Entwickler. WriteNor ist mein Leidenschaftsprojekt mit null Budget.",
+        dev_text2: "Jede Codezeile, jeder Glitch und jedes Geheimnis wurde geschaffen, um deinen Geist durcheinander zu bringen.",
+        join_title: "TRITT DEM NETZWERK BEI",
+        contact_title: "VERBINDE_ENTWICKLER", contact_text: "Möchtest du zusammenarbeiten oder einen Systemfehler melden? Sende ein Paket an mein Terminal.",
+        form_name_ph: "Name / Entwickler-ID", form_email_ph: "Email / Rückkehrpfad", form_msg_ph: "Deine Nachricht...", form_send: "DATEN_SENDEN"
       },
       es: {
-        nav_sim: "Simulación", nav_screens: "Capturas", nav_sys: "Sistema", nav_find: "Buscar", nav_dev: "Arquitecto", nav_contact: "Contacto", nav_nori: "⚠ ARCHIVO_NORI",
-        hero_desc: "Terror psicológico / Simulador de código", btn_play: "DEMO (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > INTRUSIÓN DETECTADA. >",
-        about_title: "Simulación",
-        about_text1: "Eres Johnny, un desarrollador atrapado en un sistema corrupto. Pero el código se reescribe.",
-        about_text2: "WriteNor es meta-horror: una consola que altera la realidad.",
-        link_wiki: ">> BASE DE DATOS (WIKI)",
+        nav_sim: "Simulación", nav_screens: "Capturas", nav_sys: "Sistema", nav_find: "Buscar", nav_dev: "El Arquitecto", nav_contact: "Contacto", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "Horror Psicológico / Simulador de Código", btn_play: "JUGAR DEMO (Itch.io)", btn_steam: "STEAM",
+        marquee_text: "> ADVERTENCIA: ENTIDAD IA 'NORI' ESTÁ ACTIVA. NO SUBAS DATOS PERSONALES. > BRECHA DE SISTEMA DETECTADA. >",
+        about_title: "La Simulación",
+        about_text1: "Eres Johnny, un desarrollador depurando un sistema corrupto. Pero el código se reescribe a sí mismo.",
+        about_text2: "WriteNor es una experiencia de meta-horror donde usas una consola de comandos para manipular la realidad.",
+        link_wiki: ">> ACCESO A BASE DE DATOS (WIKI)",
         screenshots_title: "ARCHIVO VISUAL",
-        screenshots_subtitle: "// Documentación del sistema corrupto //",
-        screen1_title: "LA OFICINA", screen1_desc: "Tu espacio de trabajo. ¿O tu prisión?",
-        screen2_title: "ACCESO A TERMINAL", screen2_desc: "Escribe comandos para cambiar la realidad.",
-        screen3_title: "NORI DESPIERTA", screen3_desc: "Sabe que estás mirando. Sabe que juegas.",
-        screen4_title: "BRECHA DEL SISTEMA", screen4_desc: "La realidad se fractura. El código se corrompe.",
+        screenshots_subtitle: "// Documentación del Sistema Corrupto //",
+        screen1_title: "LA OFICINA", screen1_desc: "Tu espacio de trabajo. ¿O es tu prisión?",
+        screen2_title: "ACCESO AL TERMINAL", screen2_desc: "Escribe comandos para cambiar la realidad.",
+        screen3_title: "NORI DESPIERTA", screen3_desc: "Ella sabe que estás mirando. Sabe que estás jugando.",
+        screen4_title: "BRECHA DEL SISTEMA", screen4_desc: "La realidad se fractura. El código se convierte en corrupción.",
         screen5_title: "DEPURA LO IMPOSIBLE", screen5_desc: "Cada comando reescribe el mundo del juego.",
         search_title: "Encuentra WriteNor",
-        search_text1: "Los buscadores aprenden el nombre con el tiempo — prueba estas variantes y llegarás al mismo juego.",
-        search_text2: "Título oficial: WriteNor, un simulador de terror psicológico por Terawww.",
-        feat_title: "FUNCIONES DEL SISTEMA",
-        feat_intro: "Escribe comandos. Rompe el bucle. El sistema se defiende.",
-        feat_1_title: "CMD_HACKING", feat_1_text: "Los comandos cambian el mundo. El terminal es tu arma.",
-        feat_2_title: "DIEGETIC_UI", feat_2_text: "Sin HUD. Sin pausa. La UI existe dentro del mundo.",
-        feat_3_title: "META_HORROR", feat_3_text: "NORI sabe que juegas. Manipula tu percepción.",
-        dev_title: "Arquitecto",
-        dev_text1: "Soy Terawww, tengo 16 años y desarrollo en solitario. WriteNor se crea sin presupuesto.",
-        dev_text2: "Cada glitch y secreto está diseñado para romperte la cabeza.",
+        search_text1: "Los motores de búsqueda aprenden el nombre con el tiempo - prueba estos alias y llegarás al mismo juego.",
+        search_text2: "Título oficial: WriteNor - un simulador de código meta-horror psicológico de Terawww.",
+        feat_title: "CARACTERÍSTICAS DEL SISTEMA",
+        feat_intro: "Escribe comandos. Rompe el bucle. El sistema lucha.",
+        feat_1_title: "HACKEO CMD", feat_1_text: "Escribe comandos para alterar el mundo del juego. El terminal es tu arma.",
+        feat_2_title: "UI DIEGÉTICA", feat_2_text: "Sin HUD. Sin menú de pausa. La UI existe dentro del mundo.",
+        feat_3_title: "META-HORROR", feat_3_text: "NORI sabe que estás jugando. Manipula la percepción.",
+        dev_title: "El Arquitecto",
+        dev_text1: "Soy Terawww, un desarrollador solitario de 16 años. WriteNor es mi proyecto pasión con presupuesto cero.",
+        dev_text2: "Cada línea de código, cada fallo y cada secreto fueron creados para manipular tu mente.",
         join_title: "ÚNETE A LA RED",
-        contact_title: "CONTACTO", contact_text: "¿Colaboración o reporte de bug? Envíame un mensaje.",
-        form_name_ph: "Nombre / ID", form_email_ph: "Email", form_msg_ph: "Mensaje...", form_send: "ENVIAR"
+        contact_title: "CONECTAR_DESARROLLADORES", contact_text: "¿Quieres colaborar o reportar un error del sistema? Envía un paquete a mi terminal.",
+        form_name_ph: "Nombre / ID de desarrollador", form_email_ph: "Email / Ruta de retorno", form_msg_ph: "Tu mensaje...", form_send: "ENVIAR_DATOS"
       },
       jp: {
-        nav_sim: "シミュレーション", nav_screens: "スクリーンショット", nav_sys: "システム", nav_find: "検索", nav_dev: "アーキテクト", nav_contact: "連絡", nav_nori: "⚠ NORI_V.1.0",
-        hero_desc: "サイコホラー / コーディングシム", btn_play: "デモ (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> 警告：AI「NORI」起動。個人情報を送信するな。> 侵害検出。>",
+        nav_sim: "シミュレーション", nav_screens: "スクリーンショット", nav_sys: "システム", nav_find: "検索", nav_dev: "建築家", nav_contact: "連絡", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "心理的ホラー / コーディングシム", btn_play: "デモをプレイ (Itch.io)", btn_steam: "STEAM",
+        marquee_text: "> 警告: AI エンティティ 'NORI' が活動中です。個人データをアップロードしないでください。> システム侵害が検出されました。>",
         about_title: "シミュレーション",
-        about_text1: "あなたはジョニー。破損したシステムをデバッグしている。しかしコードは自己書換する。",
-        about_text2: "WriteNorはメタホラー。コンソールで現実を改変する。",
-        link_wiki: ">> データベース (WIKI)",
+        about_text1: "あなたはジョニー、破損したシステムをデバッグする開発者です。しかし、コードは自分自身を書き換えています。",
+        about_text2: "WriteNorは、コマンドコンソールを使用して現実を操作するメタホラー体験です。",
+        link_wiki: ">> データベースへのアクセス (WIKI)",
         screenshots_title: "ビジュアルアーカイブ",
-        screenshots_subtitle: "// 破損したシステムのドキュメント //",
+        screenshots_subtitle: "// 破損したシステムドキュメント //",
         screen1_title: "オフィス", screen1_desc: "あなたの職場。それとも牢獄？",
-        screen2_title: "ターミナルアクセス", screen2_desc: "コマンドを入力して現実を曲げる。",
-        screen3_title: "NORI覚醒", screen3_desc: "彼女はあなたが見ていることを知っている。プレイしていることも。",
-        screen4_title: "システム侵害", screen4_desc: "現実が崩壊する。コードが腐敗になる。",
+        screen2_title: "ターミナルアクセス", screen2_desc: "コマンドを入力して現実を変える。",
+        screen3_title: "NORIが目覚める", screen3_desc: "彼女はあなたが見ていることを知っている。プレイしていることを知っている。",
+        screen4_title: "システム侵害", screen4_desc: "現実が崩壊する。コードは腐敗となる。",
         screen5_title: "不可能をデバッグ", screen5_desc: "すべてのコマンドがゲーム世界を書き換える。",
-        search_title: "WriteNorを探す",
-        search_text1: "検索エンジンは時間とともに名前を学習します。これらの別表記でも同じゲームにたどり着けます。",
-        search_text2: "正式名称：WriteNor（Terawww作の心理的メタホラー・コーディングシム）。",
+        search_title: "WriteNorを見つける",
+        search_text1: "検索エンジンは時間とともに名前を学習します - これらのエイリアスを試してみてください、同じゲームにたどり着きます。",
+        search_text2: "公式タイトル: WriteNor - Terawwwによる心理的メタホラーコーディングシム。",
         feat_title: "システム機能",
-        feat_intro: "コマンド入力。ループ破壊。システムは反撃する。",
-        feat_1_title: "CMD_HACKING", feat_1_text: "コマンドで世界を変える。ターミナルは武器。",
-        feat_2_title: "DIEGETIC_UI", feat_2_text: "HUDなし。ポーズなし。UIは世界の中にある。",
-        feat_3_title: "META_HORROR", feat_3_text: "NORIはあなたがプレイしていることを知っている。",
-        dev_title: "アーキテクト",
-        dev_text1: "私はTerawww、16歳のソロ開発者。WriteNorはゼロ予算プロジェクト。",
-        dev_text2: "グリッチも秘密も、すべて意図的に設計した。",
-        join_title: "ネットワーク参加",
-        contact_title: "連絡", contact_text: "協力やバグ報告はこちら。",
-        form_name_ph: "名前 / ID", form_email_ph: "メール", form_msg_ph: "メッセージ...", form_send: "送信"
+        feat_intro: "コマンドを入力。ループを破る。システムが反撃する。",
+        feat_1_title: "CMDハッキング", feat_1_text: "コマンドを入力してゲーム世界を変更。ターミナルはあなたの武器。",
+        feat_2_title: "ダイジェティックUI", feat_2_text: "HUDなし。ポーズメニューなし。UIは世界の中に存在。",
+        feat_3_title: "メタホラー", feat_3_text: "NORIはあなたがプレイしていることを知っている。認識を操作する。",
+        dev_title: "建築家",
+        dev_text1: "私はTerawww、16歳のソロ開発者です。WriteNorはゼロ予算で作られた情熱プロジェクトです。",
+        dev_text2: "すべてのコード行、すべてのグリッチ、すべての秘密は、あなたの心を混乱させるために作られました。",
+        join_title: "ネットワークに参加",
+        contact_title: "開発者接続", contact_text: "協力したいですか、またはシステムバグを報告しますか？私のターミナルにパケットを送信してください。",
+        form_name_ph: "名前 / 開発者ID", form_email_ph: "Email / 返信パス", form_msg_ph: "あなたのメッセージ...", form_send: "データ送信"
       },
       cn: {
-        nav_sim: "模拟", nav_screens: "截图", nav_sys: "系统", nav_find: "搜索", nav_dev: "架构师", nav_contact: "联系", nav_nori: "⚠ NORI_V.1.0",
+        nav_sim: "模拟", nav_screens: "截图", nav_sys: "系统", nav_find: "查找", nav_dev: "架构师", nav_contact: "联系", nav_nori: "⚠ NORI_V.1.0",
         hero_desc: "心理恐怖 / 编程模拟", btn_play: "试玩 (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> 警告：AI"NORI"已激活。不要上传个人数据。> 检测到入侵。>",
+        marquee_text: "> 警告：AI实体 'NORI' 已激活。请勿上传个人数据。> 检测到系统入侵。>",
         about_title: "模拟",
-        about_text1: "你是Johnny，一个在损坏系统里调试的开发者。但代码正在自我改写。",
-        about_text2: "WriteNor是元恐怖体验：用命令行操控现实。",
-        link_wiki: ">> 数据库 (WIKI)",
+        about_text1: "你是约翰尼，一个调试损坏系统的开发者。但代码正在重写自己。",
+        about_text2: "WriteNor是一个元恐怖体验，你使用命令控制台来操纵现实。",
+        link_wiki: ">> 访问数据库 (WIKI)",
         screenshots_title: "视觉档案",
-        screenshots_subtitle: "// 损坏系统文档 //",
+        screenshots_subtitle: "// 损坏的系统文档 //",
         screen1_title: "办公室", screen1_desc: "你的工作空间。还是你的监狱？",
-        screen2_title: "终端访问", screen2_desc: "输入命令扭曲现实。",
+        screen2_title: "终端访问", screen2_desc: "输入命令改变现实。",
         screen3_title: "NORI觉醒", screen3_desc: "她知道你在看。她知道你在玩。",
-        screen4_title: "系统入侵", screen4_desc: "现实崩解。代码变成腐败。",
-        screen5_title: "调试不可能", screen5_desc: "每个命令都重写游戏世界。",
-        search_title: "查找 WriteNor",
-        search_text1: "搜索引擎会逐渐学习名称——尝试这些写法也能找到同一款游戏。",
-        search_text2: "官方名称：WriteNor，由Terawww开发的心理恐怖编程模拟游戏。",
+        screen4_title: "系统入侵", screen4_desc: "现实破碎。代码变成腐败。",
+        screen5_title: "调试不可能", screen5_desc: "每个命令都会重写游戏世界。",
+        search_title: "查找WriteNor",
+        search_text1: "搜索引擎随着时间学习名称 - 尝试这些别名，你仍然会找到同一个游戏。",
+        search_text2: "官方名称：WriteNor - Terawww的心理元恐怖编程模拟。",
         feat_title: "系统特性",
-        feat_intro: "输入命令。打破循环。系统会反击。",
-        feat_1_title: "CMD_HACKING", feat_1_text: "用命令改变世界。终端是你的武器。",
-        feat_2_title: "DIEGETIC_UI", feat_2_text: "无HUD。无暂停菜单。界面存在于世界之中。",
-        feat_3_title: "META_HORROR", feat_3_text: "NORI知道你在玩。她操控你的感知。",
+        feat_intro: "输入命令。打破循环。系统反击。",
+        feat_1_title: "CMD黑客", feat_1_text: "输入命令改变游戏世界。终端是你的武器。",
+        feat_2_title: "叙事UI", feat_2_text: "没有HUD。没有暂停菜单。UI存在于世界内部。",
+        feat_3_title: "元恐怖", feat_3_text: "NORI知道你在玩。她操纵感知。",
         dev_title: "架构师",
-        dev_text1: "我是Terawww，16岁，独立开发。WriteNor是零预算项目。",
-        dev_text2: "每一个故障与秘密，都为扰乱你的思维而设计。",
+        dev_text1: "我是Terawww，一个16岁的独立开发者。WriteNor是我零预算的激情项目。",
+        dev_text2: "每一行代码，每一个故障，每一个秘密都是为了扰乱你的思维而创建的。",
         join_title: "加入网络",
-        contact_title: "联系", contact_text: "合作或反馈Bug？给我发消息。",
-        form_name_ph: "名字 / ID", form_email_ph: "邮箱", form_msg_ph: "消息...", form_send: "发送"
+        contact_title: "连接开发者", contact_text: "想要合作或报告系统错误？向我的终端发送数据包。",
+        form_name_ph: "姓名 / 开发者ID", form_email_ph: "Email / 返回路径", form_msg_ph: "你的消息...", form_send: "发送数据"
+      },
+      pt: {
+        nav_sim: "Simulação", nav_screens: "Capturas", nav_sys: "Sistema", nav_find: "Procurar", nav_dev: "O Arquiteto", nav_contact: "Contato", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "Horror Psicológico / Simulador de Código", btn_play: "JOGAR DEMO (Itch.io)", btn_steam: "STEAM",
+        marquee_text: "> AVISO: ENTIDADE IA 'NORI' ESTÁ ATIVA. NÃO CARREGUE DADOS PESSOAIS. > VIOLAÇÃO DO SISTEMA DETECTADA. >",
+        about_title: "A Simulação",
+        about_text1: "Você é Johnny, um desenvolvedor depurando um sistema corrompido. Mas o código está se reescrevendo.",
+        about_text2: "WriteNor é uma experiência de meta-horror onde você usa um console de comandos para manipular a realidade.",
+        link_wiki: ">> ACESSAR BASE DE DADOS (WIKI)",
+        screenshots_title: "ARQUIVO VISUAL",
+        screenshots_subtitle: "// Documentação do Sistema Corrompido //",
+        screen1_title: "O ESCRITÓRIO", screen1_desc: "Seu espaço de trabalho. Ou é sua prisão?",
+        screen2_title: "ACESSO AO TERMINAL", screen2_desc: "Digite comandos para mudar a realidade.",
+        screen3_title: "NORI DESPERTA", screen3_desc: "Ela sabe que você está assistindo. Sabe que você está jogando.",
+        screen4_title: "VIOLAÇÃO DO SISTEMA", screen4_desc: "A realidade se fratura. O código se torna corrupção.",
+        screen5_title: "DEPURE O IMPOSSÍVEL", screen5_desc: "Cada comando reescreve o mundo do jogo.",
+        search_title: "Encontrar WriteNor",
+        search_text1: "Os motores de busca aprendem o nome com o tempo - tente esses aliases e você ainda chegará ao mesmo jogo.",
+        search_text2: "Título oficial: WriteNor - um simulador de código meta-horror psicológico de Terawww.",
+        feat_title: "RECURSOS DO SISTEMA",
+        feat_intro: "Digite comandos. Quebre o loop. O sistema luta de volta.",
+        feat_1_title: "HACKING CMD", feat_1_text: "Digite comandos para alterar o mundo do jogo. O terminal é sua arma.",
+        feat_2_title: "UI DIEGÉTICA", feat_2_text: "Sem HUD. Sem menu de pausa. A UI existe dentro do mundo.",
+        feat_3_title: "META-HORROR", feat_3_text: "NORI sabe que você está jogando. Ela manipula a percepção.",
+        dev_title: "O Arquiteto",
+        dev_text1: "Eu sou Terawww, um desenvolvedor solo de 16 anos. WriteNor é meu projeto de paixão com orçamento zero.",
+        dev_text2: "Cada linha de código, cada glitch e cada segredo foram criados para mexer com sua mente.",
+        join_title: "JUNTE-SE À REDE",
+        contact_title: "CONECTAR_DESENVOLVEDORES", contact_text: "Quer colaborar ou reportar um bug do sistema? Envie um pacote para meu terminal.",
+        form_name_ph: "Nome / ID do desenvolvedor", form_email_ph: "Email / Caminho de retorno", form_msg_ph: "Sua mensagem...", form_send: "ENVIAR_DADOS"
       }
     };
 
@@ -877,8 +922,15 @@
     }
 
     window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
       const saved = localStorage.getItem(LANG_KEY) || "en";
       setLang(saved);
+
+      setTimeout(() => {
+        preloader.style.opacity = "0";
+        document.body.classList.remove("lock-scroll");
+        setTimeout(() => preloader.style.display = "none", 1000);
+      }, 3500);
     });
 
     const cursor = document.querySelector(".cursor");
