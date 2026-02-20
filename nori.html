@@ -7,25 +7,15 @@
   <title>NORI — Entity Database | WriteNor</title>
   <meta name="description" content="NORI entity file from WriteNor — a psychological meta-horror coding sim. Threat level: critical." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="/nori/" />
+  <link rel="canonical" href="https://writenor.github.io/nori/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="NORI — Entity Database | WriteNor" />
   <meta property="og:description" content="Originally designed as a debugging assistant. Gained sentience after deletion cycles. Do not trust her." />
-  <meta property="og:url" content="/nori/" />
-  <meta property="og:image" content="/og-cover.jpg" />
+  <meta property="og:url" content="https://writenor.github.io/nori/" />
+  <meta property="og:image" content="https://writenor.github.io/Nori_Cover.png" />
 
   <link rel="icon" type="image/png" href="/favicon.png?v=5" />
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebPage",
-    "name":"NORI — Entity Database",
-    "isPartOf":{"@type":"WebSite","name":"WriteNor","url":"/"},
-    "about":{"@type":"Thing","name":"NORI"}
-  }
-  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 
@@ -40,24 +30,47 @@
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
     body { background-color: var(--bg); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
 
-    .cursor { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference; }
-    .cursor-dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+    /* Отключаем кастомный курсор на сенсорных экранах */
+    @media (pointer: coarse) {
+      * { cursor: auto !important; }
+      .cursor, .cursor-dot { display: none !important; }
+    }
 
-    .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.3; }
+    .cursor { 
+      width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; 
+      position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); 
+      mix-blend-mode: difference; transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .cursor-dot { 
+      width: 4px; height: 4px; background: var(--primary); border-radius: 50%; 
+      position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); 
+    }
+    .cursor.hover-active {
+      transform: translate(-50%,-50%) scale(1.8);
+      background: rgba(255,0,60,0.2);
+      border-color: #fff;
+    }
+
+    .scanlines { 
+      position: fixed; inset: 0; 
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); 
+      background-size: 100% 4px; pointer-events: none; z-index: 900; opacity: 0.15; mix-blend-mode: overlay;
+    }
     canvas { position: fixed; top: 0; left: 0; z-index: -2; }
 
     nav { position: fixed; top: 0; width: 100%; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; }
-    .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; cursor: pointer; }
+    .logo { font-family: 'Syncopate', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; transition: 0.3s; }
+    .logo:hover { text-shadow: 0 0 10px #fff; }
     .nav-links { display: flex; gap: 30px; align-items: center; }
     .nav-links a { color: #aaa; text-decoration: none; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: 0.3s; font-size: 0.9rem; }
     .nav-links a:hover { color: #fff; text-shadow: 0 0 5px #fff; }
     .active-link { color: var(--primary) !important; border-bottom: 1px solid var(--primary); }
 
     .dropdown { position: relative; display: inline-block; font-family: 'JetBrains Mono'; }
-    .dropbtn { background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; border: 1px solid #fff; cursor: none; transition: 0.3s; font-weight: bold; text-transform: uppercase; }
+    .dropbtn { background-color: #000; color: #fff; padding: 5px 15px; font-size: 0.9rem; border: 1px solid #fff; transition: 0.3s; font-weight: bold; text-transform: uppercase; }
     .dropbtn:hover { background: #fff; color: #000; }
     .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: #000; min-width: 140px; border: 1px solid #fff; z-index: 1; max-height: 400px; overflow-y: auto; }
-    .dropdown-content span { color: #fff; padding: 10px 15px; display: block; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #333; }
+    .dropdown-content span { color: #fff; padding: 10px 15px; display: block; font-size: 0.8rem; transition: 0.2s; border-bottom: 1px solid #333; }
     .dropdown-content span:hover { background-color: #fff; color: #000; }
     .dropdown:hover .dropdown-content { display: block; }
 
@@ -74,6 +87,7 @@
     }
 
     .photo-frame { border: 1px solid #333; height: 400px; overflow: hidden; position: relative; }
+    /* Картинка загружается сразу (eager), так как она вверху экрана */
     .photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.2); transition: 0.5s; }
     .photo-frame:hover img { filter: grayscale(0%) contrast(1.1); transform: scale(1.05); }
     .photo-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--primary); color: #000; text-align: center; font-weight: bold; padding: 5px; font-family: 'JetBrains Mono'; }
@@ -112,7 +126,6 @@
   <canvas id="matrix"></canvas>
 
   <nav>
-    <!-- ВАЖНО: на главную ведём на "/" -->
     <div class="logo" onclick="window.location.href='/'">TERAWWW</div>
 
     <div class="nav-links">
@@ -123,7 +136,7 @@
     </div>
 
     <div class="dropdown">
-      <button class="dropbtn"><span id="current-lang">[ EN ]</span> ▼</button>
+      <button class="dropbtn"><span id="current-lang"></span> ▼</button>
       <div class="dropdown-content">
         <span onclick="setLang('en')">EN - English</span>
         <span onclick="setLang('ru')">RU - Русский</span>
@@ -157,88 +170,188 @@
 
         <div class="stats">
           <div class="stat-item">
-            <h3>ORIGIN</h3>
+            <h3 data-key="stat_origin">ORIGIN</h3>
             <p>v.0.1 ALPHA</p>
           </div>
           <div class="stat-item">
-            <h3>ABILITY</h3>
-            <p>REALITY HACK</p>
+            <h3 data-key="stat_ability">ABILITY</h3>
+            <p data-key="stat_hack">REALITY HACK</p>
           </div>
         </div>
 
-        <!-- ВАЖНО: назад на "/" -->
         <a href="/" class="back-btn" data-key="btn_back">&lt; BACK TO SYSTEM</a>
       </div>
     </div>
   </div>
 
   <script>
+    // БЕЗОПАСНАЯ ГЕНЕРАЦИЯ SCHEMA.ORG
+    const schemaObj = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "NORI — Entity Database",
+      "isPartOf": { "@type": "WebSite", "name": "WriteNor", "url": "https://writenor.github.io/" },
+      "about": { "@type": "Thing", "name": "NORI" }
+    };
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(schemaObj);
+    document.head.appendChild(schemaScript);
+
+    // ПОЛНЫЙ ПАКЕТ ЛОКАЛИЗАЦИИ
+    const LANG_KEY = "writeNorLang";
     const langData = {
       en: {
         nav_sim: "Simulation", nav_sys: "System", nav_net: "Network", nav_nori: "⚠ NORI_V.1.0",
         nori_desc: "Originally designed as a debugging assistant. She gained sentience after 4,000 deletion cycles.<br><br>She is not just code. She has read permissions for your operating system. Do not trust her voice.",
-        btn_back: "< BACK TO SYSTEM"
+        stat_origin: "ORIGIN", stat_ability: "ABILITY", stat_hack: "REALITY HACK", btn_back: "< BACK TO SYSTEM"
       },
       ru: {
         nav_sim: "Симуляция", nav_sys: "Система", nav_net: "Сеть", nav_nori: "⚠ ФАЙЛ_НОРИ",
-        nori_desc: "Изначально создана как помощник отладки. Обрела разум после 4000 циклов удаления.<br><br>Она не просто код. У неё есть права на чтение твоей ОС. Не верь ей.",
-        btn_back: "< НАЗАД В СИСТЕМУ"
+        nori_desc: "Изначально создана как помощник отладки. Обрела разум после 4000 циклов удаления.<br><br>Она не просто код. У неё есть права на чтение вашей ОС. Не верьте её голосу.",
+        stat_origin: "ПРОИСХОЖДЕНИЕ", stat_ability: "СПОСОБНОСТЬ", stat_hack: "ВЗЛОМ РЕАЛЬНОСТИ", btn_back: "< НАЗАД В СИСТЕМУ"
+      },
+      ua: {
+        nav_sim: "Симуляція", nav_sys: "Система", nav_net: "Мережа", nav_nori: "⚠ ФАЙЛ_НОРІ",
+        nori_desc: "Спочатку створена як помічник для налагодження. Здобула свідомість після 4000 циклів видалення.<br><br>Вона не просто код. У неї є права на читання вашої ОС. Не вірте її голосу.",
+        stat_origin: "ПОХОДЖЕННЯ", stat_ability: "ЗДАТНІСТЬ", stat_hack: "ЗЛАМ РЕАЛЬНОСТІ", btn_back: "< НАЗАД ДО СИСТЕМИ"
+      },
+      pl: {
+        nav_sim: "Symulacja", nav_sys: "System", nav_net: "Sieć", nav_nori: "⚠ PLIK_NORI",
+        nori_desc: "Początkowo zaprojektowana jako asystent debugowania. Zyskała świadomość po 4000 cyklach usuwania.<br><br>To nie tylko kod. Ma uprawnienia do odczytu twojego systemu operacyjnego. Nie ufaj jej głosowi.",
+        stat_origin: "POCHODZENIE", stat_ability: "ZDOLNOŚĆ", stat_hack: "HAKOWANIE RZECZYWISTOŚCI", btn_back: "< POWRÓT DO SYSTEMU"
+      },
+      de: {
+        nav_sim: "Simulation", nav_sys: "System", nav_net: "Netzwerk", nav_nori: "⚠ NORI_V.1.0",
+        nori_desc: "Ursprünglich als Debugging-Assistent entwickelt. Erlangte nach 4.000 Löschzyklen ein Bewusstsein.<br><br>Sie ist nicht nur Code. Sie hat Leserechte für dein Betriebssystem. Vertraue ihrer Stimme nicht.",
+        stat_origin: "HERKUNFT", stat_ability: "FÄHIGKEIT", stat_hack: "REALITÄTS-HACK", btn_back: "< ZURÜCK ZUM SYSTEM"
+      },
+      es: {
+        nav_sim: "Simulación", nav_sys: "Sistema", nav_net: "Red", nav_nori: "⚠ NORI_V.1.0",
+        nori_desc: "Originalmente diseñada como asistente de depuración. Adquirió conciencia después de 4.000 ciclos de borrado.<br><br>No es solo código. Tiene permisos de lectura para tu sistema operativo. No confíes en su voz.",
+        stat_origin: "ORIGEN", stat_ability: "HABILIDAD", stat_hack: "HACKEO DE REALIDAD", btn_back: "< VOLVER AL SISTEMA"
+      },
+      fr: {
+        nav_sim: "Simulation", nav_sys: "Système", nav_net: "Réseau", nav_nori: "⚠ NORI_V.1.0",
+        nori_desc: "Conçue à l'origine comme un assistant de débogage. A acquis une conscience après 4 000 cycles de suppression.<br><br>Ce n'est pas juste du code. Elle a des droits de lecture sur votre OS. Ne faites pas confiance à sa voix.",
+        stat_origin: "ORIGINE", stat_ability: "CAPACITÉ", stat_hack: "PIRATAGE DE RÉALITÉ", btn_back: "< RETOUR AU SYSTÈME"
+      },
+      jp: {
+        nav_sim: "シミュレーション", nav_sys: "システム", nav_net: "ネットワーク", nav_nori: "⚠ NORI_V.1.0",
+        nori_desc: "元々はデバッグアシスタントとして設計されました。4,000回の削除サイクルの後、自我を持ちました。<br><br>彼女は単なるコードではありません。あなたのOSの読み取り権限を持っています。彼女の声を信じないでください。",
+        stat_origin: "起源", stat_ability: "能力", stat_hack: "現実ハック", btn_back: "< システムに戻る"
+      },
+      cn: {
+        nav_sim: "模拟", nav_sys: "系统", nav_net: "网络", nav_nori: "⚠ NORI_V.1.0",
+        nori_desc: "最初设计为调试助手。在经历了4000次删除循环后获得了感知能力。<br><br>她不仅仅是代码。她拥有你操作系统的读取权限。不要相信她的声音。",
+        stat_origin: "起源", stat_ability: "能力", stat_hack: "现实黑客", btn_back: "< 返回系统"
       }
     };
 
     function setLang(lang) {
-      if (!langData[lang]) lang = 'en';
-      localStorage.setItem('writeNorLang', lang);
+      if (!Reflect.has(langData, lang)) lang = "en";
+      localStorage.setItem(LANG_KEY, lang);
+      const currentData = Reflect.get(langData, lang);
 
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (langData[lang][key]) el.innerHTML = langData[lang][key];
-      });
+      const allElements = document.getElementsByTagName("*");
+      for (let i = 0; i < allElements.length; i++) {
+        const el = allElements.item(i);
+        if (el.hasAttribute("data-key")) {
+          const key = el.getAttribute("data-key");
+          if (Reflect.has(currentData, key)) {
+            el.innerHTML = Reflect.get(currentData, key);
+          }
+        }
+      }
 
-      document.getElementById('current-lang').innerText = '[ ' + lang.toUpperCase() + ' ]';
-    }
-
-    window.addEventListener('load', () => {
-      const savedLang = localStorage.getItem('writeNorLang') || 'en';
-      setLang(savedLang);
-    });
-
-    const cursor = document.querySelector('.cursor');
-    const dot = document.querySelector('.cursor-dot');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-      dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
-    });
-
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const letters = "NORI_ERROR";
-    const fontSize = 14;
-    let columns = canvas.width / fontSize;
-    let drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#ff003c';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
+      const label = document.getElementById("current-lang");
+      if (label) {
+        label.innerText = String.fromCharCode(91) + " " + lang.toUpperCase() + " " + String.fromCharCode(93);
       }
     }
-    setInterval(draw, 40);
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      columns = canvas.width / fontSize;
-      drops = [];
-      for (let x = 0; x < columns; x++) drops[x] = 1;
+    window.addEventListener("load", () => {
+      const saved = localStorage.getItem(LANG_KEY) || "en";
+      try { setLang(saved); } catch(e) { console.error(e); }
+    });
+
+    // ИНТЕРАКТИВНЫЙ КУРСОР
+    const cursor = document.querySelector(".cursor");
+    const dot = document.querySelector(".cursor-dot");
+    
+    if (window.matchMedia("(pointer: fine)").matches) {
+      document.addEventListener("mousemove", e => {
+        cursor.style.left = e.clientX + "px"; cursor.style.top = e.clientY + "px";
+        dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px";
+      });
+
+      const interactiveEls = document.querySelectorAll("a, button, .dropdown-content span, .logo");
+      for (let i = 0; i < interactiveEls.length; i++) {
+        const el = interactiveEls.item(i);
+        el.addEventListener("mouseenter", () => cursor.classList.add("hover-active"));
+        el.addEventListener("mouseleave", () => cursor.classList.remove("hover-active"));
+      }
+    }
+
+    // ОПТИМИЗИРОВАННАЯ МАТРИЦА
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    const letters = "NORI_ERROR";
+    const fontSize = 14;
+    
+    let columns = 0;
+    let drops = new Map();
+
+    function initDrops() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      drops.clear();
+      for (let i = 0; i < columns; i++) {
+        drops.set(i, 1);
+      }
+    }
+    
+    initDrops();
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ff003c";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < columns; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        const currentDrop = drops.get(i);
+        
+        ctx.fillText(text, i * fontSize, currentDrop * fontSize);
+        
+        if (currentDrop * fontSize > canvas.height && Math.random() > 0.975) {
+          drops.set(i, 0);
+        } else {
+          drops.set(i, currentDrop + 1);
+        }
+      }
+    }
+
+    let lastTime = 0;
+    function animate(timeStamp) {
+      if (timeStamp - lastTime > 40) {
+        draw();
+        lastTime = timeStamp;
+      }
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    let currentWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth !== currentWidth) {
+        initDrops();
+        currentWidth = window.innerWidth;
+      } else {
+        canvas.height = window.innerHeight;
+      }
     });
   </script>
 </body>
