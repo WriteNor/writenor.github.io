@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- Primary Meta Tags -->
   <title>WriteNor - Psychological Meta-Horror Coding Sim by Terawww | Official Game</title>
   <meta name="title" content="WriteNor - Psychological Meta-Horror Coding Sim by Terawww" />
   <meta name="description" content="WriteNor (also searched as Write Nor / Write-Nor) is a psychological meta-horror coding sim created by indie developer Terawww. Debug a corrupted system, bend reality, and survive NORI." />
@@ -19,7 +18,6 @@
   <link rel="icon" type="image/png" href="/favicon.png?v=7">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://writenor.github.io/sitemap.xml" />
 
-  <!-- hreflang -->
   <link rel="alternate" hreflang="x-default" href="https://writenor.github.io/" />
   <link rel="alternate" hreflang="en" href="https://writenor.github.io/" />
   <link rel="alternate" hreflang="ru" href="https://writenor.github.io/" />
@@ -31,7 +29,6 @@
   <link rel="alternate" hreflang="zh" href="https://writenor.github.io/" />
   <link rel="alternate" hreflang="pt" href="https://writenor.github.io/" />
 
-  <!-- Open Graph & Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://writenor.github.io/" />
   <meta property="og:site_name" content="WriteNor by Terawww" />
@@ -61,27 +58,11 @@
     canvas { position:fixed; top:0; left:0; z-index:-3; }
     .bg-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:-2; pointer-events:none; }
     
-    .scanlines{ 
-      position:fixed; inset:0; 
-      background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); 
-      background-size:100% 4px; pointer-events:none; z-index:100; opacity:.15; mix-blend-mode: overlay; 
-    }
+    .scanlines{ position:fixed; inset:0; background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size:100% 4px; pointer-events:none; z-index:100; opacity:.15; mix-blend-mode: overlay; }
 
-    .cursor{ 
-      width:20px; height:20px; border:2px solid var(--primary); border-radius:50%; 
-      position:fixed; pointer-events:none; z-index:300; transform:translate(-50%,-50%); 
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-      mix-blend-mode:difference; 
-    }
-    .cursor-dot{ 
-      width:4px; height:4px; background:var(--primary); border-radius:50%; 
-      position:fixed; pointer-events:none; z-index:300; transform:translate(-50%,-50%); 
-    }
-    .cursor.hover-active {
-      transform:translate(-50%,-50%) scale(1.8);
-      background: rgba(255,0,60,0.2);
-      border-color: #fff;
-    }
+    .cursor{ width:20px; height:20px; border:2px solid var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:300; transform:translate(-50%,-50%); transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease; mix-blend-mode:difference; }
+    .cursor-dot{ width:4px; height:4px; background:var(--primary); border-radius:50%; position:fixed; pointer-events:none; z-index:300; transform:translate(-50%,-50%); }
+    .cursor.hover-active { transform:translate(-50%,-50%) scale(1.8); background: rgba(255,0,60,0.2); border-color: #fff; }
 
     #preloader{ position:fixed; inset:0; background:#000; z-index:400; display:flex; align-items:center; justify-content:center; flex-direction:column; transition:opacity 0.8s ease-out; }
     .loader-text{ font-family:'JetBrains Mono',monospace; color:var(--primary); margin-top:20px; animation:blink .5s infinite; }
@@ -90,11 +71,7 @@
     @keyframes load{ to{ width:100%; } }
     @keyframes blink{ 50%{ opacity:0; } }
 
-    nav{
-      position:fixed; top:0; width:100%; padding:15px 40px;
-      display:flex; justify-content:space-between; align-items:center;
-      z-index:200; background:rgba(0,0,0,.9); border-bottom:1px solid #333;
-    }
+    nav{ position:fixed; top:0; width:100%; padding:15px 40px; display:flex; justify-content:space-between; align-items:center; z-index:200; background:rgba(0,0,0,.9); border-bottom:1px solid #333; }
     .logo{ font-family:'Syncopate',sans-serif; font-weight:700; font-size:1.5rem; letter-spacing:2px; color:#fff; }
     .nav-links{ display:flex; gap:30px; align-items:center; flex-wrap:wrap; justify-content:center; }
     .nav-links a{ color:#aaa; text-decoration:none; text-transform:uppercase; font-weight:700; letter-spacing:1px; transition:.3s; font-size:.9rem; }
@@ -127,18 +104,7 @@
     .text-block h2{ font-size:3rem; margin-bottom:30px; text-transform:uppercase; padding-left:10px; }
     .text-block p{ font-size:1.1rem; line-height:1.8; color:#ccc; margin-bottom:20px; }
 
-    .sys-log {
-      margin-top:25px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:0.85rem;
-      line-height:1.6;
-      color:#666;
-      background:rgba(255,0,60,0.03);
-      border:1px solid #222;
-      border-left:3px solid var(--primary);
-      padding:15px;
-      letter-spacing:0.5px;
-    }
+    .sys-log { margin-top:25px; font-family:'JetBrains Mono',monospace; font-size:0.85rem; line-height:1.6; color:#666; background:rgba(255,0,60,0.03); border:1px solid #222; border-left:3px solid var(--primary); padding:15px; letter-spacing:0.5px; }
     .sys-log b { color:#aaa; font-weight:700; }
     .sys-log .log-prefix { color:var(--primary); font-weight:bold; }
 
@@ -156,9 +122,7 @@
     .screenshots-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(450px, 1fr)); gap:40px; position:relative; z-index:1; }
     
     .screenshot-item{ background:#111; border:2px solid #222; overflow:hidden; position:relative; aspect-ratio:16/9; transition:.5s; box-shadow:0 0 20px rgba(0,0,0,.5); opacity:0; transform:translateY(30px); animation:fadeUp 1s ease-out forwards; }
-    .screenshot-item:nth-child(1){ animation-delay:.7s; } .screenshot-item:nth-child(2){ animation-delay:.9s; }
-    .screenshot-item:nth-child(3){ animation-delay:1.1s; } .screenshot-item:nth-child(4){ animation-delay:1.3s; }
-    .screenshot-item:nth-child(5){ animation-delay:1.5s; }
+    .screenshot-item:nth-child(1){ animation-delay:.7s; } .screenshot-item:nth-child(2){ animation-delay:.9s; } .screenshot-item:nth-child(3){ animation-delay:1.1s; } .screenshot-item:nth-child(4){ animation-delay:1.3s; } .screenshot-item:nth-child(5){ animation-delay:1.5s; }
     .screenshot-item:hover{ border-color:var(--primary); box-shadow:0 0 40px rgba(255,0,60,.6), 0 0 60px rgba(255,0,60,.3); transform:translateY(-10px) scale(1.02); }
     .screenshot-item img{ width:100%; height:100%; object-fit:cover; transition:.8s; filter:brightness(.75) contrast(1.1); }
     .screenshot-item:hover img{ transform:scale(1.15); filter:brightness(1) contrast(1.2); }
@@ -231,7 +195,7 @@
     </div>
 
     <div class="dropdown">
-      <button class="dropbtn"><span id="current-lang">EN</span> ▼</button>
+      <button class="dropbtn"><span id="current-lang"></span> ▼</button>
       <div class="dropdown-content">
         <span onclick="setLang('en')">English (EN)</span>
         <span onclick="setLang('ru')">Русский (RU)</span>
@@ -249,7 +213,6 @@
   <header>
     <div class="hero-content">
       <h1>WRITENOR</h1>
-
       <div class="hero-desc" data-key="hero_desc">Psychological Horror / Coding Sim</div>
       <div class="hero-btns">
         <a href="https://terawww.itch.io/writenor" class="cta-btn" data-key="btn_play" target="_blank" rel="noopener noreferrer">PLAY DEMO (Itch.io)</a>
@@ -287,7 +250,6 @@
         <h2 data-key="screenshots_title">VISUAL ARCHIVE</h2>
         <p data-key="screenshots_subtitle">// Corrupted System Documentation //</p>
       </div>
-
       <div class="screenshots-grid">
         <div class="screenshot-item">
           <img src="/Office.png" loading="lazy" alt="WriteNor developer workspace">
@@ -296,7 +258,6 @@
             <p data-key="screen1_desc">Your workspace. Or is it your prison?</p>
           </div>
         </div>
-
         <div class="screenshot-item">
           <img src="/screenshot1.png" loading="lazy" alt="WriteNor terminal hacking">
           <div class="screenshot-overlay">
@@ -304,7 +265,6 @@
             <p data-key="screen2_desc">Type commands to bend reality itself.</p>
           </div>
         </div>
-
         <div class="screenshot-item">
           <img src="/screenshot3.png" loading="lazy" alt="WriteNor NORI entity">
           <div class="screenshot-overlay">
@@ -312,7 +272,6 @@
             <p data-key="screen3_desc">She knows you're watching. She knows you're playing.</p>
           </div>
         </div>
-
         <div class="screenshot-item">
           <img src="/screenshot4.png" loading="lazy" alt="WriteNor system glitch">
           <div class="screenshot-overlay">
@@ -320,7 +279,6 @@
             <p data-key="screen4_desc">Reality fractures. Code becomes corruption.</p>
           </div>
         </div>
-
         <div class="screenshot-item">
           <img src="/screenshot5.png" loading="lazy" alt="WriteNor puzzle mechanics">
           <div class="screenshot-overlay">
@@ -338,12 +296,10 @@
         <h2 data-key="search_title">Find WriteNor</h2>
         <p data-key="search_text1">Search engines learn the name over time - try these aliases and you'll still reach the same game.</p>
         <p data-key="search_text2">Official title: WriteNor, a psychological meta-horror coding sim by <b>Terawww</b>.</p>
-
         <div class="sys-log" data-key="log_search">
           <span class="log-prefix">> NETWORK_SCAN:</span> DETECTED SEARCH QUERIES. ALL REDIRECT TO MAIN EXECUTABLE: <b>WriteNor</b> BY <b>Terawww</b>.
         </div>
       </div>
-
       <div class="alias-panel">
         <div class="alias-tag">Write Nor</div>
         <div class="alias-tag">Writenor</div>
@@ -360,7 +316,6 @@
         <h2 data-key="feat_title">SYSTEM FEATURES</h2>
         <p data-key="feat_intro">Type commands. Break the loop. The system fights back.</p>
       </div>
-
       <div class="features">
         <div class="feature-box">
           <h3 data-key="feat_1_title">CMD_HACKING</h3>
@@ -387,9 +342,8 @@
         <h2 data-key="dev_title">The Architect</h2>
         <p data-key="dev_text1">I am <b>Terawww</b>, a 16-year-old solo developer. WriteNor is my passion project built on zero budget.</p>
         <p data-key="dev_text2">Every line of code, every glitch, and every secret was crafted to mess with your mind.</p>
-        
         <div class="sys-log" data-key="log_dev">
-          <span class="log-prefix">> ARCHITECT_INFO:</span> <b>Terawww</b> IDENTIFIED AS INDIE DEV / PSYCHOLOGICAL HORROR SPECIALIST. CREATOR OF <b>WriteNor</b>.
+          <span class="log-prefix">> ARCHITECT_INFO:</span> <b>Terawww</b> IDENTIFIED AS INDIE DEV / PSYCHO-HORROR SPECIALIST. CREATOR OF <b>WriteNor</b>.
         </div>
       </div>
     </div>
@@ -399,7 +353,6 @@
     <div class="text-block" style="max-width: 800px; margin: 0 auto;">
       <h2 data-key="contact_title">CONNECT_DEVELOPERS</h2>
       <p data-key="contact_text">Want to collaborate or report a system bug? Send a packet to my terminal.</p>
-
       <form action="https://formspree.io/f/mlgelkpz" method="POST" class="contact-form">
         <input type="text" name="name" required data-placeholder="form_name_ph" placeholder="Name / Developer ID">
         <input type="email" name="_replyto" required data-placeholder="form_email_ph" placeholder="Email / Return Path">
@@ -420,7 +373,7 @@
   </section>
 
   <script>
-    // ГЕНЕРАЦИЯ SCHEMA.ORG (SEO) ДЛЯ ПОЛНОЙ БЕЗОПАСНОСТИ ОТ ФИЛЬТРОВ
+    // БЕЗОПАСНАЯ ГЕНЕРАЦИЯ SCHEMA.ORG (SEO)
     const schemaData = {
       "@context": "https://schema.org",
       "@graph": new Array(
@@ -461,17 +414,15 @@
     schemaScript.textContent = JSON.stringify(schemaData);
     document.head.appendChild(schemaScript);
 
-    // СИСТЕМА ЛОКАЛИЗАЦИИ
+    // СИСТЕМА ЛОКАЛИЗАЦИИ - ВСЕ 9 ЯЗЫКОВ
     const LANG_KEY = "writeNorLang";
     const langData = {
       en: {
         nav_sim: "Simulation", nav_screens: "Screenshots", nav_sys: "System", nav_find: "Find", nav_dev: "The Architect", nav_contact: "Contact", nav_nori: "⚠ NORI_V.1.0",
-        hero_desc: "Psychological Horror / Coding Sim", btn_play: "PLAY DEMO (Itch.io)", btn_steam: "STEAM",
-        marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
+        hero_desc: "Psychological Horror / Coding Sim", btn_play: "PLAY DEMO (Itch.io)", btn_steam: "STEAM", marquee_text: "> WARNING: AI ENTITY 'NORI' IS ACTIVE. DO NOT UPLOAD PERSONAL DATA. > SYSTEM BREACH DETECTED. >",
         about_title: "The Simulation", about_text1: "You are Johnny, a developer debugging a corrupted system. But the code is rewriting itself.", about_text2: "WriteNor is a meta-horror experience where you use a command console to manipulate reality.", link_wiki: ">> ACCESS DATABASE (WIKI)",
         log_about: "<span class='log-prefix'>> SYS_LOG:</span> RESOLVING ALIASES... DIRECTING TO: <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
-        screenshots_title: "VISUAL ARCHIVE", screenshots_subtitle: "// Corrupted System Documentation //",
-        screen1_title: "THE OFFICE", screen1_desc: "Your workspace. Or is it your prison?", screen2_title: "TERMINAL ACCESS", screen2_desc: "Type commands to bend reality itself.", screen3_title: "NORI AWAKENS", screen3_desc: "She knows you're watching. She knows you're playing.", screen4_title: "SYSTEM BREACH", screen4_desc: "Reality fractures. Code becomes corruption.", screen5_title: "DEBUG THE IMPOSSIBLE", screen5_desc: "Every command rewrites the game world.",
+        screenshots_title: "VISUAL ARCHIVE", screenshots_subtitle: "// Corrupted System Documentation //", screen1_title: "THE OFFICE", screen1_desc: "Your workspace. Or is it your prison?", screen2_title: "TERMINAL ACCESS", screen2_desc: "Type commands to bend reality itself.", screen3_title: "NORI AWAKENS", screen3_desc: "She knows you're watching. She knows you're playing.", screen4_title: "SYSTEM BREACH", screen4_desc: "Reality fractures. Code becomes corruption.", screen5_title: "DEBUG THE IMPOSSIBLE", screen5_desc: "Every command rewrites the game world.",
         search_title: "Find WriteNor", search_text1: "Search engines learn the name over time - try these aliases and you'll still reach the same game.", search_text2: "Official title: WriteNor, a psychological meta-horror coding sim by Terawww.",
         log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> DETECTED SEARCH QUERIES. ALL REDIRECT TO MAIN EXECUTABLE: <b>WriteNor</b> BY <b>Terawww</b>.",
         feat_title: "SYSTEM FEATURES", feat_intro: "Type commands. Break the loop. The system fights back.", feat_1_title: "CMD_HACKING", feat_1_text: "Type commands to alter the game world. The terminal is your weapon.", feat_2_title: "DIEGETIC_UI", feat_2_text: "No HUD. No pause menu. UI exists inside the world.", feat_3_title: "META_HORROR", feat_3_text: "NORI knows you are playing. She manipulates perception.",
@@ -491,6 +442,97 @@
         dev_title: "Архитектор", dev_text1: "Я Terawww, мне 16 лет, я соло-разработчик. WriteNor - проект на нулевом бюджете.", dev_text2: "Каждый глюк и каждая деталь сделаны, чтобы давить на психику.",
         log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> - ИНДИ-РАЗРАБОТЧИК / СПЕЦИАЛИСТ ПО ХОРРОРАМ. СОЗДАТЕЛЬ <b>WriteNor</b>.",
         join_title: "ВСТУПАЙ В СЕТЬ", contact_title: "СВЯЗЬ", contact_text: "Хочешь сотрудничать или нашёл баг? Отправь сообщение.", form_name_ph: "Имя / ID", form_email_ph: "Email", form_msg_ph: "Сообщение...", form_send: "ОТПРАВИТЬ"
+      },
+      ua: {
+        nav_sim: "Симуляція", nav_screens: "Скріншоти", nav_sys: "Система", nav_find: "Пошук", nav_dev: "Архітектор", nav_contact: "Зв'язок", nav_nori: "⚠ ФАЙЛ_НОРІ",
+        hero_desc: "Психологічний хоррор / Симулятор кодингу", btn_play: "ДЕМО (Itch.io)", btn_steam: "STEAM", marquee_text: "> УВАГА: ШІ 'НОРІ' АКТИВНИЙ. НЕ ЗАВАНТАЖУЙТЕ ОСОБИСТІ ДАНІ. > ВИЯВЛЕНО ЗЛОМ. >",
+        about_title: "Симуляція", about_text1: "Ти - Джонни, розробник, який налагоджує пошкоджену систему. Але код переписує сам себе.", about_text2: "WriteNor - мета-хоррор, де командна консоль дозволяє змінювати реальність.", link_wiki: ">> ДОСТУП ДО БАЗИ (WIKI)",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> ВИРІШЕННЯ АЛІАСІВ... ПЕРЕНАПРАВЛЕННЯ: <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "ВІЗУАЛЬНИЙ АРХІВ", screenshots_subtitle: "// Документація пошкодженої системи //", screen1_title: "ОФІС", screen1_desc: "Твоє робоче місце. Чи це твоя в'язниця?", screen2_title: "ДОСТУП ДО ТЕРМІНАЛУ", screen2_desc: "Вводь команди, щоб змінювати реальність.", screen3_title: "ПРОБУДЖЕННЯ НОРІ", screen3_desc: "Вона знає, що ти дивишся. Вона знає, що ти граєш.", screen4_title: "ЗЛОМ СИСТЕМИ", screen4_desc: "Реальність руйнується. Код стає корупцією.", screen5_title: "НАЛАГОДЬ НЕМОЖЛИВЕ", screen5_desc: "Кожна команда переписує ігровий світ.",
+        search_title: "Знайти WriteNor", search_text1: "Пошуковики поступово вчаться назви - спробуй ці варіанти, і ти все одно потрапиш на ту ж гру.", search_text2: "Офіційна назва: WriteNor - психологічний мета-хоррор симулятор кодингу від Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> ВИЯВЛЕНО ПОШУКОВІ ЗАПИТИ. ПЕРЕНАПРАВЛЕННЯ НА: <b>WriteNor</b> ВІД <b>Terawww</b>.",
+        feat_title: "ОСОБЛИВОСТІ", feat_intro: "Вводь команди. Ламай цикл. Система опирається.", feat_1_title: "ЗЛОМ КОНСОЛІ", feat_1_text: "Вводь команди і змінюй світ. Термінал - твоя зброя.", feat_2_title: "ДІЄГЕТИЧНИЙ UI", feat_2_text: "Немає HUD. Немає паузи. Інтерфейс існує всередині світу.", feat_3_title: "МЕТА-ХОРРОР", feat_3_text: "Норі знає, що ти граєш. Вона ламає сприйняття.",
+        dev_title: "Архітектор", dev_text1: "Я Terawww, мені 16 років, я соло-розробник. WriteNor - проект на нульовому бюджеті.", dev_text2: "Кожен збій і кожна деталь зроблені, щоб тиснути на психіку.",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> - ІНДІ-РОЗРОБНИК. ТВОРЕЦЬ <b>WriteNor</b>.",
+        join_title: "ВСТУПАЙ ДО МЕРЕЖІ", contact_title: "ЗВ'ЯЗОК", contact_text: "Хочеш співпрацювати або знайшов баг? Відправ повідомлення.", form_name_ph: "Ім'я / ID", form_email_ph: "Email", form_msg_ph: "Повідомлення...", form_send: "ВІДПРАВИТИ"
+      },
+      pl: {
+        nav_sim: "Symulacja", nav_screens: "Zrzuty", nav_sys: "System", nav_find: "Szukaj", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ PLIK_NORI",
+        hero_desc: "Horror psychologiczny / Symulator", btn_play: "DEMO (Itch.io)", btn_steam: "STEAM", marquee_text: "> OSTRZEŻENIE: JEDNOSTKA AI 'NORI' JEST AKTYWNA. > NARUSZENIE SYSTEMU. >",
+        about_title: "Symulacja", about_text1: "Kod sam się przepisuje.", about_text2: "WriteNor to meta-horror, używaj konsoli do manipulowania rzeczywistością.", link_wiki: ">> BAZA DANYCH (WIKI)",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> KIEROWANIE DO: <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "ARCHIWUM WIZUALNE", screenshots_subtitle: "// Dokumentacja systemu //", screen1_title: "BIURO", screen1_desc: "Czy to więzienie?", screen2_title: "TERMINAL", screen2_desc: "Zmieniaj rzeczywistość.", screen3_title: "NORI", screen3_desc: "Wie, że grasz.", screen4_title: "NARUSZENIE", screen4_desc: "Rzeczywistość pęka.", screen5_title: "DEBUGUJ", screen5_desc: "Przepisuje świat gry.",
+        search_title: "Znajdź WriteNor", search_text1: "Spróbuj tych aliasów i trafisz na grę.", search_text2: "Tytuł: WriteNor - meta-horror od Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> WYKRYTO ZAPYTANIA. KIEROWANIE DO: <b>WriteNor</b>.",
+        feat_title: "FUNKCJE", feat_intro: "Złam pętlę.", feat_1_title: "HAKOWANIE", feat_1_text: "Terminal to twoja broń.", feat_2_title: "UI", feat_2_text: "Brak HUD.", feat_3_title: "META-HORROR", feat_3_text: "NORI wie, że grasz.",
+        dev_title: "Architekt", dev_text1: "Jestem Terawww. WriteNor to mój projekt.", dev_text2: "Zrobiony by mieszać w głowie.",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> - TWÓRCA <b>WriteNor</b>.",
+        join_title: "DOŁĄCZ", contact_title: "KONTAKT", contact_text: "Zgłoś błąd?", form_name_ph: "Imię", form_email_ph: "Email", form_msg_ph: "Wiadomość...", form_send: "WYŚLIJ"
+      },
+      de: {
+        nav_sim: "Simulation", nav_screens: "Screenshots", nav_sys: "System", nav_find: "Suchen", nav_dev: "Architekt", nav_contact: "Kontakt", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "Psychologischer Horror / Coding-Sim", btn_play: "DEMO SPIELEN", btn_steam: "STEAM", marquee_text: "> WARNUNG: KI 'NORI' AKTIV. > SYSTEMVERLETZUNG. >",
+        about_title: "Simulation", about_text1: "Der Code schreibt sich selbst um.", about_text2: "WriteNor ist Meta-Horror. Benutze die Konsole.", link_wiki: ">> DATENBANK",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> ZIEL: <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "ARCHIV", screenshots_subtitle: "// Systemdokumentation //", screen1_title: "BÜRO", screen1_desc: "Dein Gefängnis?", screen2_title: "TERMINAL", screen2_desc: "Verändere die Realität.", screen3_title: "NORI", screen3_desc: "Sie weiß, dass du spielst.", screen4_title: "FEHLER", screen4_desc: "Korruption.", screen5_title: "DEBUG", screen5_desc: "Jeder Befehl schreibt neu.",
+        search_title: "Finde WriteNor", search_text1: "Probiere diese Aliase aus.", search_text2: "Titel: WriteNor von Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> SUCHE ERKANNT. ZIEL: <b>WriteNor</b>.",
+        feat_title: "FUNKTIONEN", feat_intro: "Schleife brechen.", feat_1_title: "HACKING", feat_1_text: "Das Terminal ist deine Waffe.", feat_2_title: "UI", feat_2_text: "Kein HUD.", feat_3_title: "META-HORROR", feat_3_text: "NORI manipuliert dich.",
+        dev_title: "Architekt", dev_text1: "Ich bin Terawww.", dev_text2: "Gemacht, um deinen Geist zu stören.",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> SCHÖPFER VON <b>WriteNor</b>.",
+        join_title: "NETZWERK", contact_title: "KONTAKT", contact_text: "Fehler melden?", form_name_ph: "Name", form_email_ph: "Email", form_msg_ph: "Nachricht...", form_send: "SENDEN"
+      },
+      es: {
+        nav_sim: "Simulación", nav_screens: "Capturas", nav_sys: "Sistema", nav_find: "Buscar", nav_dev: "Arquitecto", nav_contact: "Contacto", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "Horror Psicológico / Simulador", btn_play: "JUGAR DEMO", btn_steam: "STEAM", marquee_text: "> ADVERTENCIA: IA 'NORI' ACTIVA. > BRECHA DETECTADA. >",
+        about_title: "Simulación", about_text1: "El código se reescribe a sí mismo.", about_text2: "Usa comandos para manipular la realidad.", link_wiki: ">> BASE DE DATOS",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> DESTINO: <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "ARCHIVO", screenshots_subtitle: "// Documentación //", screen1_title: "OFICINA", screen1_desc: "¿O es tu prisión?", screen2_title: "TERMINAL", screen2_desc: "Cambia la realidad.", screen3_title: "NORI", screen3_desc: "Sabe que juegas.", screen4_title: "ERROR", screen4_desc: "Corrupción.", screen5_title: "DEPURA", screen5_desc: "Reescribe el mundo.",
+        search_title: "Encuentra WriteNor", search_text1: "Usa estos alias.", search_text2: "Título oficial: WriteNor de Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> BÚSQUEDA DETECTADA. REDIRIGIENDO: <b>WriteNor</b>.",
+        feat_title: "SISTEMA", feat_intro: "Rompe el bucle.", feat_1_title: "HACKEO", feat_1_text: "El terminal es tu arma.", feat_2_title: "UI", feat_2_text: "Sin HUD.", feat_3_title: "META-HORROR", feat_3_text: "NORI te manipula.",
+        dev_title: "Arquitecto", dev_text1: "Soy Terawww.", dev_text2: "Creado para manipular tu mente.",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> CREADOR DE <b>WriteNor</b>.",
+        join_title: "ÚNETE", contact_title: "CONTACTO", contact_text: "¿Reportar un error?", form_name_ph: "Nombre", form_email_ph: "Email", form_msg_ph: "Mensaje...", form_send: "ENVIAR"
+      },
+      jp: {
+        nav_sim: "シミュレーション", nav_screens: "写真", nav_sys: "システム", nav_find: "検索", nav_dev: "開発者", nav_contact: "連絡", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "心理的ホラー / コーディングシム", btn_play: "デモをプレイ", btn_steam: "STEAM", marquee_text: "> 警告: AI 'NORI' 活動中。> 侵害を検出。>",
+        about_title: "シミュレーション", about_text1: "コードは自分自身を書き換えています。", about_text2: "現実を操作するメタホラー。", link_wiki: ">> データベース",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> エイリアス解決... <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "アーカイブ", screenshots_subtitle: "// システムドキュメント //", screen1_title: "オフィス", screen1_desc: "牢獄？", screen2_title: "ターミナル", screen2_desc: "現実を変える。", screen3_title: "NORI", screen3_desc: "見られている。", screen4_title: "侵害", screen4_desc: "現実が崩壊。", screen5_title: "デバッグ", screen5_desc: "ゲーム世界を書き換える。",
+        search_title: "検索", search_text1: "これらのエイリアスを試してください。", search_text2: "タイトル: WriteNor by Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> 検索検出。メイン: <b>WriteNor</b>.",
+        feat_title: "機能", feat_intro: "ループを破る。", feat_1_title: "ハッキング", feat_1_text: "ターミナルは武器。", feat_2_title: "UI", feat_2_text: "HUDなし。", feat_3_title: "メタホラー", feat_3_text: "認識を操作。",
+        dev_title: "開発者", dev_text1: "Terawww。", dev_text2: "心を混乱させるために作られました。",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> <b>WriteNor</b>作成者。",
+        join_title: "ネットワーク", contact_title: "連絡", contact_text: "バグ報告？", form_name_ph: "名前", form_email_ph: "Email", form_msg_ph: "メッセージ...", form_send: "送信"
+      },
+      cn: {
+        nav_sim: "模拟", nav_screens: "截图", nav_sys: "系统", nav_find: "查找", nav_dev: "开发者", nav_contact: "联系", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "心理恐怖 / 编程模拟", btn_play: "试玩", btn_steam: "STEAM", marquee_text: "> 警告：AI 'NORI' 已激活。> 检测到系统入侵。>",
+        about_title: "模拟", about_text1: "代码正在重写自己。", about_text2: "使用控制台操纵现实的元恐怖。", link_wiki: ">> 数据库",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> 别名解析... <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "档案", screenshots_subtitle: "// 系统文档 //", screen1_title: "办公室", screen1_desc: "你的监狱？", screen2_title: "终端", screen2_desc: "改变现实。", screen3_title: "NORI", screen3_desc: "她知道你在玩。", screen4_title: "入侵", screen4_desc: "现实破碎。", screen5_title: "调试", screen5_desc: "重写世界。",
+        search_title: "查找", search_text1: "尝试这些别名。", search_text2: "官方：WriteNor by Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> 检测到搜索。重定向至 <b>WriteNor</b>.",
+        feat_title: "特性", feat_intro: "打破循环。", feat_1_title: "黑客", feat_1_text: "终端是武器。", feat_2_title: "UI", feat_2_text: "没有HUD。", feat_3_title: "元恐怖", feat_3_text: "NORI操纵感知。",
+        dev_title: "开发者", dev_text1: "Terawww。", dev_text2: "为了扰乱你的思维而建。",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> <b>WriteNor</b>创建者。",
+        join_title: "加入网络", contact_title: "联系", contact_text: "报告错误？", form_name_ph: "姓名", form_email_ph: "Email", form_msg_ph: "消息...", form_send: "发送"
+      },
+      pt: {
+        nav_sim: "Simulação", nav_screens: "Capturas", nav_sys: "Sistema", nav_find: "Procurar", nav_dev: "Arquiteto", nav_contact: "Contato", nav_nori: "⚠ NORI_V.1.0",
+        hero_desc: "Horror Psicológico / Simulador", btn_play: "JOGAR DEMO", btn_steam: "STEAM", marquee_text: "> AVISO: IA 'NORI' ATIVA. > VIOLAÇÃO DETECTADA. >",
+        about_title: "Simulação", about_text1: "O código está se reescrevendo.", about_text2: "Meta-horror: manipule a realidade.", link_wiki: ">> BASE DE DADOS",
+        log_about: "<span class='log-prefix'>> SYS_LOG:</span> DESTINO: <b>WriteNor</b>.<br><span class='log-prefix'>> CREATOR_ID:</span> <b>Terawww</b>",
+        screenshots_title: "ARQUIVO", screenshots_subtitle: "// Documentação //", screen1_title: "ESCRITÓRIO", screen1_desc: "Sua prisão?", screen2_title: "TERMINAL", screen2_desc: "Mude a realidade.", screen3_title: "NORI", screen3_desc: "Ela sabe que você joga.", screen4_title: "VIOLAÇÃO", screen4_desc: "A realidade se fratura.", screen5_title: "DEPURE", screen5_desc: "Reescreve o jogo.",
+        search_title: "Procurar", search_text1: "Tente esses aliases.", search_text2: "Título: WriteNor de Terawww.",
+        log_search: "<span class='log-prefix'>> NETWORK_SCAN:</span> BUSCA DETECTADA. REDIRECIONANDO: <b>WriteNor</b>.",
+        feat_title: "RECURSOS", feat_intro: "Quebre o loop.", feat_1_title: "HACKING", feat_1_text: "O terminal é sua arma.", feat_2_title: "UI", feat_2_text: "Sem HUD.", feat_3_title: "META-HORROR", feat_3_text: "NORI manipula você.",
+        dev_title: "Arquiteto", dev_text1: "Sou Terawww.", dev_text2: "Criado para mexer com sua mente.",
+        log_dev: "<span class='log-prefix'>> ARCHITECT_INFO:</span> <b>Terawww</b> CRIADOR DE <b>WriteNor</b>.",
+        join_title: "REDE", contact_title: "CONTATO", contact_text: "Reportar bug?", form_name_ph: "Nome", form_email_ph: "Email", form_msg_ph: "Mensagem...", form_send: "ENVIAR"
       }
     };
 
