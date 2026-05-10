@@ -1,14 +1,273 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="robots" content="index,follow">
-  <title>WriteNor</title>
-  <link rel="canonical" href="/" />
-  <script>
-    // мягкий редирект на главную
-    window.location.replace("/?alias=write-nor");
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Write Nor / WriteNor - Official Search Alias</title>
+
+  <meta name="description" content="Write Nor is a search alias for WriteNor, a psychological meta-horror coding simulator by solo indie developer Terawww. The official game title is WriteNor." />
+
+  <meta name="keywords" content="Write Nor, WriteNor, Write-Nor, Writenor, Write Nor game, WriteNor game, WriteNor horror, WriteNor demo, Terawww, NORI, psychological horror game, meta horror game, coding simulator" />
+
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="author" content="Terawww" />
+  <meta name="theme-color" content="#3E1590" />
+
+  <!-- ВАЖНО: self-canonical, чтобы /write-nor/ могла индексироваться сама -->
+  <link rel="canonical" href="https://writenor.github.io/write-nor/" />
+
+  <link rel="icon" type="image/png" href="/favicon.png?v=7" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://writenor.github.io/write-nor/" />
+  <meta property="og:title" content="Write Nor / WriteNor - Official Search Alias" />
+  <meta property="og:description" content="Write Nor is an alternate search name for WriteNor, a psychological meta-horror coding simulator by Terawww." />
+  <meta property="og:image" content="https://writenor.github.io/Nori_Cover.png" />
+  <meta property="og:site_name" content="WriteNor" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Write Nor / WriteNor - Official Search Alias" />
+  <meta name="twitter:description" content="Write Nor is an alternate search name for WriteNor, a psychological meta-horror coding simulator by Terawww." />
+  <meta name="twitter:image" content="https://writenor.github.io/Nori_Cover.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Write Nor / WriteNor",
+    "alternateName": [
+      "Write Nor",
+      "WriteNor",
+      "Write-Nor",
+      "Writenor",
+      "WRITENOR",
+      "Write Nor game"
+    ],
+    "url": "https://writenor.github.io/write-nor/",
+    "description": "Write Nor is a search alias for WriteNor, a psychological meta-horror coding simulator by solo indie developer Terawww.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "WriteNor",
+      "url": "https://writenor.github.io/"
+    },
+    "about": {
+      "@type": "VideoGame",
+      "name": "WriteNor",
+      "alternateName": [
+        "Write Nor",
+        "Write-Nor",
+        "Writenor",
+        "WRITENOR"
+      ],
+      "genre": [
+        "Psychological Horror",
+        "Meta Horror",
+        "Coding Simulator",
+        "Indie"
+      ],
+      "gamePlatform": [
+        "PC",
+        "Windows",
+        "Steam"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Terawww"
+      },
+      "url": "https://writenor.github.io/",
+      "image": "https://writenor.github.io/Nori_Cover.png",
+      "sameAs": [
+        "https://store.steampowered.com/app/4312600/WriteNor/",
+        "https://terawww.itch.io/writenor",
+        "https://www.igdb.com/games/writenor",
+        "https://writenor.fandom.com"
+      ]
+    }
+  }
   </script>
+
+  <style>
+    :root {
+      --bg: #06030f;
+      --bg2: #0b0618;
+      --red: #ff003c;
+      --purple: #6b30e8;
+      --text: #d8d2e8;
+      --muted: #7d6aa8;
+      --border: rgba(107, 48, 232, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(107, 48, 232, 0.22), transparent 35%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 60, 0.14), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 860px;
+      background: rgba(8, 4, 20, 0.86);
+      border: 1px solid var(--border);
+      padding: 42px;
+      box-shadow: 0 0 40px rgba(107, 48, 232, 0.15);
+    }
+
+    .tag {
+      color: var(--red);
+      font-family: monospace;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 8vw, 76px);
+      line-height: 0.95;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      color: var(--purple);
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    strong {
+      color: var(--text);
+    }
+
+    .aliases {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 26px 0;
+    }
+
+    .alias {
+      border: 1px solid var(--border);
+      padding: 9px 13px;
+      color: var(--purple);
+      font-family: monospace;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 14px 20px;
+      font-family: monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      transition: 0.2s;
+    }
+
+    .btn.main {
+      border-color: rgba(255, 0, 60, 0.55);
+      color: var(--red);
+    }
+
+    .btn:hover {
+      background: var(--purple);
+      color: #fff;
+      border-color: var(--purple);
+    }
+
+    .btn.main:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .note {
+      margin-top: 30px;
+      font-family: monospace;
+      font-size: 13px;
+      color: #4d3c74;
+    }
+  </style>
 </head>
-<body></body>
+
+<body>
+  <main>
+    <div class="tag">&gt; SEARCH_ALIAS_FOUND</div>
+
+    <h1>Write <span>Nor</span></h1>
+
+    <p>
+      <strong>Write Nor</strong> is an alternate search spelling for
+      <strong>WriteNor</strong>, a psychological meta-horror coding simulator
+      by solo indie developer <strong>Terawww</strong>.
+    </p>
+
+    <p>
+      The official title is <strong>WriteNor</strong>. If you searched for
+      <strong>Write Nor</strong>, <strong>Write-Nor</strong>,
+      <strong>Writenor</strong>, or <strong>Write Nor game</strong>,
+      you are looking for the same game.
+    </p>
+
+    <div class="aliases" aria-label="WriteNor search aliases">
+      <div class="alias">Write Nor</div>
+      <div class="alias">WriteNor</div>
+      <div class="alias">Write-Nor</div>
+      <div class="alias">Writenor</div>
+      <div class="alias">WRITENOR</div>
+      <div class="alias">Write Nor game</div>
+      <div class="alias">WriteNor horror</div>
+      <div class="alias">WriteNor demo</div>
+    </div>
+
+    <p>
+      In WriteNor, you debug a corrupted system, use a command console to bend
+      reality, and survive <strong>NORI</strong> — an AI entity that knows you
+      are playing.
+    </p>
+
+    <div class="buttons">
+      <a class="btn main" href="/">Open Official WriteNor Site</a>
+      <a class="btn" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">Wishlist on Steam</a>
+      <a class="btn" href="https://terawww.itch.io/writenor" target="_blank" rel="noopener noreferrer">Play Demo</a>
+    </div>
+
+    <div class="note">
+      &gt; ALIAS ROUTE: /write-nor/ → OFFICIAL TITLE: WriteNor
+    </div>
+  </main>
+</body>
 </html>
