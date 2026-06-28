@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Terms of Service — WriteNor / Write Nor | Terawww Interactive</title>
+  <meta name="description" content="Terms of Service for WriteNor (Write Nor) psychological meta-horror game by Terawww. Read our user agreement and legal policies." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://writenor.github.io/terms.html" />
+  <link rel="icon" type="image/png" href="/favicon.png?v=7" />
+  <meta name="theme-color" content="#3E1590" />
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://writenor.github.io/terms.html" />
+  <meta property="og:title" content="Terms of Service — WriteNor" />
+  <meta property="og:description" content="Legal terms and conditions for using WriteNor game and services." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --red:#ff003c;
+      --pur:#3E1590;
+      --pur-l:#6b30e8;
+      --pur-d:#1e0848;
+      --bg:#06030f;
+      --bg2:#090614;
+      --text:#c0b8d0;
+      --dim:#2a2040;
+      --border:rgba(62,21,144,0.22);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Rajdhani','Arial',sans-serif;
+      overflow-x:hidden;
+      cursor:none;
+      -webkit-text-size-adjust:100%;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+    }
+    @media(pointer:coarse){body{cursor:auto}.cursor,.cursor-ring{display:none!important}}
+
+    .cursor{position:fixed;z-index:9000;pointer-events:none;width:9px;height:9px;background:var(--red);border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:difference}
+    .cursor-ring{position:fixed;z-index:8999;pointer-events:none;width:32px;height:32px;border:1px solid rgba(62,21,144,0.6);border-radius:50%;transform:translate(-50%,-50%);transition:all .18s ease}
+    .cursor-ring.on{width:48px;height:48px;border-color:var(--red)}
+
+    .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:-1;filter:blur(90px)}
+    .o1{width:700px;height:700px;background:radial-gradient(ellipse,rgba(62,21,144,0.15) 0%,transparent 70%);top:-15%;left:-15%;animation:orbF 14s ease-in-out infinite}
+    @keyframes orbF{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(25px,-18px) scale(1.04)}70%{transform:translate(-15px,12px) scale(.97)}}
+    
+    .scanlines{position:fixed;inset:0;z-index:200;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);opacity:.5}
+    .vignette{position:fixed;inset:0;z-index:199;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,transparent 35%,rgba(6,3,15,.93) 100%)}
+
+    /* NAV */
+    nav{
+      position:fixed;
+      top:0;
+      width:100%;
+      z-index:500;
+      height:60px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 48px;
+      background:rgba(6,3,15,.98);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(12px);
+    }
+    .nlogo{
+      font-family:'Syncopate',sans-serif;
+      font-size:1.05rem;
+      font-weight:700;
+      letter-spacing:3px;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#fff;
+    }
+    .nlogo-r{color:var(--red)}
+    .nlogo-badge{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.58rem;
+      letter-spacing:2px;
+      border:1px solid rgba(62,21,144,.55);
+      color:var(--pur-l);
+      padding:2px 7px;
+    }
+
+    .nlinks{display:flex;gap:22px;align-items:center;list-style:none}
+    .nlinks a{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.68rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:#8878b8;
+      text-decoration:none;
+      transition:color .2s;
+    }
+    .nlinks a:hover{color:#fff}
+    .nori-nav{color:var(--red)!important;border:1px solid rgba(255,0,60,.3);padding:5px 10px!important}
+    .nori-nav:hover{color:#fff!important;background:rgba(255,0,60,.12)!important}
+    
+    .legal-nav{
+      color:rgba(107,48,232,.85)!important;
+      border:1px solid rgba(62,21,144,.48)!important;
+      padding:5px 10px!important;
+      background:rgba(62,21,144,.12)!important;
+      transition:all .2s!important;
+    }
+    .legal-nav:hover{
+      color:#fff!important;
+      border-color:var(--pur-l)!important;
+      background:rgba(62,21,144,.22)!important;
+    }
+
+    .nright{display:flex;align-items:center}
+    .lang-btn{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.68rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      background:transparent;
+      border:1px solid rgba(62,21,144,.35);
+      color:#8878b8;
+      padding:6px 12px;
+      cursor:none;
+      transition:.2s;
+    }
+    .lang-btn:hover{border-color:var(--pur);color:var(--pur-l)}
+
+    /* MAIN CONTENT */
+    main{
+      min-height:100vh;
+      padding-top:90px;
+      padding-bottom:60px;
+      position:relative;
+    }
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      padding:0 32px;
+      position:relative;
+      z-index:1;
+    }
+
+    .header{
+      margin-bottom:48px;
+      border-bottom:1px solid var(--border);
+      padding-bottom:32px;
+    }
+    .eye{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.66rem;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      color:var(--pur-l);
+      margin-bottom:12px;
+    }
+    h1{
+      font-family:'Syncopate','Arial Black',sans-serif;
+      font-size:clamp(2rem,5vw,3.5rem);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      line-height:1;
+      color:#fff;
+      margin-bottom:16px;
+    }
+    .meta{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.7rem;
+      color:#4a3870;
+      letter-spacing:1px;
+    }
+    .meta strong{color:var(--pur-l)}
+
+    .content{
+      background:rgba(62,21,144,.03);
+      border:1px solid var(--border);
+      padding:42px 38px;
+      margin-bottom:32px;
+    }
+    
+    h2{
+      font-family:'Syncopate',sans-serif;
+      font-size:1.4rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      color:var(--pur-l);
+      margin-top:42px;
+      margin-bottom:18px;
+      padding-bottom:12px;
+      border-bottom:1px solid rgba(62,21,144,.2);
+    }
+    h2:first-child{margin-top:0}
+
+    h3{
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.15rem;
+      font-weight:600;
+      color:#9a78c8;
+      margin-top:28px;
+      margin-bottom:12px;
+      letter-spacing:1px;
+    }
+
+    p{
+      font-size:1.05rem;
+      line-height:1.85;
+      color:#7a6898;
+      margin-bottom:18px;
+    }
+    p strong{color:#a888d0}
+
+    ul,ol{
+      margin:18px 0 18px 28px;
+      color:#7a6898;
+    }
+    li{
+      margin-bottom:10px;
+      line-height:1.8;
+    }
+
+    .notice{
+      background:rgba(255,0,60,.04);
+      border:1px solid rgba(255,0,60,.25);
+      border-left:3px solid var(--red);
+      padding:18px 22px;
+      margin:28px 0;
+      font-family:'JetBrains Mono',monospace;
+      font-size:.85rem;
+      line-height:1.9;
+      color:#c89ab8;
+    }
+    .notice strong{color:var(--red)}
+
+    .info-box{
+      background:rgba(62,21,144,.08);
+      border:1px solid rgba(62,21,144,.3);
+      border-left:3px solid var(--pur-l);
+      padding:18px 22px;
+      margin:28px 0;
+      font-family:'JetBrains Mono',monospace;
+      font-size:.85rem;
+      line-height:1.9;
+      color:#8a7ab0;
+    }
+    .info-box strong{color:var(--pur-l)}
+
+    .back-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-family:'JetBrains Mono',monospace;
+      font-size:.76rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      text-decoration:none;
+      padding:13px 28px;
+      border:1px solid rgba(62,21,144,.55);
+      color:var(--pur-l);
+      background:rgba(62,21,144,.05);
+      transition:all .22s;
+      cursor:none;
+    }
+    .back-btn:hover{
+      background:var(--pur);
+      color:#fff;
+      border-color:var(--pur);
+    }
+
+    footer{
+      padding:24px 48px;
+      background:#000;
+      border-top:1px solid #0a0618;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-family:'JetBrains Mono',monospace;
+      font-size:.62rem;
+      color:#3a2860;
+      letter-spacing:1px;
+    }
+    .f-center{display:flex;gap:20px;align-items:center}
+    .f-center a{
+      color:#3a2860;
+      text-decoration:none;
+      transition:color .2s;
+    }
+    .f-center a:hover{color:var(--pur-l)}
+
+    @media(max-width:768px){
+      nav{padding:0 16px;height:52px}
+      .nlinks{display:none}
+      .container{padding:0 20px}
+      .content{padding:28px 22px}
+      footer{flex-direction:column;gap:10px;text-align:center;padding:16px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cur"></div>
+  <div class="cursor-ring" id="cring"></div>
+
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div class="orb o1"></div>
+
+  <nav>
+    <a href="/" class="nlogo" aria-label="WriteNor — Home">
+      WRITE<span class="nlogo-r">NOR</span><span class="nlogo-badge">NORI</span>
+    </a>
+    <ul class="nlinks" role="navigation">
+      <li><a href="/#about">Simulation</a></li>
+      <li><a href="/#screenshots">Screenshots</a></li>
+      <li><a href="/#features">System</a></li>
+      <li><a href="/#dev">The Architect</a></li>
+      <li><a href="/#contact">Contact</a></li>
+      <li><a href="/terms.html" class="legal-nav">Terms</a></li>
+      <li><a href="/privacy.html" class="legal-nav">Privacy</a></li>
+      <li><a href="/nori/" class="nori-nav">&#9888; NORI_V.1.0</a></li>
+    </ul>
+    <div class="nright">
+      <a href="/" class="lang-btn">[EN] &#9662;</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      
+      <div class="header">
+        <div class="eye">&gt; SYS://LEGAL_FRAMEWORK</div>
+        <h1>Terms of Service</h1>
+        <div class="meta">
+          <strong>EFFECTIVE:</strong> January 2025 &nbsp;|&nbsp; 
+          <strong>ENTITY:</strong> Terawww Interactive &nbsp;|&nbsp; 
+          <strong>JURISDICTION:</strong> Global
+        </div>
+      </div>
+
+      <div class="content">
+
+        <div class="notice">
+          <strong>&gt; NOTICE:</strong> By accessing WriteNor (also searched as "Write Nor"), downloading the demo, or interacting with any related services, you agree to these Terms of Service. If you do not agree, discontinue use immediately.
+        </div>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          These Terms of Service ("Terms") govern your access to and use of <strong>WriteNor</strong> (the "Game"), developed and published by <strong>Terawww Interactive</strong> ("we," "us," "our"). By playing the Game, visiting our website, or using any associated services, you accept and agree to be bound by these Terms.
+        </p>
+
+        <h2>2. Description of Service</h2>
+        <p>
+          WriteNor is a <strong>psychological meta-horror coding simulator</strong> designed for <strong>PC</strong> platforms. The Game includes:
+        </p>
+        <ul>
+          <li>A free <strong>demo version</strong> available on <a href="https://terawww.itch.io/writenor" target="_blank" style="color:var(--pur-l);text-decoration:underline">Itch.io</a></li>
+          <li>A full version available for wishlist and future purchase on <a href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" style="color:var(--pur-l);text-decoration:underline">Steam</a></li>
+          <li>Associated community platforms (Discord, YouTube, Wiki)</li>
+        </ul>
+
+        <h2>3. License Grant</h2>
+        <h3>3.1 Personal Use License</h3>
+        <p>
+          Subject to your compliance with these Terms, we grant you a <strong>limited, non-exclusive, non-transferable, revocable license</strong> to download, install, and play WriteNor for personal, non-commercial purposes.
+        </p>
+
+        <h3>3.2 Restrictions</h3>
+        <p>You may <strong>NOT</strong>:</p>
+        <ul>
+          <li>Reverse-engineer, decompile, or disassemble the Game</li>
+          <li>Remove, alter, or obscure any copyright, trademark, or proprietary notices</li>
+          <li>Distribute, sell, rent, lease, or sublicense the Game</li>
+          <li>Use the Game for commercial purposes without written permission</li>
+          <li>Create derivative works based on the Game (except fan content under Section 8)</li>
+          <li>Use cheats, exploits, or unauthorized third-party software that modifies the Game</li>
+        </ul>
+
+        <h2>4. Intellectual Property</h2>
+        <p>
+          All content in WriteNor—including but not limited to code, graphics, audio, storyline, characters (including <strong>NORI</strong>), and design—is owned by <strong>Terawww Interactive</strong> and protected by international copyright laws.
+        </p>
+        <p>
+          The names <strong>"WriteNor,"</strong> <strong>"Write Nor,"</strong> and <strong>"NORI"</strong> are trademarks of Terawww Interactive.
+        </p>
+
+        <h2>5. User Conduct</h2>
+        <p>When using the Game or community platforms, you agree to:</p>
+        <ul>
+          <li>Comply with all applicable laws and regulations</li>
+          <li>Respect other users and refrain from harassment, hate speech, or abusive behavior</li>
+          <li>Not upload malicious code, viruses, or harmful content</li>
+          <li>Not impersonate Terawww Interactive or its representatives</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>&gt; META-NARRATIVE CLAUSE:</strong> WriteNor is a meta-horror experience. Certain in-game events may reference real-world elements (such as file names, player actions, or system behaviors) as part of the artistic design. <strong>This is fiction.</strong> The Game does not access personal data beyond what is disclosed in our Privacy Policy.
+        </div>
+
+        <h2>6. Content Creation & Streaming</h2>
+        <h3>6.1 Monetization Allowed</h3>
+        <p>
+          You <strong>MAY</strong> create videos, streams, screenshots, or other content featuring WriteNor and monetize such content (e.g., YouTube ads, Twitch subscriptions) under the following conditions:
+        </p>
+        <ul>
+          <li>Credit <strong>Terawww Interactive</strong> as the developer</li>
+          <li>Include a link to the <a href="https://writenor.github.io/" target="_blank" style="color:var(--pur-l);text-decoration:underline">official website</a> or <a href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" style="color:var(--pur-l);text-decoration:underline">Steam page</a></li>
+          <li>Do not claim ownership of the Game</li>
+          <li>Follow our <a href="#spoiler-policy" style="color:var(--red);text-decoration:underline">Spoiler Policy</a> (below)</li>
+        </ul>
+
+        <h3 id="spoiler-policy">6.2 Spoiler Policy</h3>
+        <p>
+          WriteNor contains narrative secrets and meta-horror elements designed to surprise players. We <strong>request</strong> (but do not require) that content creators:
+        </p>
+        <ul>
+          <li>Mark major story spoilers in video titles/thumbnails</li>
+          <li>Avoid revealing the final 30% of the Game in public content within the first 30 days of release</li>
+        </ul>
+
+        <h2>7. Age Restrictions</h2>
+        <p>
+          WriteNor is intended for players <strong>aged 13 and above</strong>. The Game contains:
+        </p>
+        <ul>
+          <li>Psychological horror themes</li>
+          <li>Mild visual distortion and unsettling imagery</li>
+          <li>No graphic violence, sexual content, or excessive profanity</li>
+        </ul>
+        <p>
+          Parents/guardians should review the Game before allowing minors to play.
+        </p>
+
+        <h2>8. Fan Content & Modifications</h2>
+        <h3>8.1 Fan Art, Fiction, and Mods</h3>
+        <p>
+          We <strong>encourage</strong> fan-created content (art, stories, mods) under these conditions:
+        </p>
+        <ul>
+          <li>Do not sell fan content without permission (donations/tips are acceptable)</li>
+          <li>Credit Terawww Interactive and link to the official game</li>
+          <li>Do not create content that is defamatory, obscene, or infringes on third-party rights</li>
+        </ul>
+
+        <h3>8.2 Mods & Tools</h3>
+        <p>
+          Modding is <strong>permitted</strong> for personal use. Distribution of mods must not:
+        </p>
+        <ul>
+          <li>Include the Game's executable or proprietary assets</li>
+          <li>Violate platform terms (Steam Workshop, etc.)</li>
+          <li>Introduce malware or harmful code</li>
+        </ul>
+
+        <h2>9. Disclaimer of Warranties</h2>
+        <p>
+          WriteNor is provided <strong>"AS IS"</strong> without warranties of any kind. We do not guarantee:
+        </p>
+        <ul>
+          <li>Uninterrupted or error-free operation</li>
+          <li>Compatibility with all hardware/software configurations</li>
+          <li>That the Game will meet your expectations</li>
+        </ul>
+
+        <h2>10. Limitation of Liability</h2>
+        <p>
+          To the maximum extent permitted by law, <strong>Terawww Interactive shall not be liable</strong> for:
+        </p>
+        <ul>
+          <li>Direct, indirect, incidental, or consequential damages arising from your use of the Game</li>
+          <li>Loss of data, profits, or business opportunities</li>
+          <li>Damages resulting from bugs, glitches, or server downtime</li>
+        </ul>
+
+        <h2>11. Termination</h2>
+        <p>
+          We reserve the right to terminate or suspend your access to the Game at any time, without notice, for:
+        </p>
+        <ul>
+          <li>Violation of these Terms</li>
+          <li>Cheating, hacking, or exploiting the Game</li>
+          <li>Abusive behavior toward other users or developers</li>
+        </ul>
+
+        <h2>12. Changes to Terms</h2>
+        <p>
+          We may update these Terms periodically. Continued use of the Game after changes constitutes acceptance of the revised Terms. Major changes will be announced via:
+        </p>
+        <ul>
+          <li>The official website (<a href="https://writenor.github.io/" target="_blank" style="color:var(--pur-l);text-decoration:underline">writenor.github.io</a>)</li>
+          <li>Steam announcements</li>
+          <li>Discord server</li>
+        </ul>
+
+        <h2>13. Governing Law</h2>
+        <p>
+          These Terms are governed by the laws of <strong>[Your Country/State]</strong>. Any disputes shall be resolved through binding arbitration or in the courts of [Your Jurisdiction].
+        </p>
+
+        <h2>14. Contact Information</h2>
+        <p>
+          For questions about these Terms, contact us:
+        </p>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:terawww337@gmail.com" style="color:var(--pur-l);text-decoration:underline">terawww337@gmail.com</a></li>
+          <li><strong>Discord:</strong> <a href="https://discord.gg/QD5mUt44n5" target="_blank" style="color:var(--pur-l);text-decoration:underline">discord.gg/QD5mUt44n5</a></li>
+          <li><strong>Website:</strong> <a href="https://writenor.github.io/" target="_blank" style="color:var(--pur-l);text-decoration:underline">writenor.github.io</a></li>
+        </ul>
+
+        <div class="notice" style="margin-top:48px">
+          <strong>&gt; FINAL NOTICE:</strong> By continuing to play WriteNor, you acknowledge that you have read, understood, and agreed to these Terms of Service. NORI is watching. Compliance is mandatory.
+        </div>
+
+      </div>
+
+      <a href="/" class="back-btn">&#8592; Return to Main Site</a>
+
+    </div>
+  </main>
+
+  <footer>
+    <span>&copy; <span id="yr"></span> Terawww Interactive &mdash; All Rights Reserved.</span>
+    <div class="f-center">
+      <a href="/terms.html">Terms of Service</a>
+      <span style="color:#1e1040">|</span>
+      <a href="/privacy.html">Privacy Policy</a>
+    </div>
+  </footer>
+
+  <script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // CURSOR
+  const cur=document.getElementById('cur'),cring=document.getElementById('cring');
+  if(window.matchMedia('(pointer:fine)').matches){
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button').forEach(el=>{
+      el.addEventListener('mouseenter',()=>cring.classList.add('on'));
+      el.addEventListener('mouseleave',()=>cring.classList.remove('on'));
+    });
+  }
+  </script>
+</body>
+</html>
