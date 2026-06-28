@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://writenor.github.io/sitemap.xml
+
+# ═══════════════════════════════════════
+# > NORI_PROTOCOL: CONTAINMENT ACTIVE
+# ═══════════════════════════════════════
+User-agent: NORI
+Disallow: /
+# She's still watching. She always was.
