@@ -28,7 +28,7 @@
   <meta property="og:url"         content="https://writenor.github.io/" />
   <meta property="og:title"       content="WriteNor / Write Nor - Psychological Meta-Horror Coding Sim | Terawww" />
   <meta property="og:description" content="WriteNor, also searched as Write Nor, is a psychological meta-horror coding simulator by solo indie developer Terawww. Debug a corrupted system, bend reality, and survive NORI." />
-  <meta property="og:image"       content="https://writenor.github.io/Nori_Cover1.png" />
+  <meta property="og:image"       content="https://writenor.github.io/Nori_Cover.png" />
   <meta property="og:image:width"  content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt"    content="WriteNor / Write Nor - Psychological Meta-Horror Coding Sim cover art featuring NORI" />
@@ -38,10 +38,10 @@
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="WriteNor / Write Nor by Terawww — She knows you're playing." />
   <meta name="twitter:description" content="WriteNor, also searched as Write Nor, is a psychological meta-horror coding simulator. Debug a corrupted system. Survive NORI. Available on Itch.io — Wishlist on Steam." />
-  <meta name="twitter:image"       content="https://writenor.github.io/Nori_Cover1.png" />
+  <meta name="twitter:image"       content="https://writenor.github.io/Nori_Cover.png" />
   <meta name="twitter:image:alt"   content="WriteNor / Write Nor cover art featuring NORI" />
 
-  <link rel="preload" as="image" href="https://writenor.github.io/Nori_Cover1.png" />
+  <link rel="preload" as="image" href="https://writenor.github.io/Nori_Cover.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -77,7 +77,7 @@
     .o2{width:500px;height:500px;background:radial-gradient(ellipse,rgba(255,31,77,0.06) 0%,transparent 70%);bottom:5%;right:-10%;animation:orbF 18s ease-in-out infinite reverse}
     @keyframes orbF{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(25px,-18px) scale(1.04)}70%{transform:translate(-15px,12px) scale(.97)}}
     .scanlines{position:fixed;inset:0;z-index:200;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);opacity:.45}
-    .vignette{position:fixed;inset:0;z-index:199;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,transparent 35%,rgba(5,1,8,.94) 100%)}
+    .vignette{position:absolute;inset:0;height:100vh;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,transparent 35%,rgba(5,1,8,.94) 100%)}
     .grain{position:fixed;inset:0;z-index:198;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
     /* PRELOADER */
@@ -92,8 +92,8 @@
     @keyframes blink{50%{opacity:0}}
 
     /* JS-gated reveal system */
-    .js .reveal{opacity:0;transform:translateY(28px);clip-path:inset(0 0 100% 0);transition:opacity .9s var(--ease),transform 1s var(--ease),clip-path 1.05s var(--ease)}
-    .js .reveal.in{opacity:1;transform:none;clip-path:inset(0 0 0% 0)}
+    .js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
+    .js .reveal.in{opacity:1;transform:none}
     .js .reveal-l{opacity:0;transform:translateX(-30px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
     .js .reveal-l.in{opacity:1;transform:none}
     .js .reveal-r{opacity:0;transform:translateX(30px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
@@ -108,7 +108,7 @@
     @keyframes chUp{from{opacity:0;transform:translateY(60%) rotateX(35deg)}to{opacity:1;transform:none}}
     @keyframes fU{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     @media(prefers-reduced-motion:reduce){
-      .js .reveal,.js .reveal-l,.js .reveal-r{transition:opacity .4s ease!important;transform:none!important;clip-path:none!important}
+      .js .reveal,.js .reveal-l,.js .reveal-r{transition:opacity .4s ease!important;transform:none!important}
       .js .h-title .ch{animation:none!important;opacity:1!important}
       .js.hero-ready .h-eye,.js.hero-ready .h-desc,.js.hero-ready .h-btns,.js.hero-ready .scroll-h{animation:none!important;opacity:1!important}
     }
@@ -351,7 +351,6 @@
   </div>
 
   <div class="scanlines"></div>
-  <div class="vignette"></div>
   <div class="grain"></div>
   <div class="orb o1"></div>
   <div class="orb o2"></div>
@@ -392,6 +391,7 @@
     </div>
     <div class="h-fog"></div>
     <div class="h-grid-fx"></div>
+    <div class="vignette"></div>
     <div class="h-inner">
       <p class="h-eye"><span>SYS://</span>WRITENOR_CORE &nbsp;&#9679;&nbsp;<span>ACTIVE</span></p>
       <h1 class="h-title" id="heroTitle">WRITE<span class="l2">NOR</span></h1>
@@ -603,112 +603,91 @@
   <script>
   document.documentElement.classList.add('js');
 
-  /* ---------- SCROLL REVEAL (перенесено в начало + fallback) ---------- */
-  try{
-    if('IntersectionObserver' in window){
-      const io=new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-      },{threshold:0.15});
-      document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>io.observe(el));
-    } else {
-      document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>el.classList.add('in'));
-    }
-  }catch(err){
-    console.error('[reveal] init failed, forcing visibility:', err);
-    document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>el.classList.add('in'));
-  }
-
   const _sd={
     "@context":"https://schema.org",
     "@graph":[
       {"@type":"WebSite","@id":"https://writenor.github.io/#website","name":"WriteNor","alternateName":["Write Nor","Write-Nor","Writenor","WriteNoR","WRITENOR","Write Nor game","WriteNor game","WriteNor horror"],"url":"https://writenor.github.io/","description":"Official website for WriteNor, also searched as Write Nor, a psychological meta-horror coding simulator by Terawww.","publisher":{"@id":"https://writenor.github.io/#person"},"inLanguage":["en","ru","uk","pl","de","es","ja","zh","pt"],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://writenor.fandom.com/wiki/Special:Search?query={search_term_string}"},"query-input":"required name=search_term_string"}},
       {"@type":"Person","@id":"https://writenor.github.io/#person","name":"Terawww","description":"Solo indie game developer, creator of WriteNor psychological meta-horror coding simulator.","url":"https://terawww.github.io/","sameAs":["https://terawww.itch.io/writenor","https://discord.gg/QD5mUt44n5","https://www.youtube.com/@WriteNor","https://store.steampowered.com/developer/terawww"]},
-      {"@type":"VideoGame","@id":"https://writenor.github.io/#game","name":"WriteNor","alternateName":["Write Nor","Write-Nor","WRITENOR","Writenor","WriteNoR","Write Nor game","WriteNor game","WriteNor horror"],"description":"WriteNor is a psychological meta-horror coding simulator by solo indie developer Terawww. Play as Johnny debugging a corrupted system while NORI — an adaptive AI entity — observes and manipulates your every action.","genre":["Psychological Horror","Meta Horror","Simulation","Indie","Coding Simulator","Adventure"],"gamePlatform":["PC","Windows","Steam"],"applicationCategory":"Game","operatingSystem":"Windows","author":{"@id":"https://writenor.github.io/#person"},"publisher":{"@id":"https://writenor.github.io/#person"},"url":"https://writenor.github.io/","image":"https://writenor.github.io/Nori_Cover1.png","screenshot":"https://writenor.github.io/Office.png","offers":[{"@type":"Offer","url":"https://terawww.itch.io/writenor","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","name":"WriteNor Demo — Itch.io"},{"@type":"Offer","url":"https://store.steampowered.com/app/4312600/WriteNor/","availability":"https://schema.org/PreOrder","name":"WriteNor — Wishlist on Steam"}],"sameAs":["https://terawww.itch.io/writenor","https://store.steampowered.com/app/4312600/WriteNor/","https://www.igdb.com/games/writenor","https://writenor.fandom.com"]}
+      {"@type":"VideoGame","@id":"https://writenor.github.io/#game","name":"WriteNor","alternateName":["Write Nor","Write-Nor","WRITENOR","Writenor","WriteNoR","Write Nor game","WriteNor game","WriteNor horror"],"description":"WriteNor is a psychological meta-horror coding simulator by solo indie developer Terawww. Play as Johnny debugging a corrupted system while NORI — an adaptive AI entity — observes and manipulates your every action.","genre":["Psychological Horror","Meta Horror","Simulation","Indie","Coding Simulator","Adventure"],"gamePlatform":["PC","Windows","Steam"],"applicationCategory":"Game","operatingSystem":"Windows","author":{"@id":"https://writenor.github.io/#person"},"publisher":{"@id":"https://writenor.github.io/#person"},"url":"https://writenor.github.io/","image":"https://writenor.github.io/Nori_Cover.png","screenshot":"https://writenor.github.io/Office.png","offers":[{"@type":"Offer","url":"https://terawww.itch.io/writenor","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","name":"WriteNor Demo — Itch.io"},{"@type":"Offer","url":"https://store.steampowered.com/app/4312600/WriteNor/","availability":"https://schema.org/PreOrder","name":"WriteNor — Wishlist on Steam"}],"sameAs":["https://terawww.itch.io/writenor","https://store.steampowered.com/app/4312600/WriteNor/","https://www.igdb.com/games/writenor","https://writenor.fandom.com"]}
     ]
   };
-  try{
-    const _ss=document.createElement('script');_ss.type='application/ld+json';_ss.textContent=JSON.stringify(_sd);document.head.appendChild(_ss);
-  }catch(err){ console.error('[schema] failed:', err); }
+  const _ss=document.createElement('script');_ss.type='application/ld+json';_ss.textContent=JSON.stringify(_sd);document.head.appendChild(_ss);
 
-  try{ document.getElementById('yr').textContent=new Date().getFullYear(); }catch(err){ console.error('[year] failed:', err); }
+  document.getElementById('yr').textContent=new Date().getFullYear();
 
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- PRELOADER ---------- */
-  try{
-    window.addEventListener('load',()=>{
-      setTimeout(()=>{
-        const p=document.getElementById('pre');
-        if(p){ p.style.opacity='0'; }
-        document.body.classList.remove('loading');
-        setTimeout(()=>{ if(p) p.style.display='none'; startHero(); },650);
-      },1800);
-    });
-  }catch(err){ console.error('[preloader] failed:', err); document.body.classList.remove('loading'); }
-
+  window.addEventListener('load',()=>{
+    setTimeout(()=>{
+      const p=document.getElementById('pre');p.style.opacity='0';document.body.classList.remove('loading');
+      setTimeout(()=>{p.style.display='none';startHero();},650);
+    },1800);
+  });
   function startHero(){document.documentElement.classList.add('hero-ready');}
 
   /* ---------- CURSOR ---------- */
-  try{
-    const cur=document.getElementById('cur'),cring=document.getElementById('cring');
-    if(cur && cring && window.matchMedia('(pointer:fine)').matches){
-      let mx=0,my=0,rx=0,ry=0;
-      document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-      (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(a);})();
-      document.querySelectorAll('a,button,input,textarea').forEach(el=>{
-        el.addEventListener('mouseenter',()=>cring.classList.add('on'));
-        el.addEventListener('mouseleave',()=>cring.classList.remove('on'));
-      });
-    }
-  }catch(err){ console.error('[cursor] failed:', err); }
+  const cur=document.getElementById('cur'),cring=document.getElementById('cring');
+  if(window.matchMedia('(pointer:fine)').matches){
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button,input,textarea').forEach(el=>{
+      el.addEventListener('mouseenter',()=>cring.classList.add('on'));
+      el.addEventListener('mouseleave',()=>cring.classList.remove('on'));
+    });
+  }
 
   /* ---------- HERO TITLE LETTER SPLIT ---------- */
-  try{
-    (function(){
-      const h=document.getElementById('heroTitle');
-      if(!h) return;
-      const parts=[{txt:'WRITE',cls:null},{txt:'NOR',cls:'l2'}];
-      h.innerHTML='';
-      let i=0;
-      parts.forEach(part=>{
-        const holder=part.cls?document.createElement('span'):null;
-        if(holder)holder.className=part.cls;
-        const target=holder||h;
-        [...part.txt].forEach(ch=>{
-          const s=document.createElement('span');
-          s.className='ch';s.textContent=ch;
-          s.style.animationDelay=(0.3+i*0.045)+'s';
-          i++;
-          target.appendChild(s);
-        });
-        if(holder)h.appendChild(holder);
+  (function(){
+    const h=document.getElementById('heroTitle');
+    const parts=[{txt:'WRITE',cls:null},{txt:'NOR',cls:'l2'}];
+    h.innerHTML='';
+    let i=0;
+    parts.forEach(part=>{
+      const holder=part.cls?document.createElement('span'):null;
+      if(holder)holder.className=part.cls;
+      const target=holder||h;
+      [...part.txt].forEach(ch=>{
+        const s=document.createElement('span');
+        s.className='ch';s.textContent=ch;
+        s.style.animationDelay=(0.3+i*0.045)+'s';
+        i++;
+        target.appendChild(s);
       });
-    })();
-  }catch(err){ console.error('[hero title split] failed:', err); }
+      if(holder)h.appendChild(holder);
+    });
+  })();
+
+  /* ---------- SCROLL REVEAL ---------- */
+  const revealEls=document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.05,rootMargin:'0px 0px -5% 0px'});
+  revealEls.forEach(el=>io.observe(el));
+  // Safety net: force-reveal anything still hidden after a few seconds, in case the
+  // observer ever fails to fire (e.g. unusual layout, slow-loading images affecting height).
+  setTimeout(()=>{
+    revealEls.forEach(el=>{ if(!el.classList.contains('in'))el.classList.add('in'); });
+  },2500);
 
   /* ---------- HERO PARALLAX ---------- */
-  try{
-    const glWrap=document.getElementById('glWrap');
-    if(glWrap && !REDUCED){
-      window.addEventListener('scroll',()=>{
-        const y=window.scrollY;
-        if(y<window.innerHeight*1.2){ glWrap.style.transform='translateY('+(y*0.18)+'px)'; }
-      },{passive:true});
-    }
-  }catch(err){ console.error('[parallax] failed:', err); }
+  const glWrap=document.getElementById('glWrap');
+  if(!REDUCED){
+    window.addEventListener('scroll',()=>{
+      const y=window.scrollY;
+      if(y<window.innerHeight*1.2){ glWrap.style.transform='translateY('+(y*0.18)+'px)'; }
+    },{passive:true});
+  }
 
   /* ---------- OFFICE PHOTO GLITCH FLASH ---------- */
-  try{
-    if(!REDUCED){
-      const photo=document.getElementById('heroPhoto');
-      if(photo){
-        setInterval(()=>{
-          photo.classList.add('flash');
-          setTimeout(()=>photo.classList.remove('flash'), 90+Math.random()*120);
-        }, 6000+Math.random()*6000);
-      }
-    }
-  }catch(err){ console.error('[photo flash] failed:', err); }
+  if(!REDUCED){
+    const photo=document.getElementById('heroPhoto');
+    setInterval(()=>{
+      photo.classList.add('flash');
+      setTimeout(()=>photo.classList.remove('flash'), 90+Math.random()*120);
+    }, 6000+Math.random()*6000);
+  }
 
   /* ---------- THREE.JS CORRUPTED GRID ---------- */
   let scene,camera,renderer,grid,particles,mouseX=0,mouseY=0,clockT=0,glActive=false;
@@ -716,7 +695,6 @@
     try{
       if(typeof THREE==='undefined')return;
       const canvas=document.getElementById('heroCanvas');
-      if(!canvas)return;
       scene=new THREE.Scene();
       camera=new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,0.1,100);
       camera.position.set(0,3,9);
@@ -753,7 +731,7 @@
       window.addEventListener('resize',onResizeGL);
       glActive=true;
       animateGL();
-    }catch(err){ console.error('[three.js] unavailable, hero still works without it:', err); }
+    }catch(err){ /* WebGL unavailable — hero still works without it */ }
   }
   function animateGL(){
     if(!glActive)return;
@@ -775,7 +753,7 @@
       camera.position.y+=(3-mouseY*1.4-camera.position.y)*0.02;
       camera.lookAt(0,0,0);
     }
-    if(renderer && scene && camera) renderer.render(scene,camera);
+    renderer.render(scene,camera);
   }
   function onResizeGL(){
     if(!renderer)return;
@@ -783,192 +761,174 @@
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth,window.innerHeight);
   }
-  try{ initWebGL(); }catch(err){ console.error('[three.js init] failed:', err); }
+  initWebGL();
 
   /* ---------- FEATURE CARD 3D TILT ---------- */
-  try{
-    if(!REDUCED && window.matchMedia('(pointer:fine)').matches){
-      document.querySelectorAll('#featGrid .fc').forEach(card=>{
-        card.addEventListener('mousemove',e=>{
-          const r=card.getBoundingClientRect();
-          const px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
-          card.style.transform='perspective(700px) rotateY('+(px*7)+'deg) rotateX('+(-py*7)+'deg) translateZ(4px)';
-        });
-        card.addEventListener('mouseleave',()=>{ card.style.transform='none'; });
+  if(!REDUCED && window.matchMedia('(pointer:fine)').matches){
+    document.querySelectorAll('#featGrid .fc').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+        card.style.transform='perspective(700px) rotateY('+(px*7)+'deg) rotateX('+(-py*7)+'deg) translateZ(4px)';
       });
-    }
-  }catch(err){ console.error('[feature tilt] failed:', err); }
+      card.addEventListener('mouseleave',()=>{ card.style.transform='none'; });
+    });
+  }
 
   /* ---------- LIGHTBOX ---------- */
-  try{
-    (function(){
-      const lb=document.getElementById('lightbox'),img=document.getElementById('lbImg'),cap=document.getElementById('lbCap'),close=document.getElementById('lbClose');
-      if(!lb||!img||!cap||!close) return;
-      document.querySelectorAll('#gallery .gi').forEach(gi=>{
-        gi.addEventListener('click',()=>{
-          img.src=gi.getAttribute('data-full');
-          img.alt=gi.querySelector('img').alt;
-          cap.textContent=(gi.querySelector('h3')?gi.querySelector('h3').textContent:'').toUpperCase();
-          lb.classList.add('open');
-        });
+  (function(){
+    const lb=document.getElementById('lightbox'),img=document.getElementById('lbImg'),cap=document.getElementById('lbCap'),close=document.getElementById('lbClose');
+    document.querySelectorAll('#gallery .gi').forEach(gi=>{
+      gi.addEventListener('click',()=>{
+        img.src=gi.getAttribute('data-full');
+        img.alt=gi.querySelector('img').alt;
+        cap.textContent=(gi.querySelector('h3')?gi.querySelector('h3').textContent:'').toUpperCase();
+        lb.classList.add('open');
       });
-      function closeLb(){lb.classList.remove('open');}
-      close.addEventListener('click',closeLb);
-      lb.addEventListener('click',e=>{ if(e.target===lb)closeLb(); });
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeLb(); });
-    })();
-  }catch(err){ console.error('[lightbox] failed:', err); }
+    });
+    function closeLb(){lb.classList.remove('open');}
+    close.addEventListener('click',closeLb);
+    lb.addEventListener('click',e=>{ if(e.target===lb)closeLb(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeLb(); });
+  })();
 
   /* ---------- LIVE STATUS PANEL ---------- */
-  try{
-    const sessionStart=Date.now();
-    const upTimeEl=document.getElementById('upTime'),lastActionEl=document.getElementById('lastAction');
-    let lastActionAt=Date.now();
-    function pad(n){return n<10?'0'+n:''+n;}
-    setInterval(()=>{
-      const s=Math.floor((Date.now()-sessionStart)/1000);
-      const hh=pad(Math.floor(s/3600)),mm=pad(Math.floor((s%3600)/60)),ss=pad(s%60);
-      if(upTimeEl)upTimeEl.textContent=hh+':'+mm+':'+ss;
-      if(Date.now()-lastActionAt>5000 && lastActionEl)lastActionEl.textContent='IDLE';
-    },1000);
-    function markAction(label){
-      lastActionAt=Date.now();
-      if(lastActionEl)lastActionEl.textContent=label;
-    }
-    window.addEventListener('mousemove',()=>markAction('CURSOR_MOVE'),{passive:true});
-    window.addEventListener('scroll',()=>markAction('SCROLL'),{passive:true});
-    window.addEventListener('click',()=>markAction('CLICK'));
-    window.addEventListener('keydown',()=>markAction('KEY_INPUT'));
-    window.addEventListener('touchstart',()=>markAction('TOUCH'),{passive:true});
-  }catch(err){ console.error('[status panel] failed:', err); }
+  const sessionStart=Date.now();
+  const upTimeEl=document.getElementById('upTime'),lastActionEl=document.getElementById('lastAction');
+  let lastActionAt=Date.now();
+  function pad(n){return n<10?'0'+n:''+n;}
+  setInterval(()=>{
+    const s=Math.floor((Date.now()-sessionStart)/1000);
+    const hh=pad(Math.floor(s/3600)),mm=pad(Math.floor((s%3600)/60)),ss=pad(s%60);
+    if(upTimeEl)upTimeEl.textContent=hh+':'+mm+':'+ss;
+    if(Date.now()-lastActionAt>5000 && lastActionEl)lastActionEl.textContent='IDLE';
+  },1000);
+  function markAction(label){
+    lastActionAt=Date.now();
+    if(lastActionEl)lastActionEl.textContent=label;
+  }
+  window.addEventListener('mousemove',()=>markAction('CURSOR_MOVE'),{passive:true});
+  window.addEventListener('scroll',()=>markAction('SCROLL'),{passive:true});
+  window.addEventListener('click',()=>markAction('CLICK'));
+  window.addEventListener('keydown',()=>markAction('KEY_INPUT'));
+  window.addEventListener('touchstart',()=>markAction('TOUCH'),{passive:true});
 
   /* ---------- NORI PRESENCE ENGINE ---------- */
-  try{
-    (function(){
-      const body=document.getElementById('noriBody'),tail=document.getElementById('noriTail'),termEl=document.getElementById('noriTerm');
-      if(!body||!tail||!termEl) return;
-      let armed=false, lastMsgAt=0, idleTimer=null, hiddenAt=null, lastScrollY=window.scrollY, lastScrollDir=0, reversalCooldown=0;
-      const COOLDOWN=13000;
+  (function(){
+    const body=document.getElementById('noriBody'),tail=document.getElementById('noriTail'),termEl=document.getElementById('noriTerm');
+    let armed=false, lastMsgAt=0, idleTimer=null, hiddenAt=null, lastScrollY=window.scrollY, lastScrollDir=0, reversalCooldown=0;
+    const COOLDOWN=13000;
 
-      const LINES={
-        idle:["Why did you stop?","I can see the cursor isn't moving.","Take your time. I have all of it.","Still there?"],
-        tabReturn:n=>"You were gone for "+n+" seconds. I counted.",
-        scrollBack:["Going back? Interesting choice.","You can scroll away. You can't leave."],
-        leave:["Where are you going?","The tab is still open. I know."],
-        m30:"Thirty seconds in. You're curious.",
-        m90:"Still here. Good.",
-        m180:"Most people leave by now.",
-        secret:"There is no help. Only debugging."
-      };
+    const LINES={
+      idle:["Why did you stop?","I can see the cursor isn't moving.","Take your time. I have all of it.","Still there?"],
+      tabReturn:n=>"You were gone for "+n+" seconds. I counted.",
+      scrollBack:["Going back? Interesting choice.","You can scroll away. You can't leave."],
+      leave:["Where are you going?","The tab is still open. I know."],
+      m30:"Thirty seconds in. You're curious.",
+      m90:"Still here. Good.",
+      m180:"Most people leave by now.",
+      secret:"There is no help. Only debugging."
+    };
 
-      function typeLine(cls,text){
-        return new Promise(resolve=>{
-          const line=document.createElement('div');
-          line.className=cls;
-          body.insertBefore(line,tail);
-          if(REDUCED){ line.textContent='> NORI: '+text; body.scrollTop=body.scrollHeight; resolve(); return; }
-          const full='> NORI: '+text;
-          let i=0;
-          const iv=setInterval(()=>{
-            line.textContent=full.slice(0,i+1);
-            i++;
-            body.scrollTop=body.scrollHeight;
-            if(i>=full.length){ clearInterval(iv); resolve(); }
-          },18);
-        });
-      }
-      async function say(text){
-        const now=Date.now();
-        if(now-lastMsgAt<COOLDOWN)return;
-        lastMsgAt=now;
-        await typeLine('tr',text);
-      }
-      function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-      function resetIdle(){
-        if(!armed)return;
-        clearTimeout(idleTimer);
-        idleTimer=setTimeout(()=>{ say(pick(LINES.idle)); },16000);
-      }
-      ['mousemove','keydown','scroll','touchstart','click'].forEach(evt=>{
-        window.addEventListener(evt,resetIdle,{passive:true});
+    function typeLine(cls,text){
+      return new Promise(resolve=>{
+        const line=document.createElement('div');
+        line.className=cls;
+        body.insertBefore(line,tail);
+        if(REDUCED){ line.textContent='> NORI: '+text; body.scrollTop=body.scrollHeight; resolve(); return; }
+        const full='> NORI: '+text;
+        let i=0;
+        const iv=setInterval(()=>{
+          line.textContent=full.slice(0,i+1);
+          i++;
+          body.scrollTop=body.scrollHeight;
+          if(i>=full.length){ clearInterval(iv); resolve(); }
+        },18);
       });
+    }
+    async function say(text){
+      const now=Date.now();
+      if(now-lastMsgAt<COOLDOWN)return;
+      lastMsgAt=now;
+      await typeLine('tr',text);
+    }
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-      document.addEventListener('visibilitychange',()=>{
-        if(document.hidden){ hiddenAt=Date.now(); }
-        else if(hiddenAt && armed){
-          const secs=Math.max(1,Math.round((Date.now()-hiddenAt)/1000));
-          if(secs>=3) say(LINES.tabReturn(secs));
-          hiddenAt=null;
+    function resetIdle(){
+      if(!armed)return;
+      clearTimeout(idleTimer);
+      idleTimer=setTimeout(()=>{ say(pick(LINES.idle)); },16000);
+    }
+    ['mousemove','keydown','scroll','touchstart','click'].forEach(evt=>{
+      window.addEventListener(evt,resetIdle,{passive:true});
+    });
+
+    document.addEventListener('visibilitychange',()=>{
+      if(document.hidden){ hiddenAt=Date.now(); }
+      else if(hiddenAt && armed){
+        const secs=Math.max(1,Math.round((Date.now()-hiddenAt)/1000));
+        if(secs>=3) say(LINES.tabReturn(secs));
+        hiddenAt=null;
+      }
+    });
+
+    window.addEventListener('scroll',()=>{
+      const y=window.scrollY;
+      const dir=y<lastScrollY?-1:1;
+      if(dir===-1 && lastScrollDir===1 && Date.now()>reversalCooldown && armed){
+        say(pick(LINES.scrollBack));
+        reversalCooldown=Date.now()+25000;
+      }
+      lastScrollDir=dir;
+      lastScrollY=y;
+    },{passive:true});
+
+    document.addEventListener('mouseleave',()=>{ if(armed)say(pick(LINES.leave)); });
+
+    const milestones=[[30000,LINES.m30],[90000,LINES.m90],[180000,LINES.m180]];
+    const pageStart=Date.now();
+    setInterval(()=>{
+      if(!armed)return;
+      const elapsed=Date.now()-pageStart;
+      milestones.forEach(m=>{
+        if(elapsed>=m[0] && !m[2]){ m[2]=true; say(m[1]); }
+      });
+    },4000);
+
+    let typedBuffer='';
+    window.addEventListener('keydown',e=>{
+      if(!armed)return;
+      if(e.key.length===1)typedBuffer=(typedBuffer+e.key).slice(-10).toLowerCase();
+      if(typedBuffer.includes('help')){ say(LINES.secret); typedBuffer=''; }
+    });
+
+    const noriObserver=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting && !armed){
+          armed=true;
+          resetIdle();
+          noriObserver.unobserve(termEl);
         }
       });
-
-      window.addEventListener('scroll',()=>{
-        const y=window.scrollY;
-        const dir=y<lastScrollY?-1:1;
-        if(dir===-1 && lastScrollDir===1 && Date.now()>reversalCooldown && armed){
-          say(pick(LINES.scrollBack));
-          reversalCooldown=Date.now()+25000;
-        }
-        lastScrollDir=dir;
-        lastScrollY=y;
-      },{passive:true});
-
-      document.addEventListener('mouseleave',()=>{ if(armed)say(pick(LINES.leave)); });
-
-      const milestones=[[30000,LINES.m30],[90000,LINES.m90],[180000,LINES.m180]];
-      const pageStart=Date.now();
-      setInterval(()=>{
-        if(!armed)return;
-        const elapsed=Date.now()-pageStart;
-        milestones.forEach(m=>{
-          if(elapsed>=m[0] && !m[2]){ m[2]=true; say(m[1]); }
-        });
-      },4000);
-
-      let typedBuffer='';
-      window.addEventListener('keydown',e=>{
-        if(!armed)return;
-        if(e.key.length===1)typedBuffer=(typedBuffer+e.key).slice(-10).toLowerCase();
-        if(typedBuffer.includes('help')){ say(LINES.secret); typedBuffer=''; }
-      });
-
-      if('IntersectionObserver' in window){
-        const noriObserver=new IntersectionObserver(entries=>{
-          entries.forEach(e=>{
-            if(e.isIntersecting && !armed){
-              armed=true;
-              resetIdle();
-              noriObserver.unobserve(termEl);
-            }
-          });
-        },{threshold:0.4});
-        noriObserver.observe(termEl);
-      } else {
-        armed=true;
-        resetIdle();
-      }
-    })();
-  }catch(err){ console.error('[NORI engine] failed:', err); }
+    },{threshold:0.4});
+    noriObserver.observe(termEl);
+  })();
 
   /* ---------- LANG DROPDOWN ---------- */
-  try{
-    (function(){
-      const wrap=document.getElementById('langWrapper');
-      const btn=document.getElementById('lang-btn');
-      const drop=document.getElementById('langDropdown');
-      if(!wrap||!btn||!drop) return;
-      let closeTimer=null;
-      function openDrop(){clearTimeout(closeTimer);drop.classList.add('open');btn.setAttribute('aria-expanded','true');}
-      function closeDrop(){closeTimer=setTimeout(()=>{drop.classList.remove('open');btn.setAttribute('aria-expanded','false');},120);}
-      wrap.addEventListener('mouseenter',openDrop);
-      wrap.addEventListener('mouseleave',closeDrop);
-      drop.addEventListener('mouseenter',()=>clearTimeout(closeTimer));
-      drop.addEventListener('mouseleave',closeDrop);
-      btn.addEventListener('click',()=>{drop.classList.contains('open')?closeDrop():openDrop();});
-      document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrop();});
-    })();
-  }catch(err){ console.error('[lang dropdown] failed:', err); }
+  (function(){
+    const wrap=document.getElementById('langWrapper');
+    const btn=document.getElementById('lang-btn');
+    const drop=document.getElementById('langDropdown');
+    let closeTimer=null;
+    function openDrop(){clearTimeout(closeTimer);drop.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    function closeDrop(){closeTimer=setTimeout(()=>{drop.classList.remove('open');btn.setAttribute('aria-expanded','false');},120);}
+    wrap.addEventListener('mouseenter',openDrop);
+    wrap.addEventListener('mouseleave',closeDrop);
+    drop.addEventListener('mouseenter',()=>clearTimeout(closeTimer));
+    drop.addEventListener('mouseleave',closeDrop);
+    btn.addEventListener('click',()=>{drop.classList.contains('open')?closeDrop():openDrop();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrop();});
+  })();
 
   /* ---------- LANG SYSTEM ---------- */
   const LK='writeNorLang';
@@ -1312,30 +1272,23 @@
   };
 
   function setLang(lang){
-    try{
-      if(!L[lang])lang='en';
-      try{ localStorage.setItem(LK,lang); }catch(e){ /* приватный режим */ }
-      const d=Object.assign({},L['en'],L[lang]);
-      document.querySelectorAll('[data-key]').forEach(el=>{
-        const k=el.getAttribute('data-key');
-        if(d[k]!==undefined)el.innerHTML=d[k];
-      });
-      document.querySelectorAll('[data-placeholder]').forEach(el=>{
-        const k=el.getAttribute('data-placeholder');
-        if(d[k]!==undefined)el.placeholder=d[k];
-      });
-      const btn=document.getElementById('lang-btn');
-      if(btn)btn.innerHTML='['+lang.toUpperCase()+'] &#9662;';
-      const drop=document.getElementById('langDropdown');
-      if(drop) drop.classList.remove('open');
-      if(btn) btn.setAttribute('aria-expanded','false');
-    }catch(err){ console.error('[setLang] failed:', err); }
+    if(!L[lang])lang='en';
+    localStorage.setItem(LK,lang);
+    const d=Object.assign({},L['en'],L[lang]);
+    document.querySelectorAll('[data-key]').forEach(el=>{
+      const k=el.getAttribute('data-key');
+      if(d[k]!==undefined)el.innerHTML=d[k];
+    });
+    document.querySelectorAll('[data-placeholder]').forEach(el=>{
+      const k=el.getAttribute('data-placeholder');
+      if(d[k]!==undefined)el.placeholder=d[k];
+    });
+    const btn=document.getElementById('lang-btn');
+    if(btn)btn.innerHTML='['+lang.toUpperCase()+'] &#9662;';
+    document.getElementById('langDropdown').classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
   }
-  try{
-    let saved='en';
-    try{ saved=localStorage.getItem(LK)||'en'; }catch(e){ /* ignore */ }
-    setLang(saved);
-  }catch(err){ console.error('[lang init] failed:', err); }
+  setLang(localStorage.getItem(LK)||'en');
   </script>
 </body>
 </html>
