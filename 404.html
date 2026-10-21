@@ -1,14 +1,25 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>Redirecting…</title>
-  <script>
-    // Сохраняем путь, чтобы можно было потом показать "вы искали ..."
-    sessionStorage.setItem("lastBadPath", location.pathname + location.search + location.hash);
-    location.replace("/?from=404");
-  </script>
+  <meta name="theme-color" content="#08050f">
+  <title>Page not found | WriteNor</title>
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/assets/site.css">
 </head>
-<body></body>
+<body>
+  <main class="legal-page">
+    <a class="brand" href="/">WRITE<span>NOR</span></a>
+    <p class="eyebrow" style="margin-top:70px">ERROR / 404</p>
+    <h1>This fragment is missing.</h1>
+    <p>The page could not be found. The WriteNor archive is still open.</p>
+    <p lang="ru">Эта страница не найдена. Вернись на главную WriteNor или открой досье Нори.</p>
+    <div class="button-row">
+      <a class="button button-primary" href="/">WriteNor / Главная ↗</a>
+      <a class="button button-outline" href="/nori/">Nori / Досье Нори ↗</a>
+    </div>
+  </main>
+</body>
 </html>
