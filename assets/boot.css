@@ -1,0 +1,273 @@
+/* A short, optional opening sequence. Both layers expire without JavaScript. */
+@property --boot-orbit-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.boot-pending::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #08050f;
+  pointer-events: none;
+  animation: wn-boot-failsafe .01s step-end 2.75s forwards;
+}
+
+.wn-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #f4efff;
+  background: radial-gradient(ellipse at 50% 48%, #28102c 0%, #0e0716 42%, #08050f 78%);
+  font-family: var(--mono, Consolas, monospace);
+  opacity: 1;
+  isolation: isolate;
+  transition: opacity .18s ease, visibility .18s ease;
+  animation: wn-boot-failsafe .01s step-end 2.75s forwards;
+}
+
+.wn-boot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .23;
+  background: linear-gradient(#a17aff0a 1px, transparent 1px), linear-gradient(90deg, #a17aff0a 1px, transparent 1px);
+  background-size: 44px 44px;
+  transform: perspective(650px) rotateX(55deg) scale(1.4) translateY(17%);
+  transform-origin: center bottom;
+  mask-image: linear-gradient(transparent 10%, #000 90%);
+}
+
+.wn-boot::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: 0;
+  left: 0;
+  height: 18%;
+  z-index: -1;
+  background: linear-gradient(transparent, #a17aff08, transparent);
+  border-bottom: 1px solid #a17aff14;
+  pointer-events: none;
+  animation: wn-boot-sweep 2s ease-out both;
+}
+
+.wn-boot.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.wn-boot__corner {
+  position: absolute;
+  top: 35px;
+  left: 4.5%;
+  color: #9779ae;
+  font-size: 8px;
+  letter-spacing: .18em;
+  line-height: 1.9;
+}
+
+.wn-boot__corner::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 10px;
+  background: #ff3566;
+  box-shadow: 0 0 13px #ff356688;
+  vertical-align: 2px;
+}
+
+.wn-boot__panel {
+  position: relative;
+  width: min(580px, 80vw);
+  padding: 42px 0 32px;
+  text-align: left;
+}
+
+.wn-boot__panel::before,
+.wn-boot__panel::after {
+  content: '';
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  border-color: #a17aff55;
+  border-style: solid;
+}
+
+.wn-boot__panel::before {
+  left: -27px;
+  top: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.wn-boot__panel::after {
+  right: -27px;
+  bottom: 0;
+  border-width: 0 1px 1px 0;
+}
+
+.wn-boot__eyebrow {
+  color: #c299ed;
+  font-size: 9px;
+  letter-spacing: .24em;
+  line-height: 1.8;
+}
+
+.wn-boot__title {
+  position: relative;
+  margin: 24px 0 34px;
+  font-family: var(--display, 'Arial Black', sans-serif);
+  font-weight: 700;
+  font-size: clamp(52px, 7.5vw, 108px);
+  letter-spacing: -.025em;
+  line-height: 1.04;
+  animation: wn-boot-enter .45s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.wn-boot__title > span {
+  display: block;
+  width: fit-content;
+  color: transparent;
+  -webkit-text-stroke: 1px #a17aff90;
+  letter-spacing: .09em;
+  margin-top: 6px;
+}
+
+.wn-boot__ring {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: -8px;
+  top: 73px;
+  border: 1px solid #a17aff18;
+  border-radius: 50%;
+  background: conic-gradient(from var(--boot-orbit-angle), transparent 0deg 290deg, #ff35661c 345deg, #ff3566aa 359deg, transparent 360deg);
+  mask-image: radial-gradient(transparent 61%, #000 62% 63%, transparent 64%);
+  animation: wn-boot-orbit 2.4s linear infinite;
+  pointer-events: none;
+}
+
+.wn-boot__progress {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  color: #c2a9d6;
+  font-size: 9px;
+  letter-spacing: .1em;
+  line-height: 1.8;
+}
+
+.wn-boot__percent {
+  color: #ff7292;
+  font-variant-numeric: tabular-nums;
+}
+
+.wn-boot__track {
+  height: 2px;
+  margin-top: 13px;
+  overflow: hidden;
+  background: #a17aff25;
+}
+
+.wn-boot__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #a17aff, #ff3566);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 15px #ff356650;
+}
+
+.wn-boot__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 25px;
+  margin-top: 18px;
+}
+
+.wn-boot__note {
+  max-width: 320px;
+  color: #9278a5;
+  font-size: 8px;
+  letter-spacing: .015em;
+  line-height: 1.9;
+}
+
+.wn-boot__skip {
+  flex: 0 0 auto;
+  min-height: 44px;
+  margin-top: -10px;
+  padding: 10px 0 10px 12px;
+  color: #d0b4e5;
+  border: 0;
+  border-bottom: 1px solid #a17aff40;
+  border-radius: 0;
+  background: transparent;
+  font: 9px/1.7 var(--mono, Consolas, monospace);
+  cursor: pointer;
+}
+
+.wn-boot__skip > span:last-child {
+  color: #ff7292;
+  margin-left: 9px;
+}
+
+.wn-boot__skip:hover {
+  color: #fff;
+  border-color: #ff356688;
+}
+
+.wn-boot__skip:focus-visible {
+  outline: 2px solid #8ee9eb;
+  outline-offset: 5px;
+}
+
+@keyframes wn-boot-failsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes wn-boot-enter {
+  from { opacity: 0; transform: translateY(12px); filter: blur(3px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes wn-boot-sweep {
+  to { transform: translateY(670%); }
+}
+
+@keyframes wn-boot-orbit {
+  to { --boot-orbit-angle: 360deg; }
+}
+
+@media (max-width: 600px) {
+  .wn-boot__corner { top: 26px; font-size: 6px; letter-spacing: .12em; }
+  .wn-boot__panel { width: 78vw; padding: 32px 0 26px; }
+  .wn-boot__panel::before { left: -16px; }
+  .wn-boot__panel::after { right: -16px; }
+  .wn-boot__eyebrow { font-size: 7px; letter-spacing: .18em; }
+  .wn-boot__title { font-size: 12.4vw; margin: 22px 0 32px; }
+  .wn-boot__ring { width: 96px; height: 96px; top: 83px; right: -10px; opacity: .6; }
+  .wn-boot__progress { font-size: 7px; gap: 12px; }
+  .wn-boot__bottom { gap: 15px; margin-top: 18px; }
+  .wn-boot__note { font-size: 7px; max-width: 180px; }
+  .wn-boot__skip { font-size: 8px; padding-left: 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-pending::before,
+  .wn-boot { display: none !important; }
+}
+
+.effects-off .wn-boot { display: none !important; }
