@@ -1,0 +1,23 @@
+Self-hosted font licenses
+========================
+
+Manrope
+Copyright 2018 The Manrope Project Authors (https://github.com/googlefonts/manrope)
+License: SIL Open Font License 1.1; see Manrope-OFL.txt.
+Upstream license: https://github.com/google/fonts/blob/main/ofl/manrope/OFL.txt
+
+JetBrains Mono
+Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+License: SIL Open Font License 1.1; see JetBrains-Mono-OFL.txt.
+Upstream license: https://github.com/google/fonts/blob/main/ofl/jetbrainsmono/OFL.txt
+
+Syncopate
+Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.
+Available under the Apache 2.0 licence. http://www.apache.org/licenses/LICENSE-2.0.html
+License: Apache License 2.0; see Syncopate-Apache-2.0.txt.
+Upstream license: https://github.com/google/fonts/blob/main/apache/syncopate/LICENSE.txt
+Copyright source: https://github.com/google/fonts/blob/main/apache/syncopate/METADATA.pb
+
+The WOFF2 files distributed with this website were obtained from Google Fonts.
+The original font family names and upstream font metadata are retained.
+These third-party fonts remain under their respective licenses above.
