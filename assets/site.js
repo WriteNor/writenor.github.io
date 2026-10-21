@@ -34,6 +34,7 @@
     if ($('#reality-title')) updateReality(reality);
     updateEffectsButton();
     if ($('#lightbox')?.open) showImage(imageIndex);
+    window.dispatchEvent(new CustomEvent('writenor:language',{detail:{locale}}));
   };
   languageSelect?.addEventListener('change',() => {selected=languageSelect.value;storage.set('writeNorLang',selected);applyLanguage();});
   window.addEventListener('languagechange',() => {if(selected==='auto') applyLanguage();});
@@ -76,7 +77,15 @@
     if(title){title.dataset.i18n=`${value}_title`;title.textContent=t(title.dataset.i18n);}
     if(text){text.dataset.i18n=`${value}_text`;text.textContent=t(text.dataset.i18n);}
   }
-  $$('[data-reality]').forEach(button=>button.addEventListener('click',()=>updateReality(button.dataset.reality)));
+  let realityTransition=null;
+  $$('[data-reality]').forEach(button=>button.addEventListener('click',()=>{
+    const value=button.dataset.reality;
+    if(value===reality)return;
+    if(effectsEnabled && !reduceMotion.matches && typeof document.startViewTransition==='function'){
+      realityTransition?.skipTransition();
+      try{realityTransition=document.startViewTransition(()=>updateReality(value));realityTransition.finished.catch(()=>{});}catch{updateReality(value);}
+    }else updateReality(value);
+  }));
 
   const frames=$$('.gallery-frame');
   let imageIndex=0;
@@ -135,7 +144,6 @@
     if(ctx){
       let width=0,height=0,frameId=0,lastFrame=0,active=true,elapsed=0;
       const compact=()=>width<650;
-      const points=Array.from({length:90},(_,i)=>({x:((i*73.137)%100)/100,y:((i*31.73)%100)/100,size:i%7===0?2:1,phase:i*.37}));
       function resize(){const bounds=canvas.getBoundingClientRect();width=bounds.width;height=bounds.height;const ratio=Math.min(devicePixelRatio||1,compact()?1.25:1.5);canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);draw(elapsed);}
       function draw(time){
         ctx.clearRect(0,0,width,height);
@@ -163,8 +171,6 @@
             ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.moveTo(a.x,a.y);ctx.lineTo(c.x,c.y);ctx.moveTo(a.x,a.y);ctx.lineTo(d.x,d.y);
           }ctx.stroke();
         }
-        const count=compact()?35:90;
-        for(let i=0;i<count;i++){const p=points[i];const x=(p.x*width+Math.sin(phase+p.phase)*10+width)%width;const y=(p.y*height-time*.003*(i%3+1)+height*10)%height;ctx.fillStyle=`rgba(255,45,98,${.15+(Math.sin(phase*2+p.phase)+1)*.18})`;ctx.fillRect(x,y,p.size,p.size);}
       }
       function loop(now){frameId=0;if(!active||document.hidden||!effectsEnabled)return;if(now-lastFrame>=33){elapsed+=Math.min(now-lastFrame,60);lastFrame=now;draw(elapsed);}frameId=requestAnimationFrame(loop);}
       function sync(){if(frameId)cancelAnimationFrame(frameId);frameId=0;if(active&&!document.hidden&&effectsEnabled){lastFrame=performance.now();frameId=requestAnimationFrame(loop);}else draw(elapsed);}
