@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="stylesheet" href="/assets/campaign.css">
   <link rel="stylesheet" href="/assets/atmosphere.css">
+  <link rel="stylesheet" href="/assets/discord.css?v=20261103">
   <script>
   (()=>{try{const root=document.documentElement;const back=performance.getEntriesByType('navigation')[0]?.type==='back_forward';if(!back&&sessionStorage.getItem('writeNorBootSeenV2')!=='1'&&localStorage.getItem('writeNorEffects')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches){root.classList.add('boot-pending');setTimeout(()=>root.classList.remove('boot-pending'),3000);}}catch{}})();
   </script>
@@ -44,6 +45,11 @@
   <div class="scanlines" aria-hidden="true"></div><div class="pointer-light" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="/" aria-label="WriteNor home">WRITE<span>NOR</span><i aria-hidden="true"></i></a>
+    <a class="discord-link" href="https://discord.com/invite/QD5mUt44n5" target="_blank" rel="noopener noreferrer" aria-label="WriteNor Discord">
+      <img class="discord-symbol" src="/assets/discord-symbol.svg" width="32" height="24" alt="">
+      <span class="discord-wordmark" aria-hidden="true"><img src="/assets/discord-logo.svg" width="110" height="16" alt=""></span>
+      <span class="sr-only">Discord</span>
+    </a>
     <nav class="main-nav" id="main-nav" aria-label="Main navigation">
       <a href="#story" data-i18n="nav_story">The story</a><a href="#archive" data-i18n="nav_archive">Visual archive</a><a href="#experience" data-i18n="nav_system">Experience</a><a href="/nori/" class="nori-link" data-i18n="nav_nori">NORI file</a>
     </nav>
