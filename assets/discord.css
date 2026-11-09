@@ -1,0 +1,14 @@
+/* Compact header link; the official SVG supplies the original wordmark. */
+.discord-link{position:relative;display:flex;flex:0 0 112px;align-items:center;justify-content:flex-end;height:44px;margin-left:auto;padding:10px;color:#a879ff;border-radius:3px;outline-offset:2px;touch-action:manipulation}
+.discord-link+.main-nav{margin-left:0}
+.discord-link:focus-visible{outline:1px solid currentColor}
+.discord-symbol{width:24px;height:19px;flex:none;filter:brightness(1.2) hue-rotate(20deg);transition:transform .65s cubic-bezier(.22,.7,.25,1),filter .25s}
+.discord-wordmark{position:absolute;right:42px;top:15px;width:69px;height:14px;overflow:hidden;opacity:0;clip-path:inset(0 0 0 100%);transform:translateX(5px);transition:clip-path .4s cubic-bezier(.22,.7,.25,1),opacity .2s,transform .4s;pointer-events:none;filter:brightness(1.2) hue-rotate(20deg)}
+.discord-wordmark img{position:absolute;width:95.8125px;max-width:none;height:14px;left:-27.125px;top:0}
+.discord-link:is(:hover,:focus-visible,:active) .discord-symbol{transform:rotate(360deg);filter:brightness(1.5) hue-rotate(20deg) drop-shadow(0 0 7px #a879ff55)}
+.discord-link:is(:hover,:focus-visible,:active) .discord-wordmark{opacity:1;clip-path:inset(0);transform:translateX(0)}
+@media(max-width:850px){.discord-link{flex-basis:44px}.discord-wordmark{top:38px;right:0}}
+@media(max-width:560px){.site-header{gap:8px}.header-controls{gap:8px}}
+.effects-off .discord-symbol,.effects-off .discord-wordmark{transition:none}
+.effects-off .discord-symbol{transform:none!important}
+@media(prefers-reduced-motion:reduce){.discord-symbol,.discord-wordmark{transition:none}.discord-symbol{transform:none!important}}
