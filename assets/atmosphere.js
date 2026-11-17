@@ -1,3 +1,4 @@
+const accent=()=>getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#9258f5';
 (() => {
   'use strict';
   if (document.querySelector('.ambient-field')) return;
@@ -29,7 +30,7 @@
   const glowContext = glow.getContext('2d');
   if (glowContext) {
     const gradient = glowContext.createRadialGradient(16, 16, 0, 16, 16, 16);
-    gradient.addColorStop(0, '#ff688fbd'); gradient.addColorStop(.14, '#ff315f80'); gradient.addColorStop(.42, '#ff214233'); gradient.addColorStop(1, '#ff214200');
+    gradient.addColorStop(0, `color-mix(in srgb,${accent()} 74%,transparent)`); gradient.addColorStop(.14, `color-mix(in srgb,${accent()} 50%,transparent)`); gradient.addColorStop(.42, `color-mix(in srgb,${accent()} 20%,transparent)`); gradient.addColorStop(1, `color-mix(in srgb,${accent()} 0%,transparent)`);
     glowContext.fillStyle = gradient; glowContext.fillRect(0, 0, 32, 32);
   }
   function updateScroll() {
@@ -79,7 +80,7 @@
         context.drawImage(glow, x - haloSize / 2, y - haloSize / 2, haloSize, haloSize);
       }
       context.globalAlpha = alpha;
-      context.fillStyle = particle.spark ? '#ff6085' : '#ff315f';
+      context.fillStyle = particle.spark ? `color-mix(in srgb,${accent()} 100%,transparent)` : `color-mix(in srgb,${accent()} 100%,transparent)`;
       context.fillRect(x, y, size, size);
       if (particle.spark) {
         context.globalAlpha = alpha * .2;

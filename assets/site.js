@@ -53,7 +53,7 @@
   let effectsPreference = storage.get('writeNorEffects') || 'auto';
   let effectsEnabled = effectsPreference !== 'off' && !reduceMotion.matches;
   function updateEffectsButton() {
-    const button=$('.effects-toggle');
+    const button=$('.effects-toggle')||Object.assign(document.createElement('button'),{innerHTML:'<span class="effects-icon"></span>'});
     if (!button) return;
     button.setAttribute('aria-pressed',String(effectsEnabled));
     button.setAttribute('aria-label',t(effectsEnabled ? 'effects_on':'effects_off'));

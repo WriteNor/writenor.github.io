@@ -2,7 +2,7 @@
 
 WriteNor is a first-person psychological horror game by Terawww, about Johnny’s frozen present, an unfolding past and Nori at the centre of his memories.
 
-- Official website: https://writenor.github.io/
+- Official website: https://writenor.pl/
 - Steam: https://store.steampowered.com/app/4312600/WriteNor/
 - Demo on itch.io: https://terawww.itch.io/writenor
 
@@ -22,7 +22,7 @@ The presentation leads to the available demo and Steam wishlist, with a contextu
 
 The official title is **WriteNor**. **Write Nor** is its spaced alternate name. A short visible spelling note also helps visitors who typed **Wrote Nor** or **врите нор**. Those misspellings are not presented as official titles, and search rankings or automatic correction are not guaranteed.
 
-Static JSON-LD connects the game, website, creator and Nori character page. After publication, submit `https://writenor.github.io/sitemap.xml` through Google Search Console and request indexing of `/` and `/nori/`.
+Static JSON-LD connects the game, website, creator and Nori character page. After publication, submit `https://writenor.pl/sitemap.xml` through Google Search Console and request indexing of `/` and `/nori/`.
 
 ## Editing
 

@@ -1,0 +1,23 @@
+/* chapter rail, timecode, letterbox, Nori hold caption */
+.reel{position:fixed;inset:0;z-index:45;pointer-events:none}
+.reel::before,.reel::after{content:"";position:absolute;left:0;right:0;height:11vh;background:#000;transition:transform 1.5s cubic-bezier(.7,0,.2,1)}
+.reel::before{top:0}.reel::after{bottom:0}
+.reel.open::before{transform:translateY(-100%)}.reel.open::after{transform:translateY(100%)}
+.reel nav,.reel-tc{display:none}
+@media(min-width:1180px){
+ .reel nav{display:block;position:absolute;left:22px;top:50%;transform:translateY(-50%);pointer-events:auto}
+ .reel ol{list-style:none;margin:0;padding:0 0 0 1px;display:grid;gap:14px;border-left:1px solid var(--line)}
+ .reel a{display:flex;align-items:center;gap:10px;color:var(--white);text-decoration:none;font:11px/1 'JetBrains Mono',monospace;letter-spacing:.06em;opacity:.45;transition:opacity .3s,color .3s}
+ .reel a i{width:7px;height:7px;margin-left:-4px;border-radius:50%;background:var(--white);transition:transform .3s,background .3s}
+ .reel a span{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .4s cubic-bezier(.3,.8,.2,1)}
+ .reel a.on,.reel a:hover,.reel a:focus-visible{opacity:1;color:var(--accent)}
+ .reel a.on i,.reel a:hover i{background:var(--accent);transform:scale(1.5)}
+ .reel a.on span,.reel a:hover span,.reel a:focus-visible span{max-width:140px}
+ .reel-tc{display:flex;align-items:center;gap:8px;position:absolute;left:22px;bottom:20px;font:11px/1 'JetBrains Mono',monospace;color:var(--white);opacity:.55;letter-spacing:.08em}
+ .reel-tc b{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:reelrec 1.6s steps(2,jump-none) infinite}
+}
+@keyframes reelrec{50%{opacity:.15}}
+@media(prefers-reduced-motion:reduce){.reel::before,.reel::after{display:none}.reel-tc b{animation:none}}
+.nori-cap{position:absolute;right:max(24px,3vw);bottom:clamp(64px,11vh,120px);z-index:2;pointer-events:none;font:12px/1.2 'JetBrains Mono',monospace;letter-spacing:.08em;color:var(--accent);opacity:.65;transition:opacity .3s,text-shadow .3s}
+.nori-cap.hold{opacity:1;text-shadow:0 0 14px var(--accent)}
+@media(max-width:850px){.nori-cap{right:16px;bottom:56px}}
