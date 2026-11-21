@@ -2,7 +2,7 @@
 
 WriteNor is a first-person psychological horror game by Terawww, about Johnny’s frozen present, an unfolding past and Nori at the centre of his memories.
 
-- Official website: https://writenor.pl/
+- Official website: https://writenor.com/
 - Steam: https://store.steampowered.com/app/4312600/WriteNor/
 - Demo on itch.io: https://terawww.itch.io/writenor
 
